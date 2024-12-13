@@ -1,8 +1,22 @@
-<script>
+<script lang="ts">
 	import { Navbar, NavBrand, NavHamburger, NavLi, NavUl } from 'flowbite-svelte';
 	import '../app.css';
+	import type { LayoutData } from './$types';
+	import { onMount, setContext } from 'svelte';
+	import { ContextKey } from '$lib/contexts';
 
-	let { children } = $props();
+	interface Props {
+		data: LayoutData
+		children?: import('svelte').Snippet
+	}
+
+	let { data, children }: Props = $props()
+	const { isAuthenticated, user } = data
+
+	onMount(() => {
+		setContext(ContextKey.IsAuthenticated, isAuthenticated)
+		setContext(ContextKey.UserInfo, user)
+	})
 </script>
 
 <Navbar>
@@ -13,8 +27,12 @@
 	<NavHamburger />
 	<NavUl>
 		<NavLi href="/">Home</NavLi>
-		<NavLi href="/about">About</NavLi>
+		{#if isAuthenticated}
+			<NavLi href="/logout">Logout</NavLi>
+		{:else}
+			<NavLi href="/login">Login</NavLi>
+		{/if}
 	</NavUl>
 </Navbar>
 
-{@render children()}
+{@render children?.()}

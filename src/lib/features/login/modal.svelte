@@ -1,20 +1,21 @@
 <script lang="ts">
 	import { Button, Card } from 'flowbite-svelte';
-	import { init } from '$services/authentication';
-	import { onMount } from 'svelte';
-	import type { IProvider } from '@web3auth/base';
+	import { loginWithGoogle } from '$services/authentication';
 
-	let loginWithGoogle: () => Promise<IProvider | null>;
-
-	onMount(async () => {
-		const initResult = await init();
-		loginWithGoogle = initResult.loginWithGoogle;
-	});
+	const initiateLogin = async () => {
+		try {
+			await loginWithGoogle()
+			window.location.href = '/'
+		} catch (e) {
+			//TODO: change to toast
+			console.log(e)
+		}
+	}
 </script>
 
 <Card class="mx-auto">
 	<div class="flex flex-col space-y-6">
 		<h3 class="text-xl font-medium text-gray-900 dark:text-white">Sign in to Growteer</h3>
-		<Button type="submit" onclick={loginWithGoogle} class="w-full">Sign in with Google</Button>
+		<Button type="submit" onclick={initiateLogin} class="w-full">Sign in with Google</Button>
 	</div>
 </Card>
