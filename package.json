@@ -16,6 +16,8 @@
 	"devDependencies": {
 		"@eslint/compat": "^1.2.3",
 		"@popperjs/core": "^2.11.8",
+		"@reown/appkit": "^1.6.0",
+		"@reown/appkit-adapter-wagmi": "^1.6.0",
 		"@sveltejs/adapter-static": "^3.0.6",
 		"@sveltejs/kit": "^2.9.0",
 		"@sveltejs/vite-plugin-svelte": "^4.0.2",
@@ -48,7 +50,8 @@
 		"viem": "^2.21.54",
 		"vite": "^5.4.11",
 		"vite-plugin-node-polyfills": "^0.22.0",
-		"vitest": "^2.0.4"
+		"vitest": "^2.0.4",
+		"wagmi": "^2.14.1"
 	},
 	"packageManager": "pnpm@9.15.0+sha512.76e2379760a4328ec4415815bcd6628dee727af3779aaa4c914e3944156c4299921a89f976381ee107d41f12cfa4b66681ca9c718f0668fa0831ed4c6d8ba56c"
 }

@@ -1,63 +1,42 @@
-import { AuthAdapter, LOGIN_PROVIDER, MFA_LEVELS } from '@web3auth/auth-adapter';
-import { Web3AuthNoModal } from '@web3auth/no-modal';
-import { CHAIN_NAMESPACES, UX_MODE, WALLET_ADAPTERS, WEB3AUTH_NETWORK } from '@web3auth/base';
-import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider';
-import { createWalletClient, custom } from 'viem';
-import { sepolia } from 'viem/chains';
-import { PUBLIC_W3A_CLIENT_ID } from '$env/static/public';
+import { createAppKit } from '@reown/appkit';
+import { sepolia } from '@reown/appkit/networks';
+import { WagmiAdapter } from '@reown/appkit-adapter-wagmi';
+import { PUBLIC_REOWN_PROJECT_ID } from '$env/static/public';
 
-let web3Auth: Web3AuthNoModal | undefined = undefined;
+const networks = [sepolia];
 
-const initAuth = async () => {
-	if (web3Auth) return;
+const wagmiAdapter = new WagmiAdapter({
+	projectId: PUBLIC_REOWN_PROJECT_ID,
+	networks
+});
 
-	const chainConfig = {
-		chainNamespace: CHAIN_NAMESPACES.EIP155,
-		chainId: '0xaa36a7',
-		rpcTarget: 'https://rpc.ankr.com/eth_sepolia',
-		displayName: 'Ethereum Sepolia Testnet',
-		blockExplorerUrl: 'https://sepolia.etherscan.io',
-		ticker: 'ETH',
-		tickerName: 'Ethereum',
-		logo: 'https://cryptologos.cc/logos/ethereum-eth-logo.png'
-	};
-
-	const privateKeyProvider = new EthereumPrivateKeyProvider({
-		config: { chainConfig }
-	});
-
-	const uiConfig = {
-		appName: 'Growteer',
-		appUrl: 'http://localhost',
-		logoLight: 'https://web3auth.io/logo-light.png',
-		logoDark: 'https://web3auth.io/logo-dark.png',
-		useLogoLoader: true
-	};
-
-	const tmpWeb3Auth = new Web3AuthNoModal({
-		clientId: PUBLIC_W3A_CLIENT_ID,
-		web3AuthNetwork: WEB3AUTH_NETWORK.SAPPHIRE_DEVNET,
-		privateKeyProvider,
-		uiConfig
-	});
-
-	const authAdapter = new AuthAdapter({
-		adapterSettings: {
-			uxMode: UX_MODE.POPUP,
-			whiteLabel: uiConfig
-		},
-		loginSettings: {
-			mfaLevel: MFA_LEVELS.NONE
-		},
-		privateKeyProvider
-	});
-
-	tmpWeb3Auth.configureAdapter(authAdapter);
-	await tmpWeb3Auth.init();
-
-	web3Auth = tmpWeb3Auth;
+const metadata = {
+	name: 'growteer',
+	description: 'growteer proof of concept',
+	url: 'http://localhost',
+	icons: ['https://avatars.githubusercontent.com/u/179229932']
 };
 
+const appKitModal = createAppKit({
+	adapters: [wagmiAdapter],
+	metadata,
+	networks: [sepolia],
+	projectId: PUBLIC_REOWN_PROJECT_ID,
+	features: {
+		swaps: false,
+		email: false,
+		socials: ['google', 'github']
+	}
+});
+appKitModal.setThemeMode('light');
+appKitModal.setThemeVariables({
+	'--w3m-accent': '#eb4f27',
+	'--w3m-color-mix': '#eb4f27'
+});
+
+export { appKitModal, networks };
+
+/*
 const loginWithGoogle = async () => {
 	await initAuth();
 
@@ -81,11 +60,4 @@ const loginWithGoogle = async () => {
 
 	return provider;
 };
-
-const getWeb3Auth = () => {
-	if (web3Auth) return web3Auth;
-
-	throw new Error('tried to get web3Auth before it was initialized');
-};
-
-export { initAuth, loginWithGoogle, getWeb3Auth };
+*/

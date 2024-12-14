@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { Navbar, NavBrand, NavHamburger, NavLi, NavUl } from 'flowbite-svelte';
+	import { Button, Navbar, NavBrand, NavHamburger, NavLi, NavUl } from 'flowbite-svelte';
 	import '../app.css';
 	import type { LayoutData } from './$types';
 	import { onMount, setContext } from 'svelte';
 	import { ContextKey } from '$lib/contexts';
+	import { appKitModal } from '$lib/services/authentication';
 
 	interface Props {
 		data: LayoutData
@@ -24,14 +25,16 @@
 		<img src="https://flowbite.com/docs/images/logo.svg" class="me-3 h-6 sm:h-9" alt="Flowbite Logo" />
 		<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">GrowTeer</span>
 	</NavBrand>
-	<NavHamburger />
-	<NavUl>
-		<NavLi href="/">Home</NavLi>
+	<div class="flex md:order-2">
 		{#if isAuthenticated}
-			<NavLi href="/logout">Logout</NavLi>
+			<Button color="alternative" size="sm">Logout</Button>
 		{:else}
-			<NavLi href="/login">Login</NavLi>
+			<Button size="sm" onclick={() => appKitModal.open()}>Login</Button>
 		{/if}
+		<NavHamburger />
+  </div>
+	<NavUl class="order-1">
+		<NavLi href="/">Home</NavLi>
 	</NavUl>
 </Navbar>
 
