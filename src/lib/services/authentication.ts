@@ -13,7 +13,7 @@ const wagmiAdapter = new WagmiAdapter({
 const metadata = {
 	name: 'growteer',
 	description: 'growteer proof of concept',
-	url: 'http://localhost',
+	url: window.location.origin,
 	icons: ['https://avatars.githubusercontent.com/u/179229932']
 };
 
@@ -35,29 +35,3 @@ appKitModal.setThemeVariables({
 });
 
 export { appKitModal, networks };
-
-/*
-const loginWithGoogle = async () => {
-	await initAuth();
-
-	if (!web3Auth) throw new Error('web3Auth not initialized');
-
-	const provider = await web3Auth.connectTo(WALLET_ADAPTERS.AUTH, {
-		loginProvider: LOGIN_PROVIDER.GOOGLE
-	});
-
-	if (!provider) throw new Error('provider not found');
-
-	const walletClient = createWalletClient({
-		chain: sepolia,
-		transport: custom(provider)
-	});
-
-	const addresses = await walletClient.getAddresses();
-
-	//TODO: remove
-	console.log(`Addresses:${addresses}`);
-
-	return provider;
-};
-*/

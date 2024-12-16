@@ -1,4 +1,4 @@
-import type { AuthUserInfo } from '@web3auth/auth-adapter';
+import { appKitModal } from '$lib/services/authentication';
 import type { LayoutLoad } from './$types';
 
 export const ssr = false;
@@ -6,13 +6,11 @@ export const prerender = true;
 
 type data = {
 	isAuthenticated: boolean;
-	user: Partial<AuthUserInfo>;
 };
 
 export const load: LayoutLoad = async () => {
 	const data: data = {
-		isAuthenticated: false,
-		user: {}
+		isAuthenticated: appKitModal.getIsConnectedState()
 	};
 
 	return data;
