@@ -35,7 +35,9 @@
 		{:else}
 			<Button size="sm" onclick={async () => {
 				const web3Auth = await initWeb3Auth()
-				await web3Auth.connect()}}>Login</Button>
+				await web3Auth.connect()
+				window.location.href = '/'
+				}}>Login</Button>
 		{/if}
     <NavHamburger />
   </div>
