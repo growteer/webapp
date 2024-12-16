@@ -3,9 +3,8 @@
 	import '../app.css';
 	import type { LayoutData } from './$types';
 	import { onMount, setContext } from 'svelte';
-	import { web3Auth } from '$lib/services/auth/config';
-	import { initEVMAdapter } from '$lib/services/auth/evm-default';
-	//import { ContextKey } from '$lib/contexts';
+	import { ContextKey } from '$lib/contexts';
+	import { initWeb3Auth } from '$lib/services/auth/adapters';
 
 	interface Props {
 		data: LayoutData
@@ -16,8 +15,8 @@
 	const { isAuthenticated, user } = data
 
 	onMount(() => {
-		//setContext(ContextKey.IsAuthenticated, isAuthenticated)
-		//setContext(ContextKey.UserInfo, user)
+		setContext(ContextKey.IsAuthenticated, isAuthenticated)
+		setContext(ContextKey.UserInfo, user)
 	})
 </script>
 
@@ -27,19 +26,21 @@
 		<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">GrowTeer</span>
 	</NavBrand>
   <div class="flex md:order-2">
-    <Button size="sm" onclick={async () => {
-			await initEVMAdapter();
-			await web3Auth.initModal();
-			await web3Auth.connect()}}>Login</Button>
+		{#if isAuthenticated}
+			<Button size="sm" onclick={async () => {
+				const web3Auth = await initWeb3Auth()
+				await web3Auth.logout()
+				window.location.href = '/'
+				}}>Logout</Button>
+		{:else}
+			<Button size="sm" onclick={async () => {
+				const web3Auth = await initWeb3Auth()
+				await web3Auth.connect()}}>Login</Button>
+		{/if}
     <NavHamburger />
   </div>
 	<NavUl>
 		<NavLi href="/">Home</NavLi>
-		{#if isAuthenticated}
-			<NavLi href="/logout">Logout</NavLi>
-		{:else}
-			<NavLi href="/login">Login</NavLi>
-		{/if}
 	</NavUl>
 </Navbar>
 

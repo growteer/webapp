@@ -1,6 +1,6 @@
-//import { getWeb3Auth, initAuth } from '$lib/services/authentication';
 import type { AuthUserInfo } from '@web3auth/auth-adapter';
 import type { LayoutLoad } from './$types';
+import { initWeb3Auth } from '$lib/services/auth/adapters';
 
 export const ssr = false;
 export const prerender = true;
@@ -15,14 +15,17 @@ export const load: LayoutLoad = async () => {
 		isAuthenticated: false,
 		user: {}
 	};
-	/*
+
 	try {
-		data.user = await getWeb3Auth().getUserInfo();
-	} catch (e) {
-		console.log(e);
+		const web3Auth = await initWeb3Auth();
+		data.user = await web3Auth.getUserInfo();
+	} catch (err) {
+		console.log(err);
 	}
-*/
-	data.isAuthenticated = !!data.user.idToken;
+
+	data.isAuthenticated = !!data?.user?.idToken;
+
+	console.log(data);
 
 	return data;
 };
