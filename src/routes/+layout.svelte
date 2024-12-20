@@ -12,11 +12,10 @@
 	}
 
 	let { data, children }: Props = $props()
-	const { isAuthenticated, user } = data
+	const { isAuthenticated } = data
 
 	onMount(() => {
 		setContext(ContextKey.IsAuthenticated, isAuthenticated)
-		setContext(ContextKey.UserInfo, user)
 	})
 </script>
 
