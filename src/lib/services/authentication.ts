@@ -13,7 +13,7 @@ const wagmiAdapter = new WagmiAdapter({
 const metadata = {
 	name: 'growteer',
 	description: 'growteer proof of concept',
-	url: window.location.origin,
+	url: 'http://localhost:5173',
 	icons: ['https://avatars.githubusercontent.com/u/179229932']
 };
 
@@ -34,4 +34,4 @@ appKitModal.setThemeVariables({
 	'--w3m-color-mix': '#eb4f27'
 });
 
-export { appKitModal, networks };
+export { appKitModal, networks, wagmiAdapter };

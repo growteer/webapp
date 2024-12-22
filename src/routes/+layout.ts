@@ -1,4 +1,3 @@
-import { appKitModal } from '$lib/services/authentication';
 import type { LayoutLoad } from './$types';
 
 export const ssr = false;
@@ -10,7 +9,7 @@ type data = {
 
 export const load: LayoutLoad = async () => {
 	const data: data = {
-		isAuthenticated: appKitModal.getIsConnectedState()
+		isAuthenticated: false
 	};
 
 	return data;

@@ -5,18 +5,20 @@
 	import { onMount, setContext } from 'svelte';
 	import { ContextKey } from '$lib/contexts';
 	import { appKitModal } from '$lib/services/authentication';
+	import LoginButton from '$lib/features/authn/LoginButton.svelte';
+	import LogoutButton from '$lib/features/authn/LogoutButton.svelte';
 
 	interface Props {
-		data: LayoutData
-		children?: import('svelte').Snippet
+		data: LayoutData;
+		children?: import('svelte').Snippet;
 	}
 
-	let { data, children }: Props = $props()
-	const { isAuthenticated } = data
+	let { data, children }: Props = $props();
+	const { isAuthenticated } = data;
 
 	onMount(() => {
-		setContext(ContextKey.IsAuthenticated, isAuthenticated)
-	})
+		setContext(ContextKey.IsAuthenticated, isAuthenticated);
+	});
 </script>
 
 <Navbar>
@@ -26,12 +28,12 @@
 	</NavBrand>
 	<div class="flex md:order-2">
 		{#if isAuthenticated}
-			<Button color="alternative" size="sm">Logout</Button>
+			<LogoutButton />
 		{:else}
-			<Button size="sm" onclick={() => appKitModal.open()}>Login</Button>
+			<LoginButton />
 		{/if}
 		<NavHamburger />
-  </div>
+	</div>
 	<NavUl class="order-1">
 		<NavLi href="/">Home</NavLi>
 	</NavUl>
