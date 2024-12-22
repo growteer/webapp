@@ -1,12 +1,13 @@
 <script lang="ts">
-	import { Button, Navbar, NavBrand, NavHamburger, NavLi, NavUl } from 'flowbite-svelte';
+	import { Navbar, NavBrand, NavHamburger, NavLi, NavUl } from 'flowbite-svelte';
 	import '../app.css';
 	import type { LayoutData } from './$types';
 	import { onMount, setContext } from 'svelte';
+	import { setClient } from 'svelte-apollo';
 	import { ContextKey } from '$lib/contexts';
-	import { appKitModal } from '$lib/services/authentication';
 	import LoginButton from '$lib/features/authn/LoginButton.svelte';
 	import LogoutButton from '$lib/features/authn/LogoutButton.svelte';
+	import { client } from '$lib/api/client';
 
 	interface Props {
 		data: LayoutData;
@@ -16,9 +17,8 @@
 	let { data, children }: Props = $props();
 	const { isAuthenticated } = data;
 
-	onMount(() => {
-		setContext(ContextKey.IsAuthenticated, isAuthenticated);
-	});
+	setClient(client);
+	setContext(ContextKey.IsAuthenticated, isAuthenticated);
 </script>
 
 <Navbar>
