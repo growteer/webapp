@@ -22,7 +22,7 @@ const privateKeyProvider = new EthereumPrivateKeyProvider({
 
 const uiConfig = {
 	appName: 'Growteer',
-	appUrl: 'http://localhost',
+	appUrl: 'http://localhost', 
 	logoLight: 'https://web3auth.io/logo-light.png',
 	logoDark: 'https://web3auth.io/logo-dark.png',
 	useLogoLoader: true
