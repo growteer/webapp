@@ -1,35 +1,34 @@
 <script lang="ts">
 	import { GradientButton } from 'flowbite-svelte';
-	import Web3 from 'web3';
 	import { getClient } from 'svelte-apollo';
 	import { initWeb3Auth } from '$lib/services/auth/web3auth';
-	import type { GenerateNonceMutation, NonceParams } from '$lib/api/generated/types';
-	import { GENERATE_NONCE } from './mutations.gql';
+	import type { GenerateNonceMutation, LoginInput, LoginMutation, NonceInput } from '$lib/api/generated/types';
+	import { GENERATE_NONCE, LOGIN } from './mutations.gql';
+	import { EtherClient } from '$lib/services/ethereum/client';
 
 	const gqlClient = getClient();
 
+	//TODO: cleanup, too much stuff going on within the component
 	const handleLogin = async () => {
 		const web3auth = await initWeb3Auth();
 		const provider = await web3auth.connect();
 
 		if (!provider) throw new Error('login failed');
 
-		const web3 = new Web3(provider);
+		const ethClient = new EtherClient(provider);
 
-		const address = (await web3.eth.getAccounts())[0];
-		if (!address) throw new Error("couldn't find a wallet address");
-
+		const address = await ethClient.getFirstAccount();
 		const nonce = await generateNonce(address);
+		const message = ethClient.newLoginMessage(nonce);
+		const signature = await ethClient.signLogin(address, message);
 
-		const message = `Sign this message to login.\nNonce: ${nonce}`;
-		const signature = await web3.eth.personal.sign(message, address, '');
-
-		//TODO: verify signature through backend
+		const sessionToken = await login(address, message, Buffer.from(signature).toString('base64'));
+		localStorage.setItem('gt', sessionToken);
 		window.location.href = '/';
 	};
 
 	const generateNonce = async (address: string) => {
-		const { data, errors } = await gqlClient.mutate<GenerateNonceMutation, NonceParams>({
+		const { data, errors } = await gqlClient.mutate<GenerateNonceMutation, NonceInput>({
 			mutation: GENERATE_NONCE,
 			variables: { address }
 		});
@@ -38,6 +37,18 @@
 		if (!data || !data.generateNonce?.value) throw new Error('could not generate a nonce');
 
 		return data.generateNonce.value;
+	};
+
+	const login = async (address: string, message: string, signature: string) => {
+		const { data, errors } = await gqlClient.mutate<LoginMutation, LoginInput>({
+			mutation: LOGIN,
+			variables: { address, message, signature }
+		});
+
+		if (errors?.length) throw new Error(errors[0].message);
+		if (!data || !data.login.sessionToken) throw new Error('could not log in');
+
+		return data.login.sessionToken;
 	};
 </script>
 

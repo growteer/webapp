@@ -14,14 +14,26 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type LoginInput = {
+  address: Scalars['String']['input'];
+  message: Scalars['String']['input'];
+  signature: Scalars['String']['input'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   generateNonce: Nonce;
+  login: Session;
 };
 
 
 export type MutationGenerateNonceArgs = {
-  input: NonceParams;
+  input: NonceInput;
+};
+
+
+export type MutationLoginArgs = {
+  input: LoginInput;
 };
 
 export type Nonce = {
@@ -29,7 +41,7 @@ export type Nonce = {
   value: Scalars['String']['output'];
 };
 
-export type NonceParams = {
+export type NonceInput = {
   address: Scalars['String']['input'];
 };
 
@@ -44,9 +56,23 @@ export type QueryNonceArgs = {
   address: Scalars['String']['input'];
 };
 
+export type Session = {
+  __typename?: 'Session';
+  sessionToken: Scalars['String']['output'];
+};
+
 export type GenerateNonceMutationVariables = Exact<{
   address: Scalars['String']['input'];
 }>;
 
 
 export type GenerateNonceMutation = { __typename?: 'Mutation', generateNonce: { __typename?: 'Nonce', value: string } };
+
+export type LoginMutationVariables = Exact<{
+  address: Scalars['String']['input'];
+  message: Scalars['String']['input'];
+  signature: Scalars['String']['input'];
+}>;
+
+
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'Session', sessionToken: string } };
