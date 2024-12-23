@@ -12,7 +12,7 @@ type data = {
 
 export const load: LayoutLoad = async () => {
 	const data: data = {
-		isAuthenticated: false,
+		isAuthenticated: !!localStorage.getItem('gt'),
 		user: {}
 	};
 
@@ -22,8 +22,6 @@ export const load: LayoutLoad = async () => {
 	} catch (err) {
 		console.log(err);
 	}
-
-	data.isAuthenticated = !!data?.user?.idToken;
 
 	return data;
 };

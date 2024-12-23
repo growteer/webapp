@@ -5,6 +5,10 @@
 	const handleLogout = async () => {
 		const web3auth = await initWeb3Auth();
 		await web3auth.logout();
+
+		//TODO: define storage key centrally
+		localStorage.removeItem('gt');
+
 		window.location.href = '/';
 	};
 </script>

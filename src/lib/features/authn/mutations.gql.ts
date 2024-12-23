@@ -7,3 +7,11 @@ export const GENERATE_NONCE = gql`
 		}
 	}
 `;
+
+export const LOGIN = gql`
+	mutation Login($address: String!, $message: String!, $signature: String!) {
+		login(input: { address: $address, message: $message, signature: $signature }) {
+			sessionToken
+		}
+	}
+`;
