@@ -5,6 +5,7 @@
 	import type { GenerateNonceMutation, LoginInput, LoginMutation, NonceInput } from '$lib/api/generated/types';
 	import { GENERATE_NONCE, LOGIN } from './mutations.gql';
 	import { EtherClient } from '$lib/services/ethereum/client';
+	import { setSessionToken } from '$lib/storage/local';
 
 	const gqlClient = getClient();
 
@@ -22,8 +23,7 @@
 		const message = ethClient.newLoginMessage(nonce);
 		const signature = await ethClient.signLogin(address, message);
 
-		const sessionToken = await login(address, message, Buffer.from(signature).toString('base64'));
-		localStorage.setItem('gt', sessionToken);
+		setSessionToken(sessionToken);
 		window.location.href = '/';
 	};
 
