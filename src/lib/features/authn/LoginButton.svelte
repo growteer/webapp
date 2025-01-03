@@ -4,7 +4,7 @@
 	import { initWeb3Auth } from '$lib/services/auth/web3auth';
 	import { generateNonce, login } from './mutations.gql';
 	import { EtherClient } from '$lib/services/ethereum/client';
-	import { setSessionToken } from '$lib/storage/local';
+	import { setRefreshToken, setSessionToken } from '$lib/storage/local';
 
 	const gqlClient = getClient();
 
@@ -26,9 +26,10 @@
 
 		// Verify signature through the backend and get a token
 		const serializedSignature = Buffer.from(signature).toString('base64');
-		const sessionToken = await login(gqlClient, address, message, serializedSignature);
+		const { sessionToken, refreshToken } = await login(gqlClient, address, message, serializedSignature);
 
 		setSessionToken(sessionToken);
+		setRefreshToken(refreshToken);
 		window.location.href = '/';
 	};
 </script>

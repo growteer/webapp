@@ -14,6 +14,12 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type AuthResult = {
+  __typename?: 'AuthResult';
+  refreshToken: Scalars['String']['output'];
+  sessionToken: Scalars['String']['output'];
+};
+
 export type LoginInput = {
   address: Scalars['String']['input'];
   message: Scalars['String']['input'];
@@ -22,8 +28,9 @@ export type LoginInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  generateNonce: Nonce;
-  login: Session;
+  generateNonce: NonceResult;
+  login: AuthResult;
+  refresh: AuthResult;
 };
 
 
@@ -36,19 +43,24 @@ export type MutationLoginArgs = {
   input: LoginInput;
 };
 
-export type Nonce = {
-  __typename?: 'Nonce';
-  value: Scalars['String']['output'];
+
+export type MutationRefreshArgs = {
+  input?: InputMaybe<RefreshInput>;
 };
 
 export type NonceInput = {
   address: Scalars['String']['input'];
 };
 
+export type NonceResult = {
+  __typename?: 'NonceResult';
+  nonce: Scalars['String']['output'];
+};
+
 export type Query = {
   __typename?: 'Query';
-  nonce?: Maybe<Nonce>;
-  nonces?: Maybe<Array<Maybe<Nonce>>>;
+  nonce: NonceResult;
+  nonces?: Maybe<Array<Maybe<NonceResult>>>;
 };
 
 
@@ -56,9 +68,8 @@ export type QueryNonceArgs = {
   address: Scalars['String']['input'];
 };
 
-export type Session = {
-  __typename?: 'Session';
-  sessionToken: Scalars['String']['output'];
+export type RefreshInput = {
+  refreshToken: Scalars['String']['input'];
 };
 
 export type GenerateNonceMutationVariables = Exact<{
@@ -66,7 +77,7 @@ export type GenerateNonceMutationVariables = Exact<{
 }>;
 
 
-export type GenerateNonceMutation = { __typename?: 'Mutation', generateNonce: { __typename?: 'Nonce', value: string } };
+export type GenerateNonceMutation = { __typename?: 'Mutation', generateNonce: { __typename?: 'NonceResult', nonce: string } };
 
 export type LoginMutationVariables = Exact<{
   address: Scalars['String']['input'];
@@ -75,4 +86,4 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'Session', sessionToken: string } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'AuthResult', sessionToken: string, refreshToken: string } };
