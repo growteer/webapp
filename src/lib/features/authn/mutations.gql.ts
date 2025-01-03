@@ -1,5 +1,6 @@
+import { mutate } from '$lib/api/client';
 import type { GenerateNonceMutation, LoginInput, LoginMutation, NonceInput } from '$lib/api/generated/types';
-import { ApolloClient, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
 
 const GENERATE_NONCE = gql`
 	mutation GenerateNonce($address: String!) {
@@ -18,8 +19,8 @@ const LOGIN = gql`
 	}
 `;
 
-export const generateNonce = async (client: ApolloClient<Cache>, address: string) => {
-	const { data, errors } = await client.mutate<GenerateNonceMutation, NonceInput>({
+export const generateNonce = async (address: string) => {
+	const { data, errors } = await mutate<GenerateNonceMutation, NonceInput>({
 		mutation: GENERATE_NONCE,
 		variables: { address }
 	});
@@ -30,8 +31,8 @@ export const generateNonce = async (client: ApolloClient<Cache>, address: string
 	return data.generateNonce.nonce;
 };
 
-export const login = async (client: ApolloClient<Cache>, address: string, message: string, signature: string) => {
-	const { data, errors } = await client.mutate<LoginMutation, LoginInput>({
+export const login = async (address: string, message: string, signature: string) => {
+	const { data, errors } = await mutate<LoginMutation, LoginInput>({
 		mutation: LOGIN,
 		variables: { address, message, signature }
 	});

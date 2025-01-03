@@ -72,6 +72,13 @@ export type RefreshInput = {
   refreshToken: Scalars['String']['input'];
 };
 
+export type RefreshMutationVariables = Exact<{
+  refreshToken: Scalars['String']['input'];
+}>;
+
+
+export type RefreshMutation = { __typename?: 'Mutation', refresh: { __typename?: 'AuthResult', sessionToken: string, refreshToken: string } };
+
 export type GenerateNonceMutationVariables = Exact<{
   address: Scalars['String']['input'];
 }>;
