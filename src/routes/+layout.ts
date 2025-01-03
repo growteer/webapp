@@ -1,6 +1,7 @@
 import type { AuthUserInfo } from '@web3auth/auth-adapter';
 import type { LayoutLoad } from './$types';
 import { initWeb3Auth } from '$lib/services/auth/web3auth';
+import StorageKey, { getSessionToken } from '$lib/storage/local';
 
 export const ssr = false;
 export const prerender = true;
@@ -12,7 +13,7 @@ type data = {
 
 export const load: LayoutLoad = async () => {
 	const data: data = {
-		isAuthenticated: !!localStorage.getItem('gt'),
+		isAuthenticated: !!getSessionToken(),
 		user: {}
 	};
 

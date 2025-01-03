@@ -1,14 +1,13 @@
 <script>
 	import { initWeb3Auth } from '$lib/services/auth/web3auth';
+	import { removeSessionToken } from '$lib/storage/local';
 	import { GradientButton } from 'flowbite-svelte';
 
 	const handleLogout = async () => {
 		const web3auth = await initWeb3Auth();
 		await web3auth.logout();
 
-		//TODO: define storage key centrally
-		localStorage.removeItem('gt');
-
+		removeSessionToken();
 		window.location.href = '/';
 	};
 </script>
