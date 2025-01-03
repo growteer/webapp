@@ -1,4 +1,4 @@
-import { ApolloClient, ApolloLink, from, InMemoryCache } from '@apollo/client';
+import { ApolloClient, ApolloLink, HttpLink, InMemoryCache } from '@apollo/client';
 import { PUBLIC_API_URL } from '$env/static/public';
 import { getSessionToken } from '$lib/storage/local';
 
@@ -7,7 +7,7 @@ const getHeaders = () => {
 	return sessionToken ? { Authorization: `Bearer ${sessionToken}` } : {};
 };
 
-const auth = new ApolloLink((operation, next) => {
+const auth = new ApolloLink((operation, forward) => {
 	operation.setContext(({ headers = {} }) => ({
 		headers: {
 			...headers,
@@ -15,11 +15,11 @@ const auth = new ApolloLink((operation, next) => {
 		}
 	}));
 
-	return next(operation);
+	return forward(operation);
 });
 
 export const client = new ApolloClient({
 	uri: PUBLIC_API_URL,
 	cache: new InMemoryCache(),
-	link: from([auth])
+	link: ApolloLink.from([new HttpLink({ uri: PUBLIC_API_URL }), auth])
 });
