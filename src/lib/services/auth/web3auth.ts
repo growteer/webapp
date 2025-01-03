@@ -22,7 +22,7 @@ const privateKeyProvider = new EthereumPrivateKeyProvider({
 
 const uiConfig = {
 	appName: 'Growteer',
-	appUrl: 'http://localhost', 
+	appUrl: 'http://localhost',
 	logoLight: 'https://web3auth.io/logo-light.png',
 	logoDark: 'https://web3auth.io/logo-dark.png',
 	useLogoLoader: true
@@ -61,7 +61,6 @@ let isInitialized = false;
 
 export const initWeb3Auth = async () => {
 	if (isInitialized) return web3Auth;
-	isInitialized = true;
 
 	web3Auth.configureAdapter(socialAdapter);
 
@@ -137,6 +136,8 @@ export const initWeb3Auth = async () => {
 			}
 		}
 	});
+
+	isInitialized = true;
 
 	return web3Auth;
 };

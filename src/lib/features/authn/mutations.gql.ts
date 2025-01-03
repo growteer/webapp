@@ -4,7 +4,7 @@ import { ApolloClient, gql } from '@apollo/client';
 const GENERATE_NONCE = gql`
 	mutation GenerateNonce($address: String!) {
 		generateNonce(input: { address: $address }) {
-			value
+			nonce
 		}
 	}
 `;
@@ -13,6 +13,7 @@ const LOGIN = gql`
 	mutation Login($address: String!, $message: String!, $signature: String!) {
 		login(input: { address: $address, message: $message, signature: $signature }) {
 			sessionToken
+			refreshToken
 		}
 	}
 `;
@@ -24,9 +25,9 @@ export const generateNonce = async (client: ApolloClient<Cache>, address: string
 	});
 
 	if (errors?.length) throw new Error(errors[0].message);
-	if (!data || !data.generateNonce?.value) throw new Error('could not generate a nonce');
+	if (!data || !data.generateNonce?.nonce) throw new Error('could not generate a nonce');
 
-	return data.generateNonce.value;
+	return data.generateNonce.nonce;
 };
 
 export const login = async (client: ApolloClient<Cache>, address: string, message: string, signature: string) => {
@@ -36,7 +37,7 @@ export const login = async (client: ApolloClient<Cache>, address: string, messag
 	});
 
 	if (errors?.length) throw new Error(errors[0].message);
-	if (!data || !data.login.sessionToken) throw new Error('could not log in');
+	if (!data || !data.login?.sessionToken) throw new Error('could not log in');
 
-	return data.login.sessionToken;
+	return data.login;
 };

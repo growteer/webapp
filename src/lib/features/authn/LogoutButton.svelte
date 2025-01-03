@@ -1,6 +1,6 @@
 <script>
 	import { initWeb3Auth } from '$lib/services/auth/web3auth';
-	import { removeSessionToken } from '$lib/storage/local';
+	import { removeRefreshToken, removeSessionToken } from '$lib/storage/local';
 	import { GradientButton } from 'flowbite-svelte';
 
 	const handleLogout = async () => {
@@ -8,6 +8,7 @@
 		await web3auth.logout();
 
 		removeSessionToken();
+		removeRefreshToken();
 		window.location.href = '/';
 	};
 </script>
