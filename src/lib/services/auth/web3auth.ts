@@ -1,22 +1,21 @@
 import { PUBLIC_GOOGLE_CLIENT_ID, PUBLIC_W3A_CLIENT_ID } from '$env/static/public';
 import { AuthAdapter, MFA_LEVELS } from '@web3auth/auth-adapter';
 import { CHAIN_NAMESPACES, UX_MODE, WALLET_ADAPTERS, WEB3AUTH_NETWORK } from '@web3auth/base';
-import { getInjectedAdapters } from '@web3auth/default-evm-adapter';
-import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider';
+import { SolanaPrivateKeyProvider } from '@web3auth/solana-provider';
 import { Web3Auth, type Web3AuthOptions } from '@web3auth/modal';
 
 const chainConfig = {
-	chainNamespace: CHAIN_NAMESPACES.EIP155,
-	chainId: '0xaa36a7',
-	rpcTarget: 'https://rpc.ankr.com/eth_sepolia',
-	displayName: 'Ethereum Sepolia Testnet',
-	blockExplorerUrl: 'https://sepolia.etherscan.io',
-	ticker: 'ETH',
-	tickerName: 'Ethereum',
-	logo: 'https://cryptologos.cc/logos/ethereum-eth-logo.png'
+	chainNamespace: CHAIN_NAMESPACES.SOLANA,
+	chainId: '0x2', // Testnet
+	rpcTarget: 'https://api.testnet.solana.com',
+	displayName: 'Solana Testnet',
+	blockExplorerUrl: 'https://explorer.solana.com',
+	ticker: 'SOL',
+	tickerName: 'Solana',
+	logo: 'https://images.toruswallet.io/solana.svg'
 };
 
-const privateKeyProvider = new EthereumPrivateKeyProvider({
+const privateKeyProvider = new SolanaPrivateKeyProvider({
 	config: { chainConfig }
 });
 
@@ -63,9 +62,6 @@ export const initWeb3Auth = async () => {
 	if (isInitialized) return web3Auth;
 
 	web3Auth.configureAdapter(socialAdapter);
-
-	const adapters = await getInjectedAdapters({ options: web3AuthOptions });
-	adapters.forEach((adapter) => web3Auth.configureAdapter(adapter));
 
 	await web3Auth.initModal({
 		modalConfig: {
