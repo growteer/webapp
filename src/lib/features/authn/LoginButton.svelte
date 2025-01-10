@@ -2,7 +2,7 @@
 	import { GradientButton } from 'flowbite-svelte';
 	import { initWeb3Auth } from '$lib/services/auth/web3auth';
 	import { generateNonce, login } from './mutations.gql';
-	import { EtherClient } from '$lib/services/ethereum/client';
+	import { SolanaClient } from '$lib/services/solana/client';
 	import { setRefreshToken, setSessionToken } from '$lib/storage/local';
 
 	const handleLogin = async () => {
@@ -12,21 +12,20 @@
 		const provider = await web3auth.connect();
 		if (!provider) throw new Error('login failed');
 
-		// Get the Ethereum address
-		const ethClient = new EtherClient(provider);
-		const address = await ethClient.getFirstAccount();
+		// Get the wallet address
+		const client = new SolanaClient(provider);
+		const address = await client.getAddress();
 
 		// Sign a message for verification
 		const nonce = await generateNonce(address);
-		const message = ethClient.newLoginMessage(nonce);
-		const signature = await ethClient.signLogin(address, message);
+		const { message, signature } = await client.signLogin(nonce);
 
 		// Verify signature through the backend and get a token
-		const serializedSignature = Buffer.from(signature).toString('base64');
-		const { sessionToken, refreshToken } = await login(address, message, serializedSignature);
+		const { sessionToken, refreshToken } = await login(address, message, signature);
 
 		setSessionToken(sessionToken);
 		setRefreshToken(refreshToken);
+
 		window.location.href = '/';
 	};
 </script>
