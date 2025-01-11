@@ -3,12 +3,13 @@ import { AuthAdapter, MFA_LEVELS } from '@web3auth/auth-adapter';
 import { CHAIN_NAMESPACES, UX_MODE, WALLET_ADAPTERS, WEB3AUTH_NETWORK } from '@web3auth/base';
 import { SolanaPrivateKeyProvider } from '@web3auth/solana-provider';
 import { Web3Auth, type Web3AuthOptions } from '@web3auth/modal';
+import { solanaConfig } from '../solana/config';
 
 const chainConfig = {
 	chainNamespace: CHAIN_NAMESPACES.SOLANA,
-	chainId: '0x2', // Testnet
-	rpcTarget: 'https://api.testnet.solana.com',
-	displayName: 'Solana Testnet',
+	chainId: solanaConfig().chainId,
+	rpcTarget: solanaConfig().rpcTarget,
+	displayName: solanaConfig().displayName,
 	blockExplorerUrl: 'https://explorer.solana.com',
 	ticker: 'SOL',
 	tickerName: 'Solana',
