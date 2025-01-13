@@ -1,11 +1,26 @@
+import { getAccountIdByNetwork, SolanaWebAuth } from '@didtools/pkh-solana';
 import type { IProvider } from '@web3auth/base';
 import { SolanaWallet } from '@web3auth/solana-provider';
+import { solanaChainParams } from './config';
+import { initWeb3Auth } from '../auth/web3auth';
+import { DIDSession } from 'did-session';
 
 export class SolanaClient {
 	private wallet: SolanaWallet;
 
 	constructor(provider: IProvider) {
 		this.wallet = new SolanaWallet(provider);
+	}
+
+	async getDIDSessionPKH(resources: string[] = ['ceramic://*']) {
+		const address = await this.getAddress();
+		const accountID = getAccountIdByNetwork(solanaChainParams().name, address);
+
+		const authMethod = await SolanaWebAuth.getAuthMethod(this, accountID);
+
+		const session = await DIDSession.get(accountID, authMethod, { resources });
+
+		return session;
 	}
 
 	async getAddress() {
@@ -31,4 +46,17 @@ export class SolanaClient {
 
 		return { message: serializedMessage, signature: serializedSignature };
 	}
+
+	async signMessage(data: Uint8Array): Promise<{ signature: Uint8Array }> {
+		const signature = await this.wallet.signMessage(data);
+		return { signature };
+	}
 }
+
+export const createSolanaClient = async () => {
+	const w3a = await initWeb3Auth();
+	const { provider } = w3a;
+	if (!provider) throw new Error('could not get a provider from web3auth to create a solana client');
+
+	return new SolanaClient(provider);
+};
