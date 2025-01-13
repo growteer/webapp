@@ -1,33 +1,19 @@
 import type { Config } from 'tailwindcss';
-import flowbite from 'flowbite/plugin';
+
+import { skeleton, contentPath } from '@skeletonlabs/skeleton/plugin';
+import * as themes from '@skeletonlabs/skeleton/themes';
 
 /** @type {import('tailwindcss').Config} */
 export default {
-	content: ['./src/**/*.{html,js,svelte,ts}', './node_modules/flowbite-svelte/**/*.{html,js,svelte,ts}'],
+	content: ['./src/**/*.{html,js,svelte,ts}', contentPath(import.meta.url, 'svelte')],
 
-	plugins: [flowbite],
-
-	darkMode: 'class',
+	plugins: [
+		skeleton({
+			themes: [themes.mint, themes.legacy, themes.terminus, themes.wintry, themes.sahara]
+		})
+	],
 
 	theme: {
-		extend: {
-			colors: {
-				// flowbite-svelte
-				primary: {
-					50: '#FFF5F2',
-					100: '#FFF1EE',
-					200: '#FFE4DE',
-					300: '#FFD5CC',
-					400: '#FFBCAD',
-					500: '#FE795D',
-					600: '#EF562F',
-					700: '#EB4F27',
-					800: '#CC4522',
-					900: '#A5371B'
-				}
-			}
-		}
+		extend: {}
 	}
-
-	//plugins: [typography, forms, containerQueries]
 } satisfies Config;
