@@ -17,7 +17,7 @@
 </script>
 
 <div class="grid grid-cols-[auto_1fr]">
-	<aside class="card surface-100 sticky top-0 col-span-1 grid h-screen">
+	<aside class="card sticky top-0 col-span-1 grid h-screen">
 		<Navbar />
 	</aside>
 	<main class="col-span-1">

@@ -5,7 +5,7 @@
 	import { getIsAuthenticatedContext } from '$lib/contexts';
 </script>
 
-<Navigation.Rail>
+<Navigation.Rail background="bg-primary-100">
 	{#snippet header()}
 		<Navigation.Tile href="/" title="Menu"><Menu /></Navigation.Tile>
 	{/snippet}
