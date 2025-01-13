@@ -1,23 +1,24 @@
 <script>
-	import { Navbar, NavBrand, NavHamburger, NavLi, NavUl } from 'flowbite-svelte';
-	import { LoginButton, LogoutButton } from '$lib/features/authn/';
+	import { Navigation } from '@skeletonlabs/skeleton-svelte';
+	import { Menu, House } from 'lucide-svelte';
+	import { LoginButton, LogoutButton } from '$lib/features/navbar/authn';
 	import { getIsAuthenticatedContext } from '$lib/contexts';
 </script>
 
-<Navbar>
-	<NavBrand href="/">
-		<img src="https://flowbite.com/docs/images/logo.svg" class="me-3 h-6 sm:h-9" alt="Flowbite Logo" />
-		<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">GrowTeer</span>
-	</NavBrand>
-	<div class="flex md:order-2">
+<Navigation.Rail>
+	{#snippet header()}
+		<Navigation.Tile href="/" title="Menu"><Menu /></Navigation.Tile>
+	{/snippet}
+	{#snippet tiles()}
+		<Navigation.Tile id="0" label="Home" href="/">
+			<House />
+		</Navigation.Tile>
+	{/snippet}
+	{#snippet footer()}
 		{#if getIsAuthenticatedContext()}
 			<LogoutButton />
 		{:else}
 			<LoginButton />
 		{/if}
-		<NavHamburger />
-	</div>
-	<NavUl>
-		<NavLi href="/">Home</NavLi>
-	</NavUl>
-</Navbar>
+	{/snippet}
+</Navigation.Rail>
