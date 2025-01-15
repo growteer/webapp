@@ -1,9 +1,6 @@
-import { getAccountIdByNetwork, SolanaWebAuth } from '@didtools/pkh-solana';
 import type { IProvider } from '@web3auth/base';
 import { SolanaWallet } from '@web3auth/solana-provider';
-import { solanaChainParams } from './config';
 import { initWeb3Auth } from '../auth/web3auth';
-import { DIDSession } from 'did-session';
 
 export class SolanaClient {
 	private wallet: SolanaWallet;
@@ -12,15 +9,9 @@ export class SolanaClient {
 		this.wallet = new SolanaWallet(provider);
 	}
 
-	async getDIDSessionPKH(resources: string[] = ['ceramic://*']) {
+	async getDIDPKH() {
 		const address = await this.getAddress();
-		const accountID = getAccountIdByNetwork(solanaChainParams().name, address);
-
-		const authMethod = await SolanaWebAuth.getAuthMethod(this, accountID);
-
-		const session = await DIDSession.get(accountID, authMethod, { resources });
-
-		return session;
+		return `did:pkh:sol:${address}`;
 	}
 
 	async getAddress() {
