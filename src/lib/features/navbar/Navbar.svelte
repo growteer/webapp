@@ -1,7 +1,7 @@
 <script>
 	import { Navigation } from '@skeletonlabs/skeleton-svelte';
 	import { Menu, House } from 'lucide-svelte';
-	import { LoginButton, LogoutButton } from '$lib/features/navbar/authn';
+	import { LoginButton, LogoutButton } from '$lib/features/authn';
 	import { getIsAuthenticatedContext } from '$lib/contexts';
 </script>
 
