@@ -14,6 +14,7 @@ import {
 import { PUBLIC_API_URL } from '$env/static/public';
 import { getRefreshToken, getSessionToken, setRefreshToken, setSessionToken } from '$lib/storage/local';
 import { refreshSession } from './tokenRefresh.gql';
+import { ErrCode } from './error_codes';
 
 const getAuthorizationHeader = () => {
 	const sessionToken = getSessionToken();
@@ -42,9 +43,9 @@ export async function mutate<
 	TContext extends Record<string, any> = DefaultContext,
 	TCache extends ApolloCache<any> = ApolloCache<any>
 >(options: MutationOptions<TData, TVariables, TContext>): Promise<FetchResult<MaybeMasked<TData>>> {
-	const result = await client.mutate<TData, TVariables, TContext, TCache>(options);
+	const result = await client.mutate<TData, TVariables, TContext, TCache>({ errorPolicy: 'all', ...options });
 
-	if (!result.errors?.length || result.errors[0].extensions?.code !== 'UNAUTHENTICATED') {
+	if (!result.errors?.length || result.errors[0].extensions?.code !== ErrCode.NotAuthenticated) {
 		return result;
 	}
 
