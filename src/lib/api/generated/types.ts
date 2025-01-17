@@ -7,11 +7,11 @@ export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> =
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
+	ID: { input: string; output: string };
+	String: { input: string; output: string };
+	Boolean: { input: boolean; output: boolean };
+	Int: { input: number; output: number };
+	Float: { input: number; output: number };
 };
 
 export type AuthResult = {
@@ -76,15 +76,19 @@ export type RefreshMutationVariables = Exact<{
   refreshToken: Scalars['String']['input'];
 }>;
 
-
-export type RefreshMutation = { __typename?: 'Mutation', refresh: { __typename?: 'AuthResult', sessionToken: string, refreshToken: string } };
+export type RefreshMutation = {
+	__typename?: 'Mutation';
+	refresh: { __typename?: 'AuthResult'; sessionToken: string; refreshToken: string };
+};
 
 export type GenerateNonceMutationVariables = Exact<{
   address: Scalars['String']['input'];
 }>;
 
-
-export type GenerateNonceMutation = { __typename?: 'Mutation', generateNonce: { __typename?: 'NonceResult', nonce: string } };
+export type GenerateNonceMutation = {
+	__typename?: 'Mutation';
+	generateNonce: { __typename?: 'NonceResult'; nonce: string };
+};
 
 export type LoginMutationVariables = Exact<{
   address: Scalars['String']['input'];
@@ -92,5 +96,7 @@ export type LoginMutationVariables = Exact<{
   signature: Scalars['String']['input'];
 }>;
 
-
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'AuthResult', sessionToken: string, refreshToken: string } };
+export type LoginMutation = {
+	__typename?: 'Mutation';
+	login: { __typename?: 'AuthResult'; sessionToken: string; refreshToken: string };
+};
