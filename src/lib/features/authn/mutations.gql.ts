@@ -1,6 +1,8 @@
-import { mutate } from '$lib/api/client';
-import type { GenerateNonceMutation, LoginInput, LoginMutation, NonceInput } from '$lib/api/generated/types';
 import { gql } from '@apollo/client';
+import { mutate } from '$lib/api/client';
+import { ErrCode } from '$lib/api/error_codes';
+import type { GenerateNonceMutation, LoginInput, LoginMutation, NonceInput } from '$lib/api/generated/types';
+import { setRefreshToken, setSessionToken } from '$lib/storage/local';
 
 const GENERATE_NONCE = gql`
 	mutation GenerateNonce($address: String!) {
@@ -20,12 +22,11 @@ const LOGIN = gql`
 `;
 
 export const generateNonce = async (address: string) => {
-	const { data, errors } = await mutate<GenerateNonceMutation, NonceInput>({
+	const { data } = await mutate<GenerateNonceMutation, NonceInput>({
 		mutation: GENERATE_NONCE,
 		variables: { address }
 	});
 
-	if (errors?.length) throw new Error(errors[0].message);
 	if (!data || !data.generateNonce?.nonce) throw new Error('could not generate a nonce');
 
 	return data.generateNonce.nonce;
@@ -37,8 +38,20 @@ export const login = async (address: string, message: string, signature: string)
 		variables: { address, message, signature }
 	});
 
-	if (errors?.length) throw new Error(errors[0].message);
-	if (!data || !data.login?.sessionToken) throw new Error('could not log in');
+	if (data?.login?.sessionToken) {
+		setSessionToken(data.login.sessionToken);
+		setRefreshToken(data.login.refreshToken);
 
-	return data.login;
+		return true;
+	}
+
+	if (errors?.[0]?.extensions?.code === ErrCode.UserNotSignedUp) {
+		return false;
+	}
+
+	if (errors?.[0]?.extensions?.code === ErrCode.InvalidCredentials) {
+		throw errors[0];
+	}
+
+	throw new Error('Something went wrong!');
 };
