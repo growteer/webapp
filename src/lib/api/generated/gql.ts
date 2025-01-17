@@ -14,9 +14,12 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 const documents = {
-    "\n\tmutation Refresh($refreshToken: String!) {\n\t\trefresh(input: { refreshToken: $refreshToken }) {\n\t\t\tsessionToken\n\t\t\trefreshToken\n\t\t}\n\t}\n": types.RefreshDocument,
-    "\n\tmutation GenerateNonce($address: String!) {\n\t\tgenerateNonce(input: { address: $address }) {\n\t\t\tnonce\n\t\t}\n\t}\n": types.GenerateNonceDocument,
-    "\n\tmutation Login($address: String!, $message: String!, $signature: String!) {\n\t\tlogin(input: { address: $address, message: $message, signature: $signature }) {\n\t\t\tsessionToken\n\t\t\trefreshToken\n\t\t}\n\t}\n": types.LoginDocument,
+	'\n\tmutation Refresh($refreshToken: String!) {\n\t\trefresh(input: { refreshToken: $refreshToken }) {\n\t\t\tsessionToken\n\t\t\trefreshToken\n\t\t}\n\t}\n':
+		types.RefreshDocument,
+	'\n\tmutation GenerateNonce($address: String!) {\n\t\tgenerateNonce(input: { address: $address }) {\n\t\t\tnonce\n\t\t}\n\t}\n':
+		types.GenerateNonceDocument,
+	'\n\tmutation Login($address: String!, $message: String!, $signature: String!) {\n\t\tlogin(input: { address: $address, message: $message, signature: $signature }) {\n\t\t\tsessionToken\n\t\t\trefreshToken\n\t\t}\n\t}\n':
+		types.LoginDocument
 };
 
 /**
@@ -36,18 +39,25 @@ export function gql(source: string): unknown;
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n\tmutation Refresh($refreshToken: String!) {\n\t\trefresh(input: { refreshToken: $refreshToken }) {\n\t\t\tsessionToken\n\t\t\trefreshToken\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation Refresh($refreshToken: String!) {\n\t\trefresh(input: { refreshToken: $refreshToken }) {\n\t\t\tsessionToken\n\t\t\trefreshToken\n\t\t}\n\t}\n"];
+export function gql(
+	source: '\n\tmutation Refresh($refreshToken: String!) {\n\t\trefresh(input: { refreshToken: $refreshToken }) {\n\t\t\tsessionToken\n\t\t\trefreshToken\n\t\t}\n\t}\n'
+): (typeof documents)['\n\tmutation Refresh($refreshToken: String!) {\n\t\trefresh(input: { refreshToken: $refreshToken }) {\n\t\t\tsessionToken\n\t\t\trefreshToken\n\t\t}\n\t}\n'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n\tmutation GenerateNonce($address: String!) {\n\t\tgenerateNonce(input: { address: $address }) {\n\t\t\tnonce\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation GenerateNonce($address: String!) {\n\t\tgenerateNonce(input: { address: $address }) {\n\t\t\tnonce\n\t\t}\n\t}\n"];
+export function gql(
+	source: '\n\tmutation GenerateNonce($address: String!) {\n\t\tgenerateNonce(input: { address: $address }) {\n\t\t\tnonce\n\t\t}\n\t}\n'
+): (typeof documents)['\n\tmutation GenerateNonce($address: String!) {\n\t\tgenerateNonce(input: { address: $address }) {\n\t\t\tnonce\n\t\t}\n\t}\n'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n\tmutation Login($address: String!, $message: String!, $signature: String!) {\n\t\tlogin(input: { address: $address, message: $message, signature: $signature }) {\n\t\t\tsessionToken\n\t\t\trefreshToken\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation Login($address: String!, $message: String!, $signature: String!) {\n\t\tlogin(input: { address: $address, message: $message, signature: $signature }) {\n\t\t\tsessionToken\n\t\t\trefreshToken\n\t\t}\n\t}\n"];
+export function gql(
+	source: '\n\tmutation Login($address: String!, $message: String!, $signature: String!) {\n\t\tlogin(input: { address: $address, message: $message, signature: $signature }) {\n\t\t\tsessionToken\n\t\t\trefreshToken\n\t\t}\n\t}\n'
+): (typeof documents)['\n\tmutation Login($address: String!, $message: String!, $signature: String!) {\n\t\tlogin(input: { address: $address, message: $message, signature: $signature }) {\n\t\t\tsessionToken\n\t\t\trefreshToken\n\t\t}\n\t}\n'];
 
 export function gql(source: string) {
-  return (documents as any)[source] ?? {};
+	return (documents as any)[source] ?? {};
 }
 
-export type DocumentType<TDocumentNode extends DocumentNode<any, any>> = TDocumentNode extends DocumentNode<  infer TType,  any>  ? TType  : never;
+export type DocumentType<TDocumentNode extends DocumentNode<any, any>> =
+	TDocumentNode extends DocumentNode<infer TType, any> ? TType : never;
