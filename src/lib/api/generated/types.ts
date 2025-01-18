@@ -15,65 +15,88 @@ export type Scalars = {
 };
 
 export type AuthResult = {
-  __typename?: 'AuthResult';
-  refreshToken: Scalars['String']['output'];
-  sessionToken: Scalars['String']['output'];
+	__typename?: 'AuthResult';
+	refreshToken: Scalars['String']['output'];
+	sessionToken: Scalars['String']['output'];
+};
+
+export type LocationInput = {
+	city?: InputMaybe<Scalars['String']['input']>;
+	country: Scalars['String']['input'];
+	postalCode?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type LoginInput = {
-  address: Scalars['String']['input'];
-  message: Scalars['String']['input'];
-  signature: Scalars['String']['input'];
+	address: Scalars['String']['input'];
+	message: Scalars['String']['input'];
+	signature: Scalars['String']['input'];
 };
 
 export type Mutation = {
-  __typename?: 'Mutation';
-  generateNonce: NonceResult;
-  login: AuthResult;
-  refresh: AuthResult;
+	__typename?: 'Mutation';
+	generateNonce: NonceResult;
+	login: AuthResult;
+	refresh: AuthResult;
+	signup: AuthResult;
 };
-
 
 export type MutationGenerateNonceArgs = {
-  input: NonceInput;
+	input: NonceInput;
 };
-
 
 export type MutationLoginArgs = {
-  input: LoginInput;
+	input: LoginInput;
 };
 
-
 export type MutationRefreshArgs = {
-  input?: InputMaybe<RefreshInput>;
+	input?: InputMaybe<RefreshInput>;
+};
+
+export type MutationSignupArgs = {
+	input: SignupInput;
 };
 
 export type NonceInput = {
-  address: Scalars['String']['input'];
+	address: Scalars['String']['input'];
 };
 
 export type NonceResult = {
-  __typename?: 'NonceResult';
-  nonce: Scalars['String']['output'];
+	__typename?: 'NonceResult';
+	nonce: Scalars['String']['output'];
 };
 
 export type Query = {
-  __typename?: 'Query';
-  nonce: NonceResult;
-  nonces?: Maybe<Array<Maybe<NonceResult>>>;
+	__typename?: 'Query';
+	nonce: NonceResult;
+	nonces?: Maybe<Array<Maybe<NonceResult>>>;
 };
 
-
 export type QueryNonceArgs = {
-  address: Scalars['String']['input'];
+	address: Scalars['String']['input'];
 };
 
 export type RefreshInput = {
-  refreshToken: Scalars['String']['input'];
+	refreshToken: Scalars['String']['input'];
+};
+
+export type SignupInput = {
+	login: LoginInput;
+	profile: UserProfileInput;
+};
+
+export type UserProfileInput = {
+	about?: InputMaybe<Scalars['String']['input']>;
+	dateOfBirth: Scalars['String']['input'];
+	firstname: Scalars['String']['input'];
+	lastname: Scalars['String']['input'];
+	location?: InputMaybe<LocationInput>;
+	personalGoal?: InputMaybe<Scalars['String']['input']>;
+	primaryEmail: Scalars['String']['input'];
+	website?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type RefreshMutationVariables = Exact<{
-  refreshToken: Scalars['String']['input'];
+	refreshToken: Scalars['String']['input'];
 }>;
 
 export type RefreshMutation = {
@@ -82,7 +105,7 @@ export type RefreshMutation = {
 };
 
 export type GenerateNonceMutationVariables = Exact<{
-  address: Scalars['String']['input'];
+	address: Scalars['String']['input'];
 }>;
 
 export type GenerateNonceMutation = {
@@ -91,9 +114,9 @@ export type GenerateNonceMutation = {
 };
 
 export type LoginMutationVariables = Exact<{
-  address: Scalars['String']['input'];
-  message: Scalars['String']['input'];
-  signature: Scalars['String']['input'];
+	address: Scalars['String']['input'];
+	message: Scalars['String']['input'];
+	signature: Scalars['String']['input'];
 }>;
 
 export type LoginMutation = {

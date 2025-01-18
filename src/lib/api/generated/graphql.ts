@@ -22,6 +22,12 @@ export type AuthResult = {
 	sessionToken: Scalars['String']['output'];
 };
 
+export type LocationInput = {
+	city?: InputMaybe<Scalars['String']['input']>;
+	country: Scalars['String']['input'];
+	postalCode?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type LoginInput = {
 	address: Scalars['String']['input'];
 	message: Scalars['String']['input'];
@@ -33,6 +39,7 @@ export type Mutation = {
 	generateNonce: NonceResult;
 	login: AuthResult;
 	refresh: AuthResult;
+	signup: AuthResult;
 };
 
 export type MutationGenerateNonceArgs = {
@@ -45,6 +52,10 @@ export type MutationLoginArgs = {
 
 export type MutationRefreshArgs = {
 	input?: InputMaybe<RefreshInput>;
+};
+
+export type MutationSignupArgs = {
+	input: SignupInput;
 };
 
 export type NonceInput = {
@@ -68,6 +79,22 @@ export type QueryNonceArgs = {
 
 export type RefreshInput = {
 	refreshToken: Scalars['String']['input'];
+};
+
+export type SignupInput = {
+	login: LoginInput;
+	profile: UserProfileInput;
+};
+
+export type UserProfileInput = {
+	about?: InputMaybe<Scalars['String']['input']>;
+	dateOfBirth: Scalars['String']['input'];
+	firstname: Scalars['String']['input'];
+	lastname: Scalars['String']['input'];
+	location?: InputMaybe<LocationInput>;
+	personalGoal?: InputMaybe<Scalars['String']['input']>;
+	primaryEmail: Scalars['String']['input'];
+	website?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type RefreshMutationVariables = Exact<{

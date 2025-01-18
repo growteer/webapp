@@ -12,7 +12,7 @@
 		"lint": "prettier --check . && eslint .",
 		"test:unit": "vitest",
 		"test": "npm run test:unit -- --run",
-		"gen": "graphql-codegen"
+		"gen": "graphql-codegen && pnpm format"
 	},
 	"devDependencies": {
 		"@apollo/client": "^3.12.4",
