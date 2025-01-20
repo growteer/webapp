@@ -1,6 +1,6 @@
 import type { AuthUserInfo } from '@web3auth/auth-adapter';
 import type { LayoutLoad } from './$types';
-import { initWeb3Auth } from '$lib/services/auth/web3auth';
+import { initWeb3Auth } from '$lib/services/w3a/web3auth';
 import { getSessionToken } from '$lib/storage/local';
 
 export const ssr = false;

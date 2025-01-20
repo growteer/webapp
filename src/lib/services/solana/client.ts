@@ -1,6 +1,6 @@
 import type { IProvider } from '@web3auth/base';
 import { SolanaWallet } from '@web3auth/solana-provider';
-import { initWeb3Auth } from '../auth/web3auth';
+import { initWeb3Auth } from '../w3a/web3auth';
 
 export class SolanaClient {
 	private wallet: SolanaWallet;
