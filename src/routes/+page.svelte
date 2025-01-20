@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Heading from '$lib/components/heading/heading.svelte';
 	import type { PageData } from './$types';
 
 	interface Props {
@@ -10,8 +11,8 @@
 	const { isAuthenticated, user } = data;
 </script>
 
-<div class="p-4">
-	<h1 class="h1">Welcome to Growteer!</h1>
+<div>
+	<Heading type="h1">Welcome to Growteer!</Heading>
 	{#if isAuthenticated}
 		<p>Hello, {user.name}</p>
 	{/if}
