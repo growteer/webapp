@@ -20,6 +20,22 @@ export type AuthResult = {
 	sessionToken: Scalars['String']['output'];
 };
 
+export type Error = {
+	__typename?: 'Error';
+	extensions?: Maybe<ErrorExtensions>;
+};
+
+export type ErrorExtensions = {
+	__typename?: 'ErrorExtensions';
+	code: Scalars['String']['output'];
+	type: ErrorType;
+};
+
+export enum ErrorType {
+	BadRequest = 'BAD_REQUEST',
+	InternalServerError = 'INTERNAL_SERVER_ERROR'
+}
+
 export type LocationInput = {
 	city?: InputMaybe<Scalars['String']['input']>;
 	country: Scalars['String']['input'];
@@ -80,7 +96,6 @@ export type RefreshInput = {
 };
 
 export type SignupInput = {
-	login: LoginInput;
 	profile: UserProfileInput;
 };
 
@@ -102,6 +117,15 @@ export type RefreshMutationVariables = Exact<{
 export type RefreshMutation = {
 	__typename?: 'Mutation';
 	refresh: { __typename?: 'AuthResult'; sessionToken: string; refreshToken: string };
+};
+
+export type SignupMutationVariables = Exact<{
+	input: SignupInput;
+}>;
+
+export type SignupMutation = {
+	__typename?: 'Mutation';
+	signup: { __typename?: 'AuthResult'; sessionToken: string; refreshToken: string };
 };
 
 export type GenerateNonceMutationVariables = Exact<{
