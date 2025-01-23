@@ -22,6 +22,7 @@ export class AuthClient {
 
 			// Verify signature through the backend and set tokens in local storage
 			const loggedIn = await login(address, message, signature);
+
 			return loggedIn;
 		} catch (err) {
 			await web3Auth.logout();
@@ -32,6 +33,6 @@ export class AuthClient {
 	async logout() {
 		removeSessionToken();
 		removeRefreshToken();
-		return web3Auth.logout();
+		web3Auth.logout();
 	}
 }
