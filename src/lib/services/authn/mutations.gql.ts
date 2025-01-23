@@ -1,7 +1,15 @@
 import { gql } from '@apollo/client';
 import { mutate } from '$lib/api/client';
 import { ErrCode } from '$lib/api/error_codes';
-import type { GenerateNonceMutation, LoginInput, LoginMutation, NonceInput } from '$lib/api/generated/types';
+import type {
+	GenerateNonceMutation,
+	LoginInput,
+	LoginMutation,
+	NonceInput,
+	SignupInput,
+	SignupMutation,
+	UserProfileInput
+} from '$lib/api/generated/types';
 import { setRefreshToken, setSessionToken } from '$lib/storage/local';
 
 const GENERATE_NONCE = gql`
@@ -42,10 +50,10 @@ export const login = async (address: string, message: string, signature: string)
 		setSessionToken(data.login.sessionToken);
 		setRefreshToken(data.login.refreshToken);
 
-		return true;
+		if (!errors?.[0]) return true;
 	}
 
-	if (errors?.[0]?.extensions?.code === ErrCode.UserNotSignedUp) {
+	if (errors?.[0].extensions?.code == ErrCode.UserNotSignedUp) {
 		return false;
 	}
 
@@ -53,5 +61,30 @@ export const login = async (address: string, message: string, signature: string)
 		throw errors[0];
 	}
 
-	throw new Error('Something went wrong!');
+	throw new Error('Something went wrong!', { cause: errors });
+};
+
+const SIGNUP = gql`
+	mutation Signup($input: SignupInput!) {
+		signup(input: $input) {
+			sessionToken
+			refreshToken
+		}
+	}
+`;
+
+export const signup = async (profile: UserProfileInput) => {
+	const { data, errors } = await mutate<SignupMutation, SignupInput>({
+		mutation: SIGNUP,
+		variables: { profile }
+	});
+
+	if (data?.signup?.sessionToken) {
+		setSessionToken(data.signup.sessionToken);
+		setRefreshToken(data.signup.refreshToken);
+
+		return;
+	}
+
+	throw new Error(errors?.[0]?.extensions?.code ?? ErrCode.InternalError);
 };
