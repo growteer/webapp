@@ -11,7 +11,7 @@
 	const handleLogin = async () => {
 		try {
 			const loggedIn = await auth.login();
-			if (!loggedIn) return goto('/signup');
+			if (!loggedIn) return (window.location.href = '/signup');
 		} catch (err) {
 			toast.create({
 				description: String(err),
@@ -26,7 +26,7 @@
 			type: 'success'
 		});
 
-		goto('/');
+		window.location.href = '/';
 	};
 </script>
 
