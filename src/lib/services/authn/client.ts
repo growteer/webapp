@@ -33,6 +33,6 @@ export class AuthClient {
 	async logout() {
 		removeSessionToken();
 		removeRefreshToken();
-		web3Auth.logout();
+		await web3Auth.logout();
 	}
 }
