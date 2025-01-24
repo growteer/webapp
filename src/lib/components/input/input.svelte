@@ -12,5 +12,5 @@
 
 <label class="label">
 	<span class="label-text">{label}</span>
-	<input class="input" {type} bind:value required />
+	<input class="input" {type} bind:value {required} />
 </label>
