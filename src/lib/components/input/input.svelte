@@ -3,10 +3,10 @@
 		label: string;
 		type: 'text' | 'date' | 'email';
 		required?: boolean;
-		value?: string;
+		value?: string | number | Date;
 	}
 
-	let { label, required = false, type, value }: Props = $props();
+	let { label, required = false, type, value = $bindable() }: Props = $props();
 	if (required) label += ' *';
 </script>
 

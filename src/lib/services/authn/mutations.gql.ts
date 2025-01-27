@@ -3,12 +3,12 @@ import { mutate } from '$lib/api/client';
 import { ErrCode } from '$lib/api/error_codes';
 import type {
 	GenerateNonceMutation,
-	LoginInput,
+	GenerateNonceMutationVariables,
 	LoginMutation,
-	NonceInput,
+	LoginMutationVariables,
 	SignupInput,
 	SignupMutation,
-	UserProfileInput
+	SignupMutationVariables
 } from '$lib/api/generated/types';
 import { setRefreshToken, setSessionToken } from '$lib/storage/local';
 
@@ -30,7 +30,7 @@ const LOGIN = gql`
 `;
 
 export const generateNonce = async (address: string) => {
-	const { data } = await mutate<GenerateNonceMutation, NonceInput>({
+	const { data } = await mutate<GenerateNonceMutation, GenerateNonceMutationVariables>({
 		mutation: GENERATE_NONCE,
 		variables: { address }
 	});
@@ -41,7 +41,7 @@ export const generateNonce = async (address: string) => {
 };
 
 export const login = async (address: string, message: string, signature: string): Promise<boolean> => {
-	const { data, errors } = await mutate<LoginMutation, LoginInput>({
+	const { data, errors } = await mutate<LoginMutation, LoginMutationVariables>({
 		mutation: LOGIN,
 		variables: { address, message, signature }
 	});
@@ -65,26 +65,25 @@ export const login = async (address: string, message: string, signature: string)
 };
 
 const SIGNUP = gql`
-	mutation Signup($input: SignupInput!) {
-		signup(input: $input) {
-			sessionToken
-			refreshToken
+	mutation Signup($profile: SignupInput!) {
+		signup(input: $profile) {
+			firstname
+			lastname
 		}
 	}
 `;
 
-export const signup = async (profile: UserProfileInput) => {
-	const { data, errors } = await mutate<SignupMutation, SignupInput>({
+export const signup = async (profile: SignupInput) => {
+	const { data, errors } = await mutate<SignupMutation, SignupMutationVariables>({
 		mutation: SIGNUP,
 		variables: { profile }
 	});
 
-	if (data?.signup?.sessionToken) {
-		setSessionToken(data.signup.sessionToken);
-		setRefreshToken(data.signup.refreshToken);
-
-		return;
+	if (!data) {
+		throw new Error(errors?.[0]?.extensions?.code ?? ErrCode.InternalError);
 	}
 
-	throw new Error(errors?.[0]?.extensions?.code ?? ErrCode.InternalError);
+	const { firstname, lastname } = data.signup;
+
+	return { firstname, lastname };
 };
