@@ -11,14 +11,14 @@
 	}
 
 	let { data }: Props = $props();
-	let { firstName, lastName } = $derived.by(() => {
+	let { firstname, lastname } = $derived.by(() => {
 		const nameParts = data.user.name?.split(' ');
-		if (!nameParts) return { firstName: '', lastName: '' };
+		if (!nameParts) return { firstname: '', lastname: '' };
 
-		const lastName = nameParts.pop();
-		const firstName = nameParts.join(' ');
+		const lastname = nameParts.pop() ?? '';
+		const firstname = nameParts.join(' ') ?? '';
 
-		return { firstName, lastName };
+		return { firstname, lastname };
 	});
 
 	onMount(() => {
@@ -30,9 +30,9 @@
 	<Heading type="h1">Sign Up For Full Access</Heading>
 	<ProfileForm
 		formData={{
-			firstName: firstName ?? '',
-			lastName: lastName ?? '',
-			dateOfBirth: new Date(),
+			firstname,
+			lastname,
+			dateOfBirth: new Date().toISOString(),
 			primaryEmail: data.user.email ?? '',
 			country: ''
 		}}

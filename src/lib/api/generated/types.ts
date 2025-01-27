@@ -33,13 +33,15 @@ export type ErrorExtensions = {
 
 export enum ErrorType {
 	BadRequest = 'BAD_REQUEST',
-	InternalServerError = 'INTERNAL_SERVER_ERROR'
+	InternalServerError = 'INTERNAL_SERVER_ERROR',
+	Unauthenticated = 'UNAUTHENTICATED'
 }
 
-export type LocationInput = {
-	city?: InputMaybe<Scalars['String']['input']>;
-	country: Scalars['String']['input'];
-	postalCode?: InputMaybe<Scalars['String']['input']>;
+export type Location = {
+	__typename?: 'Location';
+	city?: Maybe<Scalars['String']['output']>;
+	country: Scalars['String']['output'];
+	postalCode?: Maybe<Scalars['String']['output']>;
 };
 
 export type LoginInput = {
@@ -53,7 +55,7 @@ export type Mutation = {
 	generateNonce: NonceResult;
 	login: AuthResult;
 	refresh: AuthResult;
-	signup: AuthResult;
+	signup: UserProfile;
 };
 
 export type MutationGenerateNonceArgs = {
@@ -96,18 +98,26 @@ export type RefreshInput = {
 };
 
 export type SignupInput = {
-	profile: UserProfileInput;
-};
-
-export type UserProfileInput = {
-	about?: InputMaybe<Scalars['String']['input']>;
+	city?: InputMaybe<Scalars['String']['input']>;
+	country: Scalars['String']['input'];
 	dateOfBirth: Scalars['String']['input'];
 	firstname: Scalars['String']['input'];
 	lastname: Scalars['String']['input'];
-	location?: InputMaybe<LocationInput>;
-	personalGoal?: InputMaybe<Scalars['String']['input']>;
+	postalCode?: InputMaybe<Scalars['String']['input']>;
 	primaryEmail: Scalars['String']['input'];
 	website?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UserProfile = {
+	__typename?: 'UserProfile';
+	about?: Maybe<Scalars['String']['output']>;
+	dateOfBirth: Scalars['String']['output'];
+	firstname: Scalars['String']['output'];
+	lastname: Scalars['String']['output'];
+	location?: Maybe<Location>;
+	personalGoal?: Maybe<Scalars['String']['output']>;
+	primaryEmail: Scalars['String']['output'];
+	website?: Maybe<Scalars['String']['output']>;
 };
 
 export type RefreshMutationVariables = Exact<{
@@ -117,15 +127,6 @@ export type RefreshMutationVariables = Exact<{
 export type RefreshMutation = {
 	__typename?: 'Mutation';
 	refresh: { __typename?: 'AuthResult'; sessionToken: string; refreshToken: string };
-};
-
-export type SignupMutationVariables = Exact<{
-	input: SignupInput;
-}>;
-
-export type SignupMutation = {
-	__typename?: 'Mutation';
-	signup: { __typename?: 'AuthResult'; sessionToken: string; refreshToken: string };
 };
 
 export type GenerateNonceMutationVariables = Exact<{
@@ -146,4 +147,13 @@ export type LoginMutationVariables = Exact<{
 export type LoginMutation = {
 	__typename?: 'Mutation';
 	login: { __typename?: 'AuthResult'; sessionToken: string; refreshToken: string };
+};
+
+export type SignupMutationVariables = Exact<{
+	profile: SignupInput;
+}>;
+
+export type SignupMutation = {
+	__typename?: 'Mutation';
+	signup: { __typename?: 'UserProfile'; firstname: string; lastname: string };
 };
