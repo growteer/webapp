@@ -16,6 +16,12 @@ export default defineConfig({
 		sveltekit()
 	],
 
+	resolve: {
+		alias: {
+			'@apollo/client': '@apollo/client/core/index.js'
+		}
+	},
+
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}'],
 		environment: 'jsdom'
