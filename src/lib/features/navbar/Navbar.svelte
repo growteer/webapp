@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { Navigation } from '@skeletonlabs/skeleton-svelte';
 	import { Menu, House } from 'lucide-svelte';
 	import { LoginButton, LogoutButton } from '$lib/features/authn';
