@@ -26,7 +26,7 @@
 		const profile: UserProfile = {
 			firstname,
 			lastname,
-			dateOfBirth,
+			dateOfBirth: new Date(dateOfBirth).toISOString(),
 			primaryEmail,
 			location: {
 				country
@@ -77,7 +77,7 @@
 		<button
 			type="submit"
 			form={formID}
-			class="btn preset-filled-secondary-500 gap-2"
+			class="btn gap-2 preset-filled-secondary-500"
 			disabled={submitting || !unsavedData}
 		>
 			Save
