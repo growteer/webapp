@@ -8,12 +8,12 @@
 	}
 
 	let { data }: Props = $props();
-	const { isAuthenticated, user } = data;
+	const { user } = data;
 </script>
 
 <div>
 	<Heading type="h1">Welcome to Growteer!</Heading>
-	{#if isAuthenticated}
+	{#if user}
 		<p>Hello, {user.name}</p>
 	{/if}
 </div>

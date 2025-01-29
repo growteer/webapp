@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Navigation } from '@skeletonlabs/skeleton-svelte';
-	import { Menu, House } from 'lucide-svelte';
+	import { Menu, House, UserRoundPen } from 'lucide-svelte';
 	import { LoginButton, LogoutButton } from '$lib/features/authn';
 	import { getIsAuthenticatedContext } from '$lib/contexts';
 </script>
@@ -13,6 +13,11 @@
 		<Navigation.Tile id="0" label="Home" href="/">
 			<House />
 		</Navigation.Tile>
+		{#if getIsAuthenticatedContext()}
+			<Navigation.Tile id="1" label="Profile" href="/profile">
+				<UserRoundPen />
+			</Navigation.Tile>
+		{/if}
 	{/snippet}
 	{#snippet footer()}
 		{#if getIsAuthenticatedContext()}

@@ -85,12 +85,11 @@ export type NonceResult = {
 
 export type Query = {
 	__typename?: 'Query';
-	nonce: NonceResult;
-	nonces?: Maybe<Array<Maybe<NonceResult>>>;
+	userProfile: UserProfile;
 };
 
-export type QueryNonceArgs = {
-	address: Scalars['String']['input'];
+export type QueryUserProfileArgs = {
+	userDID: Scalars['String']['input'];
 };
 
 export type RefreshInput = {
@@ -114,7 +113,7 @@ export type UserProfile = {
 	dateOfBirth: Scalars['String']['output'];
 	firstname: Scalars['String']['output'];
 	lastname: Scalars['String']['output'];
-	location?: Maybe<Location>;
+	location: Location;
 	personalGoal?: Maybe<Scalars['String']['output']>;
 	primaryEmail: Scalars['String']['output'];
 	website?: Maybe<Scalars['String']['output']>;
