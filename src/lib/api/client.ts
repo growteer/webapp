@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-	ApolloCache,
 	ApolloClient,
 	ApolloLink,
 	HttpLink,
@@ -8,7 +7,8 @@ import {
 	type DefaultContext,
 	type MaybeMasked,
 	type MutationOptions,
-	type OperationVariables
+	type OperationVariables,
+	type QueryOptions
 } from '@apollo/client';
 import { PUBLIC_API_URL } from '$env/static/public';
 import { getRefreshToken, getSessionToken, setRefreshToken, setSessionToken } from '$lib/storage/local';
@@ -46,10 +46,9 @@ interface MutationResult<T> {
 export async function mutate<
 	TData = any,
 	TVariables extends OperationVariables = OperationVariables,
-	TContext extends Record<string, any> = DefaultContext,
-	TCache extends ApolloCache<any> = ApolloCache<any>
+	TContext extends Record<string, any> = DefaultContext
 >(options: MutationOptions<TData, TVariables, TContext>): Promise<MutationResult<TData>> {
-	let result = (await client.mutate<TData, TVariables, TContext, TCache>({ errorPolicy: 'all', ...options })) as {
+	const result = (await client.mutate<TData, TVariables, TContext>({ errorPolicy: 'all', ...options })) as {
 		data: MaybeMasked<TData>;
 		errors: Error[] | undefined;
 		extensions: { [key: string]: any };
@@ -68,11 +67,36 @@ export async function mutate<
 	setSessionToken(sessionToken);
 	setRefreshToken(refreshToken);
 
-	result = (await client.mutate<TData, TVariables, TContext, TCache>(options)) as {
+	return (await client.mutate<TData, TVariables, TContext>({ errorPolicy: 'all', ...options })) as {
 		data: MaybeMasked<TData>;
 		errors: Error[] | undefined;
 		extensions: { [key: string]: any };
 	};
+}
 
-	return result;
+export async function query<TData = any, TVariables extends OperationVariables = OperationVariables>(
+	options: QueryOptions<TVariables, TData>
+): Promise<{ data: MaybeMasked<TData>; errors: Error[] | undefined }> {
+	const result = (await client.query<TData, TVariables>({ errorPolicy: 'all', ...options })) as {
+		data: MaybeMasked<TData>;
+		errors: Error[] | undefined;
+	};
+
+	if (!result.errors?.length || result.errors[0].extensions?.code !== ErrCode.NotAuthenticated) {
+		return result;
+	}
+
+	const oldRefreshToken = getRefreshToken();
+	if (!oldRefreshToken) {
+		return result;
+	}
+
+	const { sessionToken, refreshToken } = await refreshSession(client, oldRefreshToken);
+	setSessionToken(sessionToken);
+	setRefreshToken(refreshToken);
+
+	return (await client.query<TData, TVariables>({ errorPolicy: 'all', ...options })) as {
+		data: MaybeMasked<TData>;
+		errors: Error[] | undefined;
+	};
 }
