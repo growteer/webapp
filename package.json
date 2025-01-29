@@ -3,16 +3,17 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"dev": "vite dev",
 		"build": "vite build",
-		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"clean": "rm -rf .svelte-kit && rm -rf node_modules && rm -rf build",
+		"dev": "vite dev",
 		"format": "prettier --write .",
+		"gen": "graphql-codegen && pnpm format",
 		"lint": "prettier --check . && eslint .",
-		"test:unit": "vitest",
+		"preview": "vite preview",
 		"test": "npm run test:unit -- --run",
-		"gen": "graphql-codegen && pnpm format"
+		"test:unit": "vitest"
 	},
 	"devDependencies": {
 		"@apollo/client": "^3.12.4",
