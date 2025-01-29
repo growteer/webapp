@@ -1,7 +1,7 @@
 <script lang="ts">
 	interface Props {
 		label: string;
-		type: 'text' | 'date' | 'email';
+		type: 'text' | 'date' | 'email' | 'textarea';
 		required?: boolean;
 		value?: string | number | Date;
 	}
@@ -12,5 +12,9 @@
 
 <label class="label">
 	<span class="label-text">{label}</span>
-	<input class="input" {type} bind:value {required} />
+	{#if type === 'textarea'}
+		<textarea class="textarea" rows="4" bind:value {required}></textarea>
+	{:else}
+		<input class="input" {type} bind:value {required} />
+	{/if}
 </label>
