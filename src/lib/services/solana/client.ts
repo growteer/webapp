@@ -11,7 +11,7 @@ export class SolanaClient {
 
 	async getDIDPKH() {
 		const address = await this.getAddress();
-		return `did:pkh:sol:${address}`;
+		return `did:pkh:solana:${address}`;
 	}
 
 	async getAddress() {
