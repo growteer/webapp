@@ -2,8 +2,8 @@
 	import '../app.css';
 	import type { LayoutData } from './$types';
 	import { ToastProvider } from '@skeletonlabs/skeleton-svelte';
-	import { setIsAuthenticatedContext, setUserInfoContext } from '$lib/contexts';
 	import { Navbar } from '$lib/features/navbar/';
+	import { setIsAuthenticatedContext, setUserInfoContext } from '$lib/contexts';
 
 	interface Props {
 		data: LayoutData;

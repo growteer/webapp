@@ -11,8 +11,8 @@ export function getUserInfoContext() {
 	return getContext<Writable<Partial<UserInfo>>>(ContextKey.UserInfo);
 }
 
-export function setUserInfoContext(userInfo: Partial<UserInfo>) {
-	return setContext<Partial<UserInfo>>(ContextKey.UserInfo, userInfo);
+export function setUserInfoContext(userInfo?: Partial<UserInfo>) {
+	return setContext<Partial<UserInfo> | undefined>(ContextKey.UserInfo, userInfo);
 }
 
 export function getIsAuthenticatedContext() {
