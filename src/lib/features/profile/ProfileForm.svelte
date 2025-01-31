@@ -1,9 +1,9 @@
 <script lang="ts">
 	import Input from '$lib/components/input/input.svelte';
 	import type { ToastContext } from '@skeletonlabs/skeleton-svelte';
-	import { type FormData } from './schema';
+	import { toProfileUpdate, type FormData } from './schema';
 	import { getContext } from 'svelte';
-	import type { UserProfile } from '$lib/api/generated/types';
+	import { updateUserProfile } from './mutation.gql';
 
 	export const toast: ToastContext = getContext<ToastContext>('toast');
 
@@ -20,30 +20,10 @@
 	async function save() {
 		submitting = true;
 
-		const { firstname, lastname, dateOfBirth, primaryEmail, country, city, postalCode, website, personalGoal, about } =
-			formData;
-
-		const profile: UserProfile = {
-			firstname,
-			lastname,
-			dateOfBirth: new Date(dateOfBirth).toISOString(),
-			primaryEmail,
-			location: {
-				country
-			},
-			website,
-			personalGoal,
-			about
-		};
-
-		if (city) profile.location.city = city;
-		if (postalCode) profile.location.postalCode = postalCode;
-		if (website) profile.website = website;
-		if (personalGoal) profile.personalGoal = personalGoal;
-		if (about) profile.about = about;
+		const profile = toProfileUpdate(formData);
 
 		try {
-			//await updateProfile(profile);
+			await updateUserProfile(profile);
 			unsavedData = false;
 		} catch (err) {
 			toast.create({
@@ -51,6 +31,11 @@
 				type: 'error'
 			});
 		}
+
+		toast.create({
+			description: 'Profile updated successfully',
+			type: 'success'
+		});
 
 		submitting = false;
 	}

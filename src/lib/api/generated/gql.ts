@@ -16,6 +16,8 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
 const documents = {
 	'\n\tmutation Refresh($refreshToken: String!) {\n\t\trefresh(input: { refreshToken: $refreshToken }) {\n\t\t\tsessionToken\n\t\t\trefreshToken\n\t\t}\n\t}\n':
 		types.RefreshDocument,
+	'\n\tmutation UpdateUserProfile($input: ProfileUpdate!) {\n\t\tupdateProfile(input: $input) {\n\t\t\tfirstname\n\t\t\tlastname\n\t\t\tdateOfBirth\n\t\t\tprimaryEmail\n\t\t\tlocation {\n\t\t\t\tcountry\n\t\t\t\tpostalCode\n\t\t\t\tcity\n\t\t\t}\n\t\t\twebsite\n\t\t\tpersonalGoal\n\t\t\tabout\n\t\t}\n\t}\n':
+		types.UpdateUserProfileDocument,
 	'\n\tmutation GenerateNonce($address: String!) {\n\t\tgenerateNonce(input: { address: $address }) {\n\t\t\tnonce\n\t\t}\n\t}\n':
 		types.GenerateNonceDocument,
 	'\n\tmutation Login($address: String!, $message: String!, $signature: String!) {\n\t\tlogin(input: { address: $address, message: $message, signature: $signature }) {\n\t\t\tsessionToken\n\t\t\trefreshToken\n\t\t}\n\t}\n':
@@ -44,6 +46,12 @@ export function gql(source: string): unknown;
 export function gql(
 	source: '\n\tmutation Refresh($refreshToken: String!) {\n\t\trefresh(input: { refreshToken: $refreshToken }) {\n\t\t\tsessionToken\n\t\t\trefreshToken\n\t\t}\n\t}\n'
 ): (typeof documents)['\n\tmutation Refresh($refreshToken: String!) {\n\t\trefresh(input: { refreshToken: $refreshToken }) {\n\t\t\tsessionToken\n\t\t\trefreshToken\n\t\t}\n\t}\n'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+	source: '\n\tmutation UpdateUserProfile($input: ProfileUpdate!) {\n\t\tupdateProfile(input: $input) {\n\t\t\tfirstname\n\t\t\tlastname\n\t\t\tdateOfBirth\n\t\t\tprimaryEmail\n\t\t\tlocation {\n\t\t\t\tcountry\n\t\t\t\tpostalCode\n\t\t\t\tcity\n\t\t\t}\n\t\t\twebsite\n\t\t\tpersonalGoal\n\t\t\tabout\n\t\t}\n\t}\n'
+): (typeof documents)['\n\tmutation UpdateUserProfile($input: ProfileUpdate!) {\n\t\tupdateProfile(input: $input) {\n\t\t\tfirstname\n\t\t\tlastname\n\t\t\tdateOfBirth\n\t\t\tprimaryEmail\n\t\t\tlocation {\n\t\t\t\tcountry\n\t\t\t\tpostalCode\n\t\t\t\tcity\n\t\t\t}\n\t\t\twebsite\n\t\t\tpersonalGoal\n\t\t\tabout\n\t\t}\n\t}\n'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

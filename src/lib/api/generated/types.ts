@@ -56,6 +56,7 @@ export type Mutation = {
 	login: AuthResult;
 	refresh: AuthResult;
 	signup: UserProfile;
+	updateProfile: UserProfile;
 };
 
 export type MutationGenerateNonceArgs = {
@@ -74,6 +75,10 @@ export type MutationSignupArgs = {
 	input: SignupInput;
 };
 
+export type MutationUpdateProfileArgs = {
+	input: ProfileUpdate;
+};
+
 export type NonceInput = {
 	address: Scalars['String']['input'];
 };
@@ -81,6 +86,19 @@ export type NonceInput = {
 export type NonceResult = {
 	__typename?: 'NonceResult';
 	nonce: Scalars['String']['output'];
+};
+
+export type ProfileUpdate = {
+	about?: InputMaybe<Scalars['String']['input']>;
+	city?: InputMaybe<Scalars['String']['input']>;
+	country: Scalars['String']['input'];
+	dateOfBirth: Scalars['String']['input'];
+	firstname: Scalars['String']['input'];
+	lastname: Scalars['String']['input'];
+	personalGoal?: InputMaybe<Scalars['String']['input']>;
+	postalCode?: InputMaybe<Scalars['String']['input']>;
+	primaryEmail: Scalars['String']['input'];
+	website?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Query = {
@@ -126,6 +144,25 @@ export type RefreshMutationVariables = Exact<{
 export type RefreshMutation = {
 	__typename?: 'Mutation';
 	refresh: { __typename?: 'AuthResult'; sessionToken: string; refreshToken: string };
+};
+
+export type UpdateUserProfileMutationVariables = Exact<{
+	input: ProfileUpdate;
+}>;
+
+export type UpdateUserProfileMutation = {
+	__typename?: 'Mutation';
+	updateProfile: {
+		__typename?: 'UserProfile';
+		firstname: string;
+		lastname: string;
+		dateOfBirth: string;
+		primaryEmail: string;
+		website?: string | null;
+		personalGoal?: string | null;
+		about?: string | null;
+		location: { __typename?: 'Location'; country: string; postalCode?: string | null; city?: string | null };
+	};
 };
 
 export type GenerateNonceMutationVariables = Exact<{

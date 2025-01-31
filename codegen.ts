@@ -1,7 +1,7 @@
 import { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
-	schema: 'http://localhost:8080/query',
+	schema: 'http://gt.localhost/query',
 	documents: ['src/lib/**/*.gql.ts'],
 	generates: {
 		'./src/lib/api/generated/': {
