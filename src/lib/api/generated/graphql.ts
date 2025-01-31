@@ -58,6 +58,7 @@ export type Mutation = {
 	login: AuthResult;
 	refresh: AuthResult;
 	signup: UserProfile;
+	updateProfile: UserProfile;
 };
 
 export type MutationGenerateNonceArgs = {
@@ -76,6 +77,10 @@ export type MutationSignupArgs = {
 	input: SignupInput;
 };
 
+export type MutationUpdateProfileArgs = {
+	input: ProfileUpdate;
+};
+
 export type NonceInput = {
 	address: Scalars['String']['input'];
 };
@@ -83,6 +88,19 @@ export type NonceInput = {
 export type NonceResult = {
 	__typename?: 'NonceResult';
 	nonce: Scalars['String']['output'];
+};
+
+export type ProfileUpdate = {
+	about?: InputMaybe<Scalars['String']['input']>;
+	city?: InputMaybe<Scalars['String']['input']>;
+	country: Scalars['String']['input'];
+	dateOfBirth: Scalars['String']['input'];
+	firstname: Scalars['String']['input'];
+	lastname: Scalars['String']['input'];
+	personalGoal?: InputMaybe<Scalars['String']['input']>;
+	postalCode?: InputMaybe<Scalars['String']['input']>;
+	primaryEmail: Scalars['String']['input'];
+	website?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Query = {
@@ -128,6 +146,25 @@ export type RefreshMutationVariables = Exact<{
 export type RefreshMutation = {
 	__typename?: 'Mutation';
 	refresh: { __typename?: 'AuthResult'; sessionToken: string; refreshToken: string };
+};
+
+export type UpdateUserProfileMutationVariables = Exact<{
+	input: ProfileUpdate;
+}>;
+
+export type UpdateUserProfileMutation = {
+	__typename?: 'Mutation';
+	updateProfile: {
+		__typename?: 'UserProfile';
+		firstname: string;
+		lastname: string;
+		dateOfBirth: string;
+		primaryEmail: string;
+		website?: string | null;
+		personalGoal?: string | null;
+		about?: string | null;
+		location: { __typename?: 'Location'; country: string; postalCode?: string | null; city?: string | null };
+	};
 };
 
 export type GenerateNonceMutationVariables = Exact<{
@@ -208,6 +245,63 @@ export const RefreshDocument = {
 		}
 	]
 } as unknown as DocumentNode<RefreshMutation, RefreshMutationVariables>;
+export const UpdateUserProfileDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'UpdateUserProfile' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+					type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ProfileUpdate' } } }
+				}
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'updateProfile' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'input' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'dateOfBirth' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'primaryEmail' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'location' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'country' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'city' } }
+										]
+									}
+								},
+								{ kind: 'Field', name: { kind: 'Name', value: 'website' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'personalGoal' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'about' } }
+							]
+						}
+					}
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<UpdateUserProfileMutation, UpdateUserProfileMutationVariables>;
 export const GenerateNonceDocument = {
 	kind: 'Document',
 	definitions: [
