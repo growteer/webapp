@@ -24,6 +24,16 @@ export default defineConfig({
 
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}'],
-		environment: 'jsdom'
+		environment: 'happy-dom',
+		outputFile: 'reports/junit-report.xml',
+		reporters: ['default', 'junit'],
+		coverage: {
+			all: true,
+			enabled: true,
+			exclude: ['src/**/*.{config,d,spec,test}.{js,ts}', '**/generated/**/*'],
+			provider: 'v8',
+			reporter: ['lcov', 'text'],
+			reportsDirectory: 'reports/coverage'
+		}
 	}
 });
