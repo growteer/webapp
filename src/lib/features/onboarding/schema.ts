@@ -1,6 +1,6 @@
 export interface FormData {
-	firstname: string;
-	lastname: string;
+	firstName: string;
+	lastName: string;
 	dateOfBirth: string;
 	primaryEmail: string;
 	country: string;

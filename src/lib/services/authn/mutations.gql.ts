@@ -6,15 +6,15 @@ import type {
 	GenerateNonceMutationVariables,
 	LoginMutation,
 	LoginMutationVariables,
-	SignupInput,
-	SignupMutation,
-	SignupMutationVariables
+	NewProfile,
+	OnboardMutation,
+	OnboardMutationVariables
 } from '$lib/api/generated/types';
 import { setRefreshToken, setSessionToken } from '$lib/storage/local';
 
 const GENERATE_NONCE = gql`
 	mutation GenerateNonce($address: String!) {
-		generateNonce(input: { address: $address }) {
+		generateNonce(address: $address) {
 			nonce
 		}
 	}
@@ -23,6 +23,9 @@ const GENERATE_NONCE = gql`
 const LOGIN = gql`
 	mutation Login($address: String!, $message: String!, $signature: String!) {
 		login(input: { address: $address, message: $message, signature: $signature }) {
+			state {
+				isOnboarded
+			}
 			sessionToken
 			refreshToken
 		}
@@ -46,15 +49,13 @@ export const login = async (address: string, message: string, signature: string)
 		variables: { address, message, signature }
 	});
 
-	if (data?.login?.sessionToken) {
+	console.log('isOnboarded: ', data?.login.state.isOnboarded);
+
+	if (!errors?.length) {
 		setSessionToken(data.login.sessionToken);
 		setRefreshToken(data.login.refreshToken);
 
-		if (!errors?.[0]) return true;
-	}
-
-	if (errors?.[0].extensions?.code == ErrCode.UserNotSignedUp) {
-		return false;
+		return data.login.state.isOnboarded;
 	}
 
 	if (errors?.[0]?.extensions?.code === ErrCode.InvalidCredentials) {
@@ -64,18 +65,18 @@ export const login = async (address: string, message: string, signature: string)
 	throw new Error('Something went wrong!', { cause: errors });
 };
 
-const SIGNUP = gql`
-	mutation Signup($profile: SignupInput!) {
-		signup(input: $profile) {
-			firstname
-			lastname
+const ONBOARD = gql`
+	mutation Onboard($profile: NewProfile!) {
+		onboard(profile: $profile) {
+			firstName
+			lastName
 		}
 	}
 `;
 
-export const signup = async (profile: SignupInput) => {
-	const { data, errors } = await mutate<SignupMutation, SignupMutationVariables>({
-		mutation: SIGNUP,
+export const onboard = async (profile: NewProfile) => {
+	const { data, errors } = await mutate<OnboardMutation, OnboardMutationVariables>({
+		mutation: ONBOARD,
 		variables: { profile }
 	});
 
@@ -83,7 +84,7 @@ export const signup = async (profile: SignupInput) => {
 		throw new Error(errors?.[0]?.extensions?.code ?? ErrCode.InternalError);
 	}
 
-	const { firstname, lastname } = data.signup;
+	const { firstName, lastName } = data.onboard;
 
-	return { firstname, lastname };
+	return { firstName, lastName };
 };

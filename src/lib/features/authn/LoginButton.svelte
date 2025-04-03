@@ -11,7 +11,7 @@
 	const handleLogin = async () => {
 		try {
 			const loggedIn = await auth.login();
-			if (!loggedIn) return (window.location.href = '/signup');
+			if (!loggedIn) return (window.location.href = '/onboarding');
 		} catch (err) {
 			toast.create({
 				description: String(err),

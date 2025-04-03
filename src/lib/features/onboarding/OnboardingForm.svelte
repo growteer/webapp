@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import Input from '$lib/components/input/input.svelte';
-	import { signup } from '$lib/services/authn/mutations.gql';
+	import { onboard } from '$lib/services/authn/mutations.gql';
 	import { web3Auth } from '$lib/services/w3a/web3auth';
 	import { removeRefreshToken, removeSessionToken } from '$lib/storage/local';
 	import type { ToastContext } from '@skeletonlabs/skeleton-svelte';
 	import { type FormData } from './schema';
 	import { getContext } from 'svelte';
-	import type { SignupInput } from '$lib/api/generated/types';
+	import type { NewProfile } from '$lib/api/generated/types';
 
 	export const toast: ToastContext = getContext<ToastContext>('toast');
 
@@ -33,11 +33,11 @@
 	async function submit() {
 		submitting = true;
 
-		const { firstname, lastname, dateOfBirth, primaryEmail, country, city, postalCode, website } = formData;
+		const { firstName, lastName, dateOfBirth, primaryEmail, country, city, postalCode, website } = formData;
 
-		const profile: SignupInput = {
-			firstname,
-			lastname,
+		const profile: NewProfile = {
+			firstName,
+			lastName,
 			dateOfBirth,
 			primaryEmail,
 			country
@@ -48,7 +48,7 @@
 		if (website) profile.website = website;
 
 		try {
-			await signup(profile);
+			await onboard(profile);
 
 			return goto('/');
 		} catch (err) {
@@ -64,8 +64,8 @@
 <section class="mx-auto grid w-full max-w-md grid-cols-1">
 	<form id={formID} onsubmit={submit} class=" space-y-4">
 		<!-- mandatory-->
-		<Input label="Firs Name" type="text" bind:value={formData.firstname} required />
-		<Input label="Last Name" type="text" bind:value={formData.lastname} required />
+		<Input label="Firs Name" type="text" bind:value={formData.firstName} required />
+		<Input label="Last Name" type="text" bind:value={formData.lastName} required />
 		<Input label="Date of Birth" type="date" bind:value={formData.dateOfBirth} required />
 		<Input label="Email" type="email" bind:value={formData.primaryEmail} required />
 

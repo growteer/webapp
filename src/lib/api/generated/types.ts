@@ -14,12 +14,6 @@ export type Scalars = {
 	Float: { input: number; output: number };
 };
 
-export type AuthResult = {
-	__typename?: 'AuthResult';
-	refreshToken: Scalars['String']['output'];
-	sessionToken: Scalars['String']['output'];
-};
-
 export type Error = {
 	__typename?: 'Error';
 	extensions?: Maybe<ErrorExtensions>;
@@ -44,43 +38,58 @@ export type Location = {
 	postalCode?: Maybe<Scalars['String']['output']>;
 };
 
-export type LoginInput = {
+export type LoginDetails = {
 	address: Scalars['String']['input'];
 	message: Scalars['String']['input'];
 	signature: Scalars['String']['input'];
 };
 
+export type LoginResult = {
+	__typename?: 'LoginResult';
+	refreshToken: Scalars['String']['output'];
+	sessionToken: Scalars['String']['output'];
+	state: UserState;
+};
+
 export type Mutation = {
 	__typename?: 'Mutation';
+	_empty?: Maybe<Scalars['Boolean']['output']>;
 	generateNonce: NonceResult;
-	login: AuthResult;
-	refresh: AuthResult;
-	signup: UserProfile;
-	updateProfile: UserProfile;
+	login: LoginResult;
+	onboard: Profile;
+	refreshSession: RefreshResult;
+	updateProfile: Profile;
 };
 
 export type MutationGenerateNonceArgs = {
-	input: NonceInput;
+	address: Scalars['String']['input'];
 };
 
 export type MutationLoginArgs = {
-	input: LoginInput;
+	input: LoginDetails;
 };
 
-export type MutationRefreshArgs = {
-	input?: InputMaybe<RefreshInput>;
+export type MutationOnboardArgs = {
+	profile: NewProfile;
 };
 
-export type MutationSignupArgs = {
-	input: SignupInput;
+export type MutationRefreshSessionArgs = {
+	input: RefreshInput;
 };
 
 export type MutationUpdateProfileArgs = {
-	input: ProfileUpdate;
+	profile: UpdatedProfile;
 };
 
-export type NonceInput = {
-	address: Scalars['String']['input'];
+export type NewProfile = {
+	city?: InputMaybe<Scalars['String']['input']>;
+	country: Scalars['String']['input'];
+	dateOfBirth: Scalars['String']['input'];
+	firstName: Scalars['String']['input'];
+	lastName: Scalars['String']['input'];
+	postalCode?: InputMaybe<Scalars['String']['input']>;
+	primaryEmail: Scalars['String']['input'];
+	website?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type NonceResult = {
@@ -88,25 +97,25 @@ export type NonceResult = {
 	nonce: Scalars['String']['output'];
 };
 
-export type ProfileUpdate = {
-	about?: InputMaybe<Scalars['String']['input']>;
-	city?: InputMaybe<Scalars['String']['input']>;
-	country: Scalars['String']['input'];
-	dateOfBirth: Scalars['String']['input'];
-	firstname: Scalars['String']['input'];
-	lastname: Scalars['String']['input'];
-	personalGoal?: InputMaybe<Scalars['String']['input']>;
-	postalCode?: InputMaybe<Scalars['String']['input']>;
-	primaryEmail: Scalars['String']['input'];
-	website?: InputMaybe<Scalars['String']['input']>;
+export type Profile = {
+	__typename?: 'Profile';
+	about?: Maybe<Scalars['String']['output']>;
+	dateOfBirth: Scalars['String']['output'];
+	firstName: Scalars['String']['output'];
+	lastName: Scalars['String']['output'];
+	location: Location;
+	personalGoal?: Maybe<Scalars['String']['output']>;
+	primaryEmail: Scalars['String']['output'];
+	website?: Maybe<Scalars['String']['output']>;
 };
 
 export type Query = {
 	__typename?: 'Query';
-	userProfile: UserProfile;
+	_empty?: Maybe<Scalars['Boolean']['output']>;
+	profile: Profile;
 };
 
-export type QueryUserProfileArgs = {
+export type QueryProfileArgs = {
 	userDID: Scalars['String']['input'];
 };
 
@@ -114,27 +123,28 @@ export type RefreshInput = {
 	refreshToken: Scalars['String']['input'];
 };
 
-export type SignupInput = {
+export type RefreshResult = {
+	__typename?: 'RefreshResult';
+	refreshToken: Scalars['String']['output'];
+	sessionToken: Scalars['String']['output'];
+};
+
+export type UpdatedProfile = {
+	about?: InputMaybe<Scalars['String']['input']>;
 	city?: InputMaybe<Scalars['String']['input']>;
 	country: Scalars['String']['input'];
 	dateOfBirth: Scalars['String']['input'];
-	firstname: Scalars['String']['input'];
-	lastname: Scalars['String']['input'];
+	firstName: Scalars['String']['input'];
+	lastName: Scalars['String']['input'];
+	personalGoal?: InputMaybe<Scalars['String']['input']>;
 	postalCode?: InputMaybe<Scalars['String']['input']>;
 	primaryEmail: Scalars['String']['input'];
 	website?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type UserProfile = {
-	__typename?: 'UserProfile';
-	about?: Maybe<Scalars['String']['output']>;
-	dateOfBirth: Scalars['String']['output'];
-	firstname: Scalars['String']['output'];
-	lastname: Scalars['String']['output'];
-	location: Location;
-	personalGoal?: Maybe<Scalars['String']['output']>;
-	primaryEmail: Scalars['String']['output'];
-	website?: Maybe<Scalars['String']['output']>;
+export type UserState = {
+	__typename?: 'UserState';
+	isOnboarded: Scalars['Boolean']['output'];
 };
 
 export type RefreshMutationVariables = Exact<{
@@ -143,19 +153,19 @@ export type RefreshMutationVariables = Exact<{
 
 export type RefreshMutation = {
 	__typename?: 'Mutation';
-	refresh: { __typename?: 'AuthResult'; sessionToken: string; refreshToken: string };
+	refreshSession: { __typename?: 'RefreshResult'; sessionToken: string; refreshToken: string };
 };
 
 export type UpdateUserProfileMutationVariables = Exact<{
-	input: ProfileUpdate;
+	profile: UpdatedProfile;
 }>;
 
 export type UpdateUserProfileMutation = {
 	__typename?: 'Mutation';
 	updateProfile: {
-		__typename?: 'UserProfile';
-		firstname: string;
-		lastname: string;
+		__typename?: 'Profile';
+		firstName: string;
+		lastName: string;
 		dateOfBirth: string;
 		primaryEmail: string;
 		website?: string | null;
@@ -182,14 +192,19 @@ export type LoginMutationVariables = Exact<{
 
 export type LoginMutation = {
 	__typename?: 'Mutation';
-	login: { __typename?: 'AuthResult'; sessionToken: string; refreshToken: string };
+	login: {
+		__typename?: 'LoginResult';
+		sessionToken: string;
+		refreshToken: string;
+		state: { __typename?: 'UserState'; isOnboarded: boolean };
+	};
 };
 
-export type SignupMutationVariables = Exact<{
-	profile: SignupInput;
+export type OnboardMutationVariables = Exact<{
+	profile: NewProfile;
 }>;
 
-export type SignupMutation = {
+export type OnboardMutation = {
 	__typename?: 'Mutation';
-	signup: { __typename?: 'UserProfile'; firstname: string; lastname: string };
+	onboard: { __typename?: 'Profile'; firstName: string; lastName: string };
 };
