@@ -1,8 +1,8 @@
-import type { ProfileUpdate, UserProfile } from '$lib/api/generated/types';
+import type { UpdatedProfile, Profile } from '$lib/api/generated/types';
 
 export interface FormData {
-	firstname: string;
-	lastname: string;
+	firstName: string;
+	lastName: string;
 	dateOfBirth: string;
 	primaryEmail: string;
 	country: string;
@@ -13,13 +13,13 @@ export interface FormData {
 	about?: string;
 }
 
-export function toProfileUpdate(data: FormData): ProfileUpdate {
-	const { firstname, lastname, dateOfBirth, primaryEmail, country, city, postalCode, website, personalGoal, about } =
+export function toUpdatedProfile(data: FormData): UpdatedProfile {
+	const { firstName, lastName, dateOfBirth, primaryEmail, country, city, postalCode, website, personalGoal, about } =
 		data;
 
-	const profile: ProfileUpdate = {
-		firstname,
-		lastname,
+	const profile: UpdatedProfile = {
+		firstName,
+		lastName,
 		dateOfBirth: new Date(dateOfBirth).toISOString().split('T')[0],
 		primaryEmail,
 		country
@@ -34,12 +34,12 @@ export function toProfileUpdate(data: FormData): ProfileUpdate {
 	return profile;
 }
 
-export function fromUserProfile(profile: UserProfile): FormData {
-	const { firstname, lastname, dateOfBirth, primaryEmail, location, website, personalGoal, about } = profile;
+export function fromUserProfile(profile: Profile): FormData {
+	const { firstName, lastName, dateOfBirth, primaryEmail, location, website, personalGoal, about } = profile;
 
 	const data: FormData = {
-		firstname,
-		lastname,
+		firstName,
+		lastName,
 		dateOfBirth: new Date(dateOfBirth).toISOString(),
 		primaryEmail,
 		country: location.country

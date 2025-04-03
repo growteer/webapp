@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Heading from '$lib/components/heading/heading.svelte';
-	import ProfileForm from '$lib/features/signup/SignupForm.svelte';
+	import OnboardingForm from '$lib/features/onboarding/OnboardingForm.svelte';
 	import type { PageData } from './$types';
 
 	interface Props {
@@ -8,15 +8,15 @@
 	}
 
 	let { data }: Props = $props();
-	let { firstname, lastname, user } = data;
+	let { firstName, lastName, user } = data;
 </script>
 
 <div>
 	<Heading type="h1">Sign Up For Full Access</Heading>
-	<ProfileForm
+	<OnboardingForm
 		formData={{
-			firstname,
-			lastname,
+			firstName,
+			lastName,
 			dateOfBirth: new Date().toISOString(),
 			primaryEmail: user?.email ?? '',
 			country: ''

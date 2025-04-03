@@ -1,7 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
-import { queryUserProfile } from './query.gql';
-import type { UserProfile } from '$lib/api/generated/types';
+import { queryProfile } from './query.gql';
+import type { Profile } from '$lib/api/generated/types';
 
 export const load: PageLoad = async ({ parent }) => {
 	const { did, isAuthenticated } = await parent();
@@ -10,10 +10,10 @@ export const load: PageLoad = async ({ parent }) => {
 		redirect(302, '/');
 	}
 
-	const profile = await queryUserProfile(did);
+	const profile = await queryProfile(did);
 	const dateOnly = new Date(profile.dateOfBirth).toISOString().split('T')[0];
 
-	const sanitizedProfile: UserProfile = {
+	const sanitizedProfile: Profile = {
 		...profile,
 		location: { ...profile.location },
 		dateOfBirth: dateOnly

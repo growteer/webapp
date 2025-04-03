@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Input from '$lib/components/input/input.svelte';
 	import type { ToastContext } from '@skeletonlabs/skeleton-svelte';
-	import { toProfileUpdate, type FormData } from './schema';
+	import { toUpdatedProfile, type FormData } from './schema';
 	import { getContext } from 'svelte';
 	import { updateUserProfile } from './mutation.gql';
 
@@ -20,7 +20,7 @@
 	async function save() {
 		submitting = true;
 
-		const profile = toProfileUpdate(formData);
+		const profile = toUpdatedProfile(formData);
 
 		try {
 			await updateUserProfile(profile);
@@ -44,8 +44,8 @@
 <section class="mx-auto grid w-full max-w-md grid-cols-1">
 	<form id={formID} onsubmit={save} onchange={() => (unsavedData = true)} class="space-y-4">
 		<!-- mandatory-->
-		<Input label="Firs Name" type="text" bind:value={formData.firstname} required />
-		<Input label="Last Name" type="text" bind:value={formData.lastname} required />
+		<Input label="Firs Name" type="text" bind:value={formData.firstName} required />
+		<Input label="Last Name" type="text" bind:value={formData.lastName} required />
 		<Input label="Date of Birth" type="date" bind:value={formData.dateOfBirth} required />
 		<Input label="Email" type="email" bind:value={formData.primaryEmail} required />
 

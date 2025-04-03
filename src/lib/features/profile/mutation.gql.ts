@@ -1,17 +1,17 @@
 import { mutate } from '$lib/api/client';
 import type {
 	MutationUpdateProfileArgs,
-	ProfileUpdate,
+	UpdatedProfile,
 	UpdateUserProfileMutation,
-	UserProfile
+	Profile
 } from '$lib/api/generated/types';
 import { gql } from '@apollo/client';
 
 const UPDATE_USER_PROFILE = gql`
-	mutation UpdateUserProfile($input: ProfileUpdate!) {
-		updateProfile(input: $input) {
-			firstname
-			lastname
+	mutation UpdateUserProfile($profile: UpdatedProfile!) {
+		updateProfile(profile: $profile) {
+			firstName
+			lastName
 			dateOfBirth
 			primaryEmail
 			location {
@@ -26,13 +26,13 @@ const UPDATE_USER_PROFILE = gql`
 	}
 `;
 
-export const updateUserProfile = async (input: ProfileUpdate) => {
+export const updateUserProfile = async (profile: UpdatedProfile) => {
 	const { data, errors } = await mutate<UpdateUserProfileMutation, MutationUpdateProfileArgs>({
 		mutation: UPDATE_USER_PROFILE,
-		variables: { input }
+		variables: { profile }
 	});
 
 	if (!data && errors?.length) throw new Error(errors?.[0].extensions?.code ?? 'unknown error');
 
-	return data.updateProfile as UserProfile;
+	return data.updateProfile as Profile;
 };

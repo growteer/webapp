@@ -8,10 +8,10 @@ export const load: PageLoad = async ({ parent }) => {
 	}
 
 	const nameParts = user?.name?.split(' ');
-	if (!nameParts) return { firstname: '', lastname: '' };
+	if (!nameParts) return { firstName: '', lastName: '' };
 
-	const lastname = nameParts.pop() ?? '';
-	const firstname = nameParts.join(' ') ?? '';
+	const lastName = nameParts.pop() ?? '';
+	const firstName = nameParts.join(' ') ?? '';
 
-	return { firstname, lastname };
+	return { firstName, lastName };
 };

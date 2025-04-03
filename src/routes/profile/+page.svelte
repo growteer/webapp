@@ -15,8 +15,8 @@
 	<Heading type="h1">Update Your Profile</Heading>
 	<ProfileForm
 		formData={{
-			firstname: profile.firstname,
-			lastname: profile.lastname,
+			firstName: profile.firstName,
+			lastName: profile.lastName,
 			dateOfBirth: profile.dateOfBirth,
 			primaryEmail: profile.primaryEmail,
 			country: profile.location.country,
