@@ -49,8 +49,6 @@ export const login = async (address: string, message: string, signature: string)
 		variables: { address, message, signature }
 	});
 
-	console.log('isOnboarded: ', data?.login.state.isOnboarded);
-
 	if (!errors?.length) {
 		setSessionToken(data.login.sessionToken);
 		setRefreshToken(data.login.refreshToken);
