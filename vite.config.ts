@@ -19,6 +19,8 @@ export default defineConfig({
 		sveltekit()
 	],
 	test: {
+		outputFile: 'reports/test-results.xml',
+		reporters: ['default', 'junit'],
 		workspace: [
 			{
 				extends: './vite.config.ts',
@@ -30,6 +32,15 @@ export default defineConfig({
 					include: ['src/**/*.svelte.{test,spec}.{js,ts}'],
 					exclude: ['src/lib/server/**'],
 					setupFiles: ['./vitest-setup-client.ts']
+				}
+			},
+			{
+				extends: './vite.config.ts',
+				test: {
+					name: 'server',
+					environment: 'node',
+					include: ['src/**/*.{test,spec}.{js,ts}'],
+					exclude: ['src/**/*.svelte.{test,spec}.{js,ts}']
 				}
 			}
 		]
