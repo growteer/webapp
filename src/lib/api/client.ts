@@ -11,10 +11,16 @@ import {
 	type QueryOptions
 } from '@apollo/client';
 import { PUBLIC_API_URL } from '$env/static/public';
-import { getRefreshToken, getSessionToken, setRefreshToken, setSessionToken } from '$lib/storage/local';
+import {
+	getRefreshToken,
+	getSessionToken,
+	removeSessionToken,
+	setRefreshToken,
+	setSessionToken
+} from '$lib/storage/local';
 import { refreshSession } from './tokenRefresh.gql';
 import { ErrCode } from './error_codes';
-import type { Error } from './generated/types';
+import { ErrorType, type Error } from './generated/types';
 
 const getAuthorizationHeader = () => {
 	const sessionToken = getSessionToken();
@@ -58,6 +64,7 @@ export async function mutate<
 		return result;
 	}
 
+	removeSessionToken();
 	const oldRefreshToken = getRefreshToken();
 	if (!oldRefreshToken) {
 		return result;
@@ -82,7 +89,7 @@ export async function query<TData = any, TVariables extends OperationVariables =
 		errors: Error[] | undefined;
 	};
 
-	if (!result.errors?.length || result.errors[0].extensions?.code !== ErrCode.NotAuthenticated) {
+	if (!result.errors?.length || result.errors[0].extensions?.type !== ErrorType.Unauthenticated) {
 		return result;
 	}
 
