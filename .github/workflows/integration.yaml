@@ -58,7 +58,7 @@ jobs:
         uses: dorny/test-reporter@v1.9.1
         with:
           name: Unit & Integration Tests
-          path: reports/junit-report.xml
+          path: reports/test-results.xml
           reporter: java-junit
 
       - name: Build
