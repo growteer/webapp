@@ -1,5 +1,5 @@
 import { getContext, setContext } from 'svelte';
-import type { Writable } from 'svelte/store';
+import { writable, type Writable } from 'svelte/store';
 import type { UserInfo } from '@web3auth/base';
 
 export enum ContextKey {
@@ -12,7 +12,7 @@ export function getUserInfoContext() {
 }
 
 export function setUserInfoContext(userInfo?: Partial<UserInfo>) {
-	return setContext<Partial<UserInfo> | undefined>(ContextKey.UserInfo, userInfo);
+	return setContext<Writable<Partial<UserInfo> | undefined>>(ContextKey.UserInfo, writable(userInfo));
 }
 
 export function getIsAuthenticatedContext() {
@@ -20,5 +20,5 @@ export function getIsAuthenticatedContext() {
 }
 
 export function setIsAuthenticatedContext(isAuthenticated: boolean) {
-	return setContext<boolean>(ContextKey.IsAuthenticated, isAuthenticated);
+	return setContext<Writable<boolean>>(ContextKey.IsAuthenticated, writable(isAuthenticated));
 }

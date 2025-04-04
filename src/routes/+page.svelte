@@ -4,7 +4,6 @@
 
 	interface Props {
 		data: PageData;
-		children?: import('svelte').Snippet;
 	}
 
 	let { data }: Props = $props();

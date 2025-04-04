@@ -3,6 +3,8 @@
 	import { Menu, House, UserRoundPen } from 'lucide-svelte';
 	import { LoginButton, LogoutButton } from '$lib/features/authn';
 	import { getIsAuthenticatedContext } from '$lib/contexts';
+
+	const isAuthenticated = getIsAuthenticatedContext();
 </script>
 
 <Navigation.Rail background="bg-surface-300">
@@ -13,14 +15,14 @@
 		<Navigation.Tile id="0" label="Home" href="/">
 			<House />
 		</Navigation.Tile>
-		{#if getIsAuthenticatedContext()}
+		{#if $isAuthenticated}
 			<Navigation.Tile id="1" label="Profile" href="/profile">
 				<UserRoundPen />
 			</Navigation.Tile>
 		{/if}
 	{/snippet}
 	{#snippet footer()}
-		{#if getIsAuthenticatedContext()}
+		{#if $isAuthenticated}
 			<LogoutButton />
 		{:else}
 			<LoginButton />
