@@ -1,11 +1,10 @@
 <script lang="ts">
 	import Input from '$lib/components/input/input.svelte';
-	import type { ToastContext } from '@skeletonlabs/skeleton-svelte';
+	import { createToaster } from '@skeletonlabs/skeleton-svelte';
 	import { toUpdatedProfile, type FormData } from './schema';
-	import { getContext } from 'svelte';
 	import { updateUserProfile } from './mutation.gql';
 
-	export const toast: ToastContext = getContext<ToastContext>('toast');
+	export const toaster = createToaster();
 
 	interface Props {
 		formData: FormData;
@@ -26,16 +25,10 @@
 			await updateUserProfile(profile);
 			unsavedData = false;
 		} catch (err) {
-			toast.create({
-				description: String(err),
-				type: 'error'
-			});
+			toaster.error({ description: String(err) });
 		}
 
-		toast.create({
-			description: 'Profile updated successfully',
-			type: 'success'
-		});
+		toaster.success({ description: 'Profile updated successfully' });
 
 		submitting = false;
 	}
@@ -62,7 +55,7 @@
 		<button
 			type="submit"
 			form={formID}
-			class="btn gap-2 preset-filled-secondary-500"
+			class="btn preset-filled-secondary-500 gap-2"
 			disabled={submitting || !unsavedData}
 		>
 			Save

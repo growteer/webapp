@@ -4,12 +4,9 @@
 	import { onboard } from '$lib/services/authn/mutations.gql';
 	import { web3Auth } from '$lib/services/w3a/web3auth';
 	import { removeRefreshToken, removeSessionToken } from '$lib/storage/local';
-	import type { ToastContext } from '@skeletonlabs/skeleton-svelte';
 	import { type FormData } from './schema';
-	import { getContext } from 'svelte';
 	import type { NewProfile } from '$lib/api/generated/types';
-
-	export const toast: ToastContext = getContext<ToastContext>('toast');
+	import { toastError } from '$lib/features/toast';
 
 	interface Props {
 		formData: FormData;
@@ -53,10 +50,7 @@
 			return goto('/');
 		} catch (err) {
 			submitting = false;
-			toast.create({
-				description: String(err),
-				type: 'error'
-			});
+			toastError(String(err));
 		}
 	}
 </script>
@@ -76,9 +70,9 @@
 		<Input label="Website" type="text" bind:value={formData.website} />
 	</form>
 	<footer class="my-8 grid grid-cols-2 place-content-center gap-4">
-		<button type="submit" form={formID} class="btn gap-2 preset-filled-secondary-500" disabled={submitting}>
+		<button type="submit" form={formID} class="btn preset-filled-secondary-500 gap-2" disabled={submitting}>
 			Sign up
 		</button>
-		<button type="button" class="btn gap-2 preset-outlined-surface-500" onclick={cancel}>Cancel</button>
+		<button type="button" class="btn preset-outlined-surface-500 gap-2" onclick={cancel}>Cancel</button>
 	</footer>
 </section>
