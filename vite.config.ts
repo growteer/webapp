@@ -1,39 +1,24 @@
-import { defineConfig } from 'vitest/config';
-import { nodePolyfills } from 'vite-plugin-node-polyfills';
+import tailwindcss from '@tailwindcss/vite';
+import { svelteTesting } from '@testing-library/svelte/vite';
 import { sveltekit } from '@sveltejs/kit/vite';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
-	plugins: [
-		nodePolyfills({
-			exclude: ['fs'],
-			globals: {
-				Buffer: true,
-				global: true,
-				process: true
-			},
-			protocolImports: true
-		}),
-		sveltekit()
-	],
-
-	resolve: {
-		alias: {
-			'@apollo/client': '@apollo/client/core/index.js'
-		}
-	},
-
+	plugins: [tailwindcss(), sveltekit()],
 	test: {
-		include: ['src/**/*.{test,spec}.{js,ts}'],
-		environment: 'happy-dom',
-		outputFile: 'reports/junit-report.xml',
-		reporters: ['default', 'junit'],
-		coverage: {
-			all: true,
-			enabled: true,
-			exclude: ['src/**/*.{config,d,spec,test}.{js,ts}', '**/generated/**/*'],
-			provider: 'v8',
-			reporter: ['lcov', 'text'],
-			reportsDirectory: 'reports/coverage'
-		}
+		workspace: [
+			{
+				extends: './vite.config.ts',
+				plugins: [svelteTesting()],
+				test: {
+					name: 'client',
+					environment: 'jsdom',
+					clearMocks: true,
+					include: ['src/**/*.svelte.{test,spec}.{js,ts}'],
+					exclude: ['src/lib/server/**'],
+					setupFiles: ['./vitest-setup-client.ts']
+				}
+			}
+		]
 	}
 });
