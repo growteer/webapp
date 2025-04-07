@@ -3,7 +3,7 @@
 		label: string;
 		type: 'text' | 'date' | 'email' | 'textarea';
 		required?: boolean;
-		value?: string | number | Date;
+		value?: string | number | Date | null;
 	}
 
 	let { label, required = false, type, value = $bindable() }: Props = $props();
