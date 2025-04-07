@@ -16,34 +16,26 @@ export default defineConfig({
 			protocolImports: true
 		}),
 		tailwindcss(),
+		svelteTesting(),
 		sveltekit()
 	],
 	test: {
+		globals: true,
 		outputFile: 'reports/test-results.xml',
 		reporters: ['default', 'junit'],
-		workspace: [
-			{
-				extends: './vite.config.ts',
-				plugins: [svelteTesting()],
-				test: {
-					name: 'client',
-					environment: 'jsdom',
-					clearMocks: true,
-					include: ['src/**/*.svelte.{test,spec}.{js,ts}'],
-					exclude: ['src/lib/server/**'],
-					setupFiles: ['./vitest-setup-client.ts']
-				}
-			},
-			{
-				extends: './vite.config.ts',
-				test: {
-					name: 'server',
-					environment: 'node',
-					include: ['src/**/*.{test,spec}.{js,ts}'],
-					exclude: ['src/**/*.svelte.{test,spec}.{js,ts}']
-				}
-			}
-		]
+		coverage: {
+			all: true,
+			enabled: true,
+			include: ['src/**/*.{js,ts,svelte}'],
+			exclude: ['src/**/generated/**/*'],
+			provider: 'v8',
+			reporter: ['text', 'lcov'],
+			reportsDirectory: 'reports/coverage'
+		},
+		environment: 'happy-dom',
+		clearMocks: true,
+		include: ['src/**/*.test.ts'],
+		setupFiles: ['./vitest-setup-client.ts']
 	},
 	resolve: {
 		alias: {

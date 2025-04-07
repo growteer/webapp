@@ -1,16 +1,15 @@
 <script lang="ts">
 	import Input from '$lib/components/input/input.svelte';
-	import { createToaster } from '@skeletonlabs/skeleton-svelte';
-	import { toUpdatedProfile, type FormData } from './schema';
+	import { toUpdatedProfile } from './schema';
 	import { updateUserProfile } from './mutation.gql';
-
-	export const toaster = createToaster();
+	import { toastError, toastSuccess } from '../toast';
+	import type { Profile } from '$lib/api/generated/types';
 
 	interface Props {
-		formData: FormData;
+		profileData: Profile;
 	}
 
-	let { formData = $bindable() }: Props = $props();
+	let { profileData = $bindable() }: Props = $props();
 
 	const formID = 'form-profile';
 	let submitting = $state(false);
@@ -19,16 +18,16 @@
 	async function save() {
 		submitting = true;
 
-		const profile = toUpdatedProfile(formData);
+		const updatedProfile = toUpdatedProfile(profileData);
 
 		try {
-			await updateUserProfile(profile);
+			await updateUserProfile(updatedProfile);
 			unsavedData = false;
 		} catch (err) {
-			toaster.error({ description: String(err) });
+			toastError(String(err));
 		}
 
-		toaster.success({ description: 'Profile updated successfully' });
+		toastSuccess('Profile updated successfully');
 
 		submitting = false;
 	}
@@ -37,19 +36,19 @@
 <section class="mx-auto grid w-full max-w-md grid-cols-1">
 	<form id={formID} onsubmit={save} onchange={() => (unsavedData = true)} class="space-y-4">
 		<!-- mandatory-->
-		<Input label="Firs Name" type="text" bind:value={formData.firstName} required />
-		<Input label="Last Name" type="text" bind:value={formData.lastName} required />
-		<Input label="Date of Birth" type="date" bind:value={formData.dateOfBirth} required />
-		<Input label="Email" type="email" bind:value={formData.primaryEmail} required />
+		<Input label="First Name" type="text" bind:value={profileData.firstName} required />
+		<Input label="Last Name" type="text" bind:value={profileData.lastName} required />
+		<Input label="Date of Birth" type="date" bind:value={profileData.dateOfBirth} required />
+		<Input label="Email" type="email" bind:value={profileData.primaryEmail} required />
 
 		<!-- optional -->
-		<Input label="Country" type="text" bind:value={formData.country} />
-		<Input label="Postal Code" type="text" bind:value={formData.postalCode} />
-		<Input label="City" type="text" bind:value={formData.city} />
-		<Input label="Website" type="text" bind:value={formData.website} />
+		<Input label="Country" type="text" bind:value={profileData.location.country} />
+		<Input label="Postal Code" type="text" bind:value={profileData.location.postalCode} />
+		<Input label="City" type="text" bind:value={profileData.location.city} />
+		<Input label="Website" type="text" bind:value={profileData.website} />
 
-		<Input label="Personal Goal" type="text" bind:value={formData.personalGoal} />
-		<Input label="About Me" type="textarea" bind:value={formData.about} />
+		<Input label="Personal Goal" type="text" bind:value={profileData.personalGoal} />
+		<Input label="About Me" type="textarea" bind:value={profileData.about} />
 	</form>
 	<footer class="my-8 grid grid-cols-2 place-content-center gap-4">
 		<button

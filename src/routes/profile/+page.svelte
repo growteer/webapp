@@ -14,14 +14,16 @@
 <div>
 	<Heading type="h1">Update Your Profile</Heading>
 	<ProfileForm
-		formData={{
+		profileData={{
 			firstName: profile.firstName,
 			lastName: profile.lastName,
 			dateOfBirth: profile.dateOfBirth,
 			primaryEmail: profile.primaryEmail,
-			country: profile.location.country,
-			postalCode: profile.location.postalCode ?? '',
-			city: profile.location.city ?? '',
+			location: {
+				country: profile.location.country,
+				postalCode: profile.location.postalCode ?? '',
+				city: profile.location.city ?? ''
+			},
 			website: profile.website ?? '',
 			personalGoal: profile.personalGoal ?? '',
 			about: profile.about ?? ''
