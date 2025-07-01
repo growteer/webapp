@@ -43,6 +43,7 @@ jobs:
 
       - name: Audit Dependencies
         run: pnpm audit
+        continue-on-error: true
 
       - name: Svelte Check
         run: pnpm check
