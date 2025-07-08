@@ -30,6 +30,13 @@ applyTo: '**'
 
 - Follow the [Svelte Style Guide](https://svelte.dev/docs#style-guide)
 
+## Test Conventions
+
+- Write component tests from a user perspective
+- Prefer using `@testing-library/svelte` for component testing
+- Prefer user-event for simulating user interactions over `fireEvent`
+- Place tests next to the files they test (e.g., `ComponentName.test.ts`)
+
 ## Naming Conventions
 
 - Use PascalCase for component names, interfaces, and type aliases
@@ -44,12 +51,6 @@ applyTo: '**'
 - Organize files by feature or module rather than type
 - Use index files to simplify imports
 - Maintain a consistent file naming convention (e.g., `ComponentName.svelte`)
-- Place tests next to the files they test (e.g., `ComponentName.test.svelte`)
-
-## Comments and Documentation
-
-- Write clear, concise comments explaining complex logic
-- Avoid redundant comments; code should be self-explanatory
 
 ## Error Handling
 
