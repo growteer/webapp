@@ -58,7 +58,7 @@
 <section class="mx-auto grid w-full max-w-md grid-cols-1">
 	<form id={formID} onsubmit={submit} class=" space-y-4">
 		<!-- mandatory-->
-		<Input label="Firs Name" type="text" bind:value={formData.firstName} required />
+		<Input label="First Name" type="text" bind:value={formData.firstName} required />
 		<Input label="Last Name" type="text" bind:value={formData.lastName} required />
 		<Input label="Date of Birth" type="date" bind:value={formData.dateOfBirth} required />
 		<Input label="Email" type="email" bind:value={formData.primaryEmail} required />
