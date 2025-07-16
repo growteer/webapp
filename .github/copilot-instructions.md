@@ -1,5 +1,5 @@
 ---
-applyTo: '**'
+applyTo: "**"
 ---
 
 # Project general coding standards
@@ -15,9 +15,10 @@ applyTo: '**'
 
 ## Technology Stack
 
-- Use Svelte for UI components
-- Use TypeScript for type safety and better tooling
-- Use Flowbite for UI components and styles
+- Use SvelteKit as framework
+- Use Svelte 5 with DaisyUI for components
+- Use TypeScript for type safety
+- Use DaisyUI for UI components and styles
 - Use Tailwindcss v4 for additional styling
 - Use Vite as the build tool
 - Use Vitest for testing
@@ -36,6 +37,8 @@ applyTo: '**'
 - Prefer using `@testing-library/svelte` for component testing
 - Prefer user-event for simulating user interactions over `fireEvent`
 - Place tests next to the files they test (e.g., `ComponentName.test.ts`)
+- Production code should not be extended with test-specific code
+- Use MSW.js for mocking API calls in tests
 
 ## Naming Conventions
 

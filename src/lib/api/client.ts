@@ -1,4 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { PUBLIC_API_URL } from '$env/static/public';
+import {
+	getRefreshToken,
+	getSessionToken,
+	removeSessionToken,
+	setRefreshToken,
+	setSessionToken
+} from '$lib/storage/local';
 import {
 	ApolloClient,
 	ApolloLink,
@@ -10,17 +18,8 @@ import {
 	type OperationVariables,
 	type QueryOptions
 } from '@apollo/client';
-import { PUBLIC_API_URL } from '$env/static/public';
-import {
-	getRefreshToken,
-	getSessionToken,
-	removeSessionToken,
-	setRefreshToken,
-	setSessionToken
-} from '$lib/storage/local';
-import { refreshSession } from './tokenRefresh.gql';
-import { ErrCode } from './error_codes';
 import { ErrorType, type Error } from './generated/types';
+import { refreshSession } from './tokenRefresh.gql';
 
 const getAuthorizationHeader = () => {
 	const sessionToken = getSessionToken();
@@ -60,7 +59,7 @@ export async function mutate<
 		extensions: { [key: string]: any };
 	};
 
-	if (!result.errors?.length || result.errors[0].extensions?.code !== ErrCode.NotAuthenticated) {
+	if (!result.errors?.length || result.errors[0].extensions?.type !== ErrorType.Unauthenticated) {
 		return result;
 	}
 
