@@ -38,9 +38,6 @@ export default defineConfig({
 		setupFiles: ['./vitest-setup-client.ts']
 	},
 	resolve: {
-		conditions: ['browser'],
-		alias: {
-			'@apollo/client': '@apollo/client/core/index.js'
-		}
+		conditions: ['browser']
 	}
 });
