@@ -1,0 +1,348 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "dev",
+			"type": "shell",
+			"command": "pnpm",
+			"args": ["dev"],
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false,
+				"group": "webapp"
+			},
+			"isBackground": true,
+			"problemMatcher": {
+				"owner": "vite",
+				"pattern": {
+					"regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+					"file": 1,
+					"line": 2,
+					"column": 3,
+					"severity": 4,
+					"message": 5
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "^\\s*Local:",
+					"endsPattern": "^\\s*ready in"
+				}
+			},
+			"runOptions": {
+				"instanceLimit": 1
+			}
+		},
+		{
+			"label": "build",
+			"type": "shell",
+			"command": "pnpm",
+			"args": ["build"],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false,
+				"group": "webapp"
+			},
+			"problemMatcher": [
+				"$tsc",
+				{
+					"owner": "vite",
+					"pattern": {
+						"regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+						"file": 1,
+						"line": 2,
+						"column": 3,
+						"severity": 4,
+						"message": 5
+					}
+				}
+			]
+		},
+		{
+			"label": "test",
+			"type": "shell",
+			"command": "pnpm",
+			"args": ["test"],
+			"group": {
+				"kind": "test",
+				"isDefault": true
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false,
+				"group": "tests"
+			},
+			"problemMatcher": {
+				"owner": "vitest",
+				"pattern": [
+					{
+						"regexp": "^\\s*FAIL\\s+(.*)$",
+						"file": 1
+					},
+					{
+						"regexp": "^\\s*(.*):(\\d+):(\\d+)$",
+						"file": 1,
+						"line": 2,
+						"column": 3,
+						"loop": true
+					}
+				]
+			}
+		},
+		{
+			"label": "test:watch",
+			"type": "shell",
+			"command": "pnpm",
+			"args": ["exec", "vitest", "--watch"],
+			"group": {
+				"kind": "test",
+				"isDefault": false
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false,
+				"group": "tests"
+			},
+			"isBackground": true,
+			"problemMatcher": {
+				"owner": "vitest",
+				"pattern": [
+					{
+						"regexp": "^\\s*FAIL\\s+(.*)$",
+						"file": 1
+					},
+					{
+						"regexp": "^\\s*(.*):(\\d+):(\\d+)$",
+						"file": 1,
+						"line": 2,
+						"column": 3,
+						"loop": true
+					}
+				],
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "^\\s*Waiting for file changes",
+					"endsPattern": "^\\s*watching for file changes"
+				}
+			},
+			"runOptions": {
+				"instanceLimit": 1
+			}
+		},
+		{
+			"label": "test:api",
+			"type": "shell",
+			"command": "pnpm",
+			"args": ["test", "src/lib/api/**/*.test.ts"],
+			"group": {
+				"kind": "test",
+				"isDefault": false
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false,
+				"group": "tests"
+			},
+			"problemMatcher": {
+				"owner": "vitest",
+				"pattern": [
+					{
+						"regexp": "^\\s*FAIL\\s+(.*)$",
+						"file": 1
+					},
+					{
+						"regexp": "^\\s*(.*):(\\d+):(\\d+)$",
+						"file": 1,
+						"line": 2,
+						"column": 3,
+						"loop": true
+					}
+				]
+			}
+		},
+		{
+			"label": "test:components",
+			"type": "shell",
+			"command": "pnpm",
+			"args": ["test", "src/lib/features/**/*.test.ts"],
+			"group": {
+				"kind": "test",
+				"isDefault": false
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false,
+				"group": "tests"
+			},
+			"problemMatcher": {
+				"owner": "vitest",
+				"pattern": [
+					{
+						"regexp": "^\\s*FAIL\\s+(.*)$",
+						"file": 1
+					},
+					{
+						"regexp": "^\\s*(.*):(\\d+):(\\d+)$",
+						"file": 1,
+						"line": 2,
+						"column": 3,
+						"loop": true
+					}
+				]
+			}
+		},
+		{
+			"label": "lint",
+			"type": "shell",
+			"command": "pnpm",
+			"args": ["lint"],
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false,
+				"group": "quality"
+			},
+			"problemMatcher": ["$eslint-stylish"]
+		},
+		{
+			"label": "format",
+			"type": "shell",
+			"command": "pnpm",
+			"args": ["format"],
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false,
+				"group": "quality"
+			}
+		},
+		{
+			"label": "check",
+			"type": "shell",
+			"command": "pnpm",
+			"args": ["check"],
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false,
+				"group": "quality"
+			},
+			"problemMatcher": ["$tsc"]
+		},
+		{
+			"label": "check:watch",
+			"type": "shell",
+			"command": "pnpm",
+			"args": ["check:watch"],
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false,
+				"group": "quality"
+			},
+			"isBackground": true,
+			"problemMatcher": ["$tsc-watch"],
+			"runOptions": {
+				"instanceLimit": 1
+			}
+		},
+		{
+			"label": "preview",
+			"type": "shell",
+			"command": "pnpm",
+			"args": ["preview"],
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false,
+				"group": "webapp"
+			},
+			"isBackground": true,
+			"problemMatcher": {
+				"owner": "vite",
+				"pattern": {
+					"regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+					"file": 1,
+					"line": 2,
+					"column": 3,
+					"severity": 4,
+					"message": 5
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "^\\s*Local:",
+					"endsPattern": "^\\s*ready in"
+				}
+			},
+			"runOptions": {
+				"instanceLimit": 1
+			}
+		}
+	]
+}
