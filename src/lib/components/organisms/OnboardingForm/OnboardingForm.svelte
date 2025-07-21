@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import Input from '$lib/components/input/input.svelte';
+	import Input from '$lib/components/atoms/Input.svelte';
 	import { onboard } from '$lib/services/authn/mutations.gql';
 	import { web3Auth } from '$lib/services/w3a/web3auth';
 	import { removeRefreshToken, removeSessionToken } from '$lib/storage/local';
 	import { type FormData } from './schema';
 	import type { NewProfile } from '$lib/api/generated/types';
-	import { toastError } from '$lib/features/toast';
+	import { toastError } from '$lib/services/toast';
 
 	interface Props {
 		formData: FormData;

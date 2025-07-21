@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Navigation } from '@skeletonlabs/skeleton-svelte';
 	import { Menu, House, UserRoundPen } from 'lucide-svelte';
-	import { LoginButton, LogoutButton } from '$lib/features/authn';
+	import { LoginButton, LogoutButton } from '$lib/components/atoms';
 	import { getIsAuthenticatedContext } from '$lib/contexts';
 
 	const isAuthenticated = getIsAuthenticatedContext();

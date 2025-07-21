@@ -2,9 +2,9 @@
 	import '../app.css';
 	import type { LayoutData } from './$types';
 	import { Toaster } from '@skeletonlabs/skeleton-svelte';
-	import { Navbar } from '$lib/features/navbar/';
+	import { getToaster } from '$lib/services/toast';
+	import { Navbar } from '$lib/components/organisms';
 	import { setIsAuthenticatedContext, setUserInfoContext } from '$lib/contexts';
-	import { getToaster } from '$lib/features/toast';
 
 	interface Props {
 		data: LayoutData;

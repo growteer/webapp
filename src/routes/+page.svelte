@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Heading from '$lib/components/heading/heading.svelte';
+	import { Heading } from '$lib/components/atoms';
 	import type { PageData } from './$types';
 
 	interface Props {
