@@ -16,9 +16,8 @@ applyTo: '**'
 ## Technology Stack
 
 - Use SvelteKit as framework
-- Use Svelte 5 with DaisyUI for components
+- Use Svelte 5 with SkeletonUI v3 for components
 - Use TypeScript for type safety
-- Use DaisyUI for UI components and styles
 - Use Tailwindcss v4 for additional styling
 - Use Vite as the build tool
 - Use Vitest for testing
