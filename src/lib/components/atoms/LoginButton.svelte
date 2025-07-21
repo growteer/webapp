@@ -1,7 +1,5 @@
 <script lang="ts">
 	import { AuthClient } from '$lib/services/authn/client';
-	import { LogIn } from 'lucide-svelte';
-	import { Navigation } from '@skeletonlabs/skeleton-svelte';
 	import { goto } from '$app/navigation';
 	import { toastError, toastSuccess } from '$lib/services/toast';
 
@@ -23,4 +21,4 @@
 	};
 </script>
 
-<Navigation.Tile id="btn-login" labelExpanded="Login" title="login" onclick={handleLogin}><LogIn /></Navigation.Tile>
+<button type="button" id="btn-login" onclick={handleLogin} class="btn btn-lg preset-filled-primary-500">Login</button>
