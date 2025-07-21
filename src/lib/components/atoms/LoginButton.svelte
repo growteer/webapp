@@ -3,7 +3,7 @@
 	import { LogIn } from 'lucide-svelte';
 	import { Navigation } from '@skeletonlabs/skeleton-svelte';
 	import { goto } from '$app/navigation';
-	import { toastError, toastSuccess } from '$lib/features/toast';
+	import { toastError, toastSuccess } from '$lib/services/toast';
 
 	const auth = new AuthClient();
 

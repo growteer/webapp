@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Heading from '$lib/components/heading/heading.svelte';
-	import ProfileForm from '$lib/features/profile/ProfileForm.svelte';
+	import { Heading } from '$lib/components/atoms';
+	import { ProfileForm } from '$lib/components/organisms';
 	import type { PageData } from './$types';
 
 	interface Props {

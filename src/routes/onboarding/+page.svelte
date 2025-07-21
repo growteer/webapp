@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Heading from '$lib/components/heading/heading.svelte';
-	import OnboardingForm from '$lib/features/onboarding/OnboardingForm.svelte';
+	import { Heading } from '$lib/components/atoms';
+	import { OnboardingForm } from '$lib/components/organisms';
 	import type { PageData } from './$types';
 
 	interface Props {

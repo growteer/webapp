@@ -1,8 +1,8 @@
 <script lang="ts">
-	import Input from '$lib/components/input/input.svelte';
+	import Input from '$lib/components/atoms/Input.svelte';
 	import { toUpdatedProfile } from './schema';
 	import { updateUserProfile } from './mutation.gql';
-	import { toastError, toastSuccess } from '../toast';
+	import { toastError, toastSuccess } from '$lib/services/toast';
 	import type { Profile } from '$lib/api/generated/types';
 
 	interface Props {

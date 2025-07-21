@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/svelte';
 import { describe, it, expect, vi } from 'vitest';
 import { writable } from 'svelte/store';
-import { Navbar } from '.';
+import Navbar from './Navbar.svelte';
 import * as contexts from '$lib/contexts';
 
 describe('Navbar', () => {

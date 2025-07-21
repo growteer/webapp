@@ -7,7 +7,7 @@ import { goto } from '$app/navigation';
 import { onboard } from '$lib/services/authn/mutations.gql';
 import { web3Auth } from '$lib/services/w3a/web3auth';
 import { removeRefreshToken, removeSessionToken } from '$lib/storage/local';
-import { toastError } from '$lib/features/toast';
+import { toastError } from '$lib/services/toast';
 
 describe('OnboardingForm', () => {
 	let mockFormData: FormData;
@@ -33,7 +33,7 @@ describe('OnboardingForm', () => {
 			removeSessionToken: vi.fn()
 		}));
 
-		vi.mock('$lib/features/toast', () => ({
+		vi.mock('$lib/services/toast', () => ({
 			toastError: vi.fn()
 		}));
 
