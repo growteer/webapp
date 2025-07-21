@@ -7,7 +7,7 @@
 	const isAuthenticated = getIsAuthenticatedContext();
 </script>
 
-<Navigation.Rail background="bg-primary-300">
+<Navigation.Rail background="bg-white">
 	{#snippet header()}
 		<Navigation.Tile href="/" title="Menu"><Menu /></Navigation.Tile>
 	{/snippet}
@@ -24,8 +24,6 @@
 	{#snippet footer()}
 		{#if $isAuthenticated}
 			<LogoutButton />
-		{:else}
-			<LoginButton />
 		{/if}
 	{/snippet}
 </Navigation.Rail>
