@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
 import ProfileForm from './ProfileForm.svelte';
 import type { Profile } from '$lib/api/generated/types';

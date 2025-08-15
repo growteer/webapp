@@ -1,4 +1,4 @@
-import { mutate } from '$lib/api/client';
+import { mutate } from '$lib/api/client/client';
 import type {
 	MutationUpdateProfileArgs,
 	UpdatedProfile,

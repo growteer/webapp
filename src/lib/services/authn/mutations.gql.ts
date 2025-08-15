@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
-import { mutate } from '$lib/api/client';
-import { ErrCode } from '$lib/api/error_codes';
+import { mutate } from '$lib/api/client/client';
+import { ErrCode } from '$lib/api/client/error_codes';
 import type {
 	GenerateNonceMutation,
 	GenerateNonceMutationVariables,

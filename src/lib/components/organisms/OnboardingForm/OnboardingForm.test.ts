@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/svelte';
 import userEvent from '@testing-library/user-event';
-import { vi, describe, it, expect } from 'vitest';
+import { vi, describe, it, expect, beforeAll, afterAll } from 'vitest';
 import OnboardingForm from './OnboardingForm.svelte';
 import type { FormData } from './schema';
 import { goto } from '$app/navigation';
