@@ -1,6 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
-import { queryProfile } from './query.gql';
+import { queryProfile } from '$lib/api/queries/UserProfile.gql';
 import type { Profile } from '$lib/api/generated/types';
 
 export const load: PageLoad = async ({ parent }) => {

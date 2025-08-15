@@ -43,7 +43,11 @@ export const generateNonce = async (address: string) => {
 	return data.generateNonce.nonce;
 };
 
-export const login = async (address: string, message: string, signature: string): Promise<boolean> => {
+export const login = async (
+	address: string,
+	message: string,
+	signature: string
+): Promise<boolean> => {
 	const { data, errors } = await mutate<LoginMutation, LoginMutationVariables>({
 		mutation: LOGIN,
 		variables: { address, message, signature }
