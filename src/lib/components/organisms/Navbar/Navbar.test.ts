@@ -22,16 +22,6 @@ describe('Navbar', () => {
 		vi.clearAllMocks();
 	});
 
-	it('renders login button when user is not authenticated', () => {
-		vi.spyOn(contexts, 'getIsAuthenticatedContext').mockReturnValue(writable(false));
-
-		render(Navbar);
-
-		expect(screen.getByTitle(/login/i)).toBeInTheDocument();
-		expect(screen.queryByText('Profile')).not.toBeInTheDocument();
-		expect(screen.queryByTitle(/logout/i)).not.toBeInTheDocument();
-	});
-
 	it('renders logout button and profile link when user is authenticated', () => {
 		vi.spyOn(contexts, 'getIsAuthenticatedContext').mockReturnValue(writable(true));
 

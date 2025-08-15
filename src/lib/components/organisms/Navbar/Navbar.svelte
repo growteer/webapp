@@ -1,29 +1,43 @@
 <script lang="ts">
 	import { Navigation } from '@skeletonlabs/skeleton-svelte';
-	import { Menu, House, UserRoundPen } from 'lucide-svelte';
-	import { LoginButton, LogoutButton } from '$lib/components/atoms';
-	import { getIsAuthenticatedContext } from '$lib/contexts';
+	import { Shrub } from 'lucide-svelte';
+	import { LogoutButton } from '$lib/components/atoms';
+	import { UserMenu } from '$lib/components/molecules';
 
-	const isAuthenticated = getIsAuthenticatedContext();
+	interface Props {
+		name: string;
+		title: string;
+	}
 </script>
 
-<Navigation.Rail background="bg-white">
+<Navigation.Rail
+	expanded
+	classes="border-r border-surface-100-900"
+	widthExpanded="w-54"
+	background="bg-surface 50-950"
+	footerClasses="mt-auto"
+	tilesJustify="justify-start"
+	tilesClasses="my-2"
+>
 	{#snippet header()}
-		<Navigation.Tile href="/" title="Menu"><Menu /></Navigation.Tile>
+		<div class="flex w-full justify-start py-4">
+			<Shrub class="mx-2" size="32" color="oklch(74.42% 0.15 165.81deg)" /><span
+				class="text-2xl text-primary-500">Growteer</span
+			>
+		</div>
+		<hr class="hr border-surface-100-900" />
+
+		<UserMenu name="Christian Brennecke" title="Director of Engineering" />
+		<hr class="hr border-surface-100-900" />
 	{/snippet}
 	{#snippet tiles()}
-		<Navigation.Tile id="0" label="Home" href="/">
-			<House />
+		<!--
+		<Navigation.Tile id="0" expandedPadding="py-2 px-2" labelExpanded="My Company" href="/">
+			<Building2 />
 		</Navigation.Tile>
-		{#if $isAuthenticated}
-			<Navigation.Tile id="1" label="Profile" href="/profile">
-				<UserRoundPen />
-			</Navigation.Tile>
-		{/if}
+		-->
 	{/snippet}
 	{#snippet footer()}
-		{#if $isAuthenticated}
-			<LogoutButton />
-		{/if}
+		<LogoutButton />
 	{/snippet}
 </Navigation.Rail>
