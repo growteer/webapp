@@ -11,6 +11,14 @@
 	};
 </script>
 
-<Navigation.Tile id="btn-logout" labelExpanded="Logout" title="logout" onclick={handleLogout}
-	><LogOut /></Navigation.Tile
+<Navigation.Tile
+	id="btn-signout"
+	expandedPadding="py-2 px-2"
+	labelExpanded="Sign out"
+	title="signout"
+	classes="text-error-500"
+	expandedClasses="text-error-600-400"
+	onclick={handleLogout}
 >
+	<LogOut />
+</Navigation.Tile>
