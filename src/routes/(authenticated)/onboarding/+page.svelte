@@ -8,17 +8,17 @@
 	}
 
 	let { data }: Props = $props();
-	let { firstName, lastName, user } = data;
+	let { firstName, lastName, email } = data;
 </script>
 
 <div>
-	<Heading type="h1">Sign Up For Full Access</Heading>
+	<Heading type="h1">Create Your Profile For Full Access</Heading>
 	<OnboardingForm
 		formData={{
 			firstName,
 			lastName,
 			dateOfBirth: new Date().toISOString(),
-			primaryEmail: user?.email ?? '',
+			primaryEmail: email,
 			country: ''
 		}}
 	/>
