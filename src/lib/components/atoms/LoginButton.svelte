@@ -10,7 +10,7 @@
 		try {
 			await initWeb3Auth();
 			const loggedIn = await auth.login();
-			if (!loggedIn) return (window.location.href = '/onboarding');
+			if (!loggedIn) return goto('/onboarding');
 		} catch (err) {
 			toastError(String(err));
 
@@ -19,13 +19,8 @@
 
 		toastSuccess('Successfully logged in');
 
-		window.location.href = '/';
+		goto("'profile");
 	};
 </script>
 
-<button
-	type="button"
-	id="btn-login"
-	onclick={handleLogin}
-	class="btn preset-filled-primary-500 btn-lg">Login</button
->
+<button type="button" id="btn-login" onclick={handleLogin} class="btn preset-filled-primary-500 btn-lg">Login</button>
