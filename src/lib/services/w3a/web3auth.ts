@@ -1,72 +1,22 @@
-import { PUBLIC_GOOGLE_CLIENT_ID, PUBLIC_W3A_CLIENT_ID } from '$env/static/public';
-import { AuthAdapter, MFA_LEVELS } from '@web3auth/auth-adapter';
-import { CHAIN_NAMESPACES, UX_MODE, WALLET_ADAPTERS, WEB3AUTH_NETWORK } from '@web3auth/base';
-import { SolanaPrivateKeyProvider } from '@web3auth/solana-provider';
-import { Web3Auth, type Web3AuthOptions } from '@web3auth/modal';
-import { solanaChainParams } from '../solana/config';
-
-const chainConfig = {
-	chainNamespace: CHAIN_NAMESPACES.SOLANA,
-	chainId: solanaChainParams().chainId,
-	rpcTarget: solanaChainParams().rpcTarget,
-	displayName: solanaChainParams().displayName,
-	blockExplorerUrl: 'https://explorer.solana.com',
-	ticker: 'SOL',
-	tickerName: 'Solana',
-	logo: 'https://images.toruswallet.io/solana.svg'
-};
-
-const privateKeyProvider = new SolanaPrivateKeyProvider({
-	config: { chainConfig }
-});
-
-const uiConfig = {
-	appName: 'Growteer',
-	appUrl: 'http://localhost',
-	logoLight: 'https://web3auth.io/logo-light.png',
-	logoDark: 'https://web3auth.io/logo-dark.png',
-	useLogoLoader: true
-};
+import { PUBLIC_W3A_CLIENT_ID } from '$env/static/public';
+import { Web3Auth, type Web3AuthOptions, WEB3AUTH_NETWORK, MFA_LEVELS, WALLET_CONNECTORS } from '@web3auth/modal';
 
 const web3AuthOptions: Web3AuthOptions = {
 	clientId: PUBLIC_W3A_CLIENT_ID,
-	chainConfig,
-	storageKey: 'local',
-	uiConfig,
-	privateKeyProvider,
-	web3AuthNetwork: WEB3AUTH_NETWORK.SAPPHIRE_DEVNET
-};
-
-const web3Auth = new Web3Auth(web3AuthOptions);
-
-const socialAdapter = new AuthAdapter({
-	adapterSettings: {
-		uxMode: UX_MODE.POPUP,
-		whiteLabel: uiConfig,
-		loginConfig: {
-			google: {
-				verifier: 'google-growteer',
-				typeOfLogin: 'google',
-				clientId: PUBLIC_GOOGLE_CLIENT_ID
-			}
-		}
+	uiConfig: {
+		logoLight: 'https://web3auth.io/logo-light.png',
+		logoDark: 'https://web3auth.io/logo-dark.png'
 	},
-	loginSettings: {
-		mfaLevel: MFA_LEVELS.NONE
-	},
-	privateKeyProvider
-});
-
-let isInitialized = false;
-
-const initWeb3Auth = async () => {
-	if (isInitialized) return web3Auth;
-
-	web3Auth.configureAdapter(socialAdapter);
-
-	await web3Auth.initModal({
-		modalConfig: {
-			[WALLET_ADAPTERS.AUTH]: {
+	mfaLevel: MFA_LEVELS.NONE,
+	web3AuthNetwork: WEB3AUTH_NETWORK.SAPPHIRE_DEVNET,
+	modalConfig: {
+		hideWalletDiscovery: true,
+		connectors: {
+			[WALLET_CONNECTORS.METAMASK]: {
+				label: 'metamask',
+				showOnModal: false
+			},
+			[WALLET_CONNECTORS.AUTH]: {
 				label: 'social',
 				loginMethods: {
 					email_passwordless: {
@@ -124,19 +74,26 @@ const initWeb3Auth = async () => {
 					wechat: {
 						name: 'wechat',
 						showOnModal: false
-					},
-					weibo: {
-						name: 'weibo',
-						showOnModal: false
 					}
 				}
 			}
 		}
-	});
+	}
+};
+
+let web3Auth: Web3Auth | undefined;
+let isInitialized = false;
+
+const initWeb3Auth = async () => {
+	if (web3Auth && isInitialized) return web3Auth;
+
+	web3Auth = new Web3Auth(web3AuthOptions);
+
+	await web3Auth.init();
 
 	isInitialized = true;
 
 	return web3Auth;
 };
 
-export { web3Auth, initWeb3Auth, privateKeyProvider };
+export { web3Auth, initWeb3Auth };

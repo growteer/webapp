@@ -1,6 +1,5 @@
-import type { IProvider } from '@web3auth/base';
 import { SolanaWallet } from '@web3auth/solana-provider';
-import { initWeb3Auth } from '../w3a/web3auth';
+import type { Web3Auth, IProvider } from '@web3auth/modal';
 
 export class SolanaClient {
 	private wallet: SolanaWallet;
@@ -44,10 +43,10 @@ export class SolanaClient {
 	}
 }
 
-export const createSolanaClient = async () => {
-	const w3a = await initWeb3Auth();
+export const createSolanaClient = async (w3a: Web3Auth) => {
 	const { provider } = w3a;
-	if (!provider) throw new Error('could not get a provider from web3auth to create a solana client');
+	if (!provider)
+		throw new Error('could not get a provider from web3auth to create a solana client');
 
 	return new SolanaClient(provider);
 };
