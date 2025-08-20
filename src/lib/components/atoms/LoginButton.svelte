@@ -2,13 +2,11 @@
 	import { AuthClient } from '$lib/services/authn/client';
 	import { goto } from '$app/navigation';
 	import { toastError, toastSuccess } from '$lib/services/toast';
-	import { initWeb3Auth } from '$lib/services/w3a/web3auth';
 
 	const auth = new AuthClient();
 
 	const handleLogin = async () => {
 		try {
-			await initWeb3Auth();
 			const loggedIn = await auth.login();
 			if (!loggedIn) return goto('/onboarding');
 		} catch (err) {

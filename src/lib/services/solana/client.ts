@@ -1,11 +1,11 @@
-import { SolanaWallet } from '@web3auth/solana-provider';
-import type { Web3Auth, IProvider } from '@web3auth/modal';
+import type { Provider } from '@reown/appkit-adapter-solana';
+import { appkit } from '../wallet/appkit';
 
 export class SolanaClient {
-	private wallet: SolanaWallet;
+	private provider: Provider;
 
-	constructor(provider: IProvider) {
-		this.wallet = new SolanaWallet(provider);
+	constructor(provider: Provider) {
+		this.provider = provider;
 	}
 
 	async getDIDPKH() {
@@ -14,12 +14,12 @@ export class SolanaClient {
 	}
 
 	async getAddress() {
-		const accounts = await this.wallet.requestAccounts();
-		if (accounts.length === 0) {
-			throw new Error('no accounts found');
+		const address = appkit.getAddress();
+		if (!address) {
+			throw new Error('no address found');
 		}
 
-		return accounts[0];
+		return address;
 	}
 
 	private newLoginMessage(nonce: string) {
@@ -29,7 +29,7 @@ export class SolanaClient {
 	async signLogin(nonce: string) {
 		const message = this.newLoginMessage(nonce);
 
-		const signature = await this.wallet.signMessage(message);
+		const signature = await this.provider.signMessage(message);
 
 		const serializedSignature = Buffer.from(signature).toString('base64');
 		const serializedMessage = message.toString();
@@ -38,15 +38,7 @@ export class SolanaClient {
 	}
 
 	async signMessage(data: Uint8Array): Promise<{ signature: Uint8Array }> {
-		const signature = await this.wallet.signMessage(data);
+		const signature = await this.provider.signMessage(data);
 		return { signature };
 	}
 }
-
-export const createSolanaClient = async (w3a: Web3Auth) => {
-	const { provider } = w3a;
-	if (!provider)
-		throw new Error('could not get a provider from web3auth to create a solana client');
-
-	return new SolanaClient(provider);
-};
