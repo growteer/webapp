@@ -1,31 +1,28 @@
 import { removeRefreshToken, removeSessionToken } from '$lib/storage/local';
 import { SolanaClient } from '../solana/client';
-import { web3Auth } from '../w3a/web3auth';
+import { appkit } from '$lib/services/wallet/appkit';
 import { generateNonce, login } from './mutations.gql';
+import type { Provider } from '@reown/appkit-adapter-solana';
 
 export class AuthClient {
 	async login(): Promise<boolean> {
-		if (!web3Auth) throw new Error('cannot create AuthClient without web3auth being initialized');
-
-		// Open the Web3Auth Modal
-		const provider = await web3Auth.connect();
-		if (!provider) throw new Error('login failed');
-
 		try {
-			// Get the wallet address
-			const client = new SolanaClient(provider);
-			const address = await client.getAddress();
+			// Open the Modal
+			const provider = await this.loginModal();
+
+			const solana = new SolanaClient(provider);
+			const address = await solana.getAddress();
 
 			// Sign a message for verification
 			const nonce = await generateNonce(address);
-			const { message, signature } = await client.signLogin(nonce);
+			const { message, signature } = await solana.signLogin(nonce);
 
 			// Verify signature through the backend and set tokens in local storage
 			const loggedIn = await login(address, message, signature);
 
 			return loggedIn;
 		} catch (err) {
-			await web3Auth.logout();
+			await appkit.disconnect();
 			throw err;
 		}
 	}
@@ -33,6 +30,18 @@ export class AuthClient {
 	async logout() {
 		removeSessionToken();
 		removeRefreshToken();
-		await web3Auth.logout();
+		await appkit.disconnect('solana');
+	}
+
+	async loginModal(): Promise<Provider> {
+		return new Promise((resolve, reject) => {
+			appkit.subscribeProviders((state) => {
+				if (!state.solana) return reject(new Error('Solana provider not available'));
+
+				return resolve(state.solana as Provider);
+			});
+
+			appkit.open({ view: 'Connect' });
+		});
 	}
 }
