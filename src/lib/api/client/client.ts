@@ -83,10 +83,7 @@ export async function mutate<
 	};
 }
 
-export async function query<
-	TData = any,
-	TVariables extends OperationVariables = OperationVariables
->(
+export async function query<TData = any, TVariables extends OperationVariables = OperationVariables>(
 	options: QueryOptions<TVariables, TData>
 ): Promise<{ data: MaybeMasked<TData>; errors: Error[] | undefined }> {
 	const result = (await client.query<TData, TVariables>({ errorPolicy: 'all', ...options })) as {

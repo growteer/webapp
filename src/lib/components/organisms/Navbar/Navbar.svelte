@@ -21,8 +21,8 @@
 >
 	{#snippet header()}
 		<div class="flex w-full justify-start py-4">
-			<Shrub class="mx-2" size="32" color="oklch(74.42% 0.15 165.81deg)" /><span
-				class="text-2xl text-primary-500">Growteer</span
+			<Shrub class="mx-2" size="32" color="oklch(74.42% 0.15 165.81deg)" /><span class="text-2xl text-primary-500"
+				>Growteer</span
 			>
 		</div>
 		<hr class="hr border-surface-100-900" />

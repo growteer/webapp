@@ -10,10 +10,7 @@ const REFRESH_SESSION = gql`
 	}
 `;
 
-export const refreshSession = async (
-	client: ApolloClient<NormalizedCacheObject>,
-	refreshToken: string
-) => {
+export const refreshSession = async (client: ApolloClient<NormalizedCacheObject>, refreshToken: string) => {
 	const { data, errors } = await client.mutate<RefreshMutation, RefreshInput>({
 		mutation: REFRESH_SESSION,
 		variables: { refreshToken }
