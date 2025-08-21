@@ -179,9 +179,9 @@ Allow you to style semantic HTML elements with utility classes.
 Enables you to target and style elements for a particular theme.
 
 ```html
-<div class="theme-cerberus:bg-red-500 bg-green-500">...</div>
-<div class="theme-mona:bg-red-500 bg-green-500">...</div>
-<div class="theme-vox:bg-red-500 bg-green-500">...</div>
+<div class="bg-green-500 theme-cerberus:bg-red-500">...</div>
+<div class="bg-green-500 theme-mona:bg-red-500">...</div>
+<div class="bg-green-500 theme-vox:bg-red-500">...</div>
 ```
 
 ## Optional
@@ -669,7 +669,7 @@ We strongly encourage you take this opportunity to move away from any usage of `
 /* Before */
 
 .foo {
-	@apply bg-surface-50-950 text-surface-950 dark:text-surface-50 p-4;
+	@apply bg-surface-50-950 p-4 text-surface-950 dark:text-surface-50;
 }
 ```
 
@@ -1505,7 +1505,7 @@ For `<aside>`, we introduce two addition utility classes:
 You may use the [calc](https://developer.mozilla.org/en-US/docs/Web/CSS/calc) property to calculate numeric amounts, which can be handy when you have multiple sticky elements.
 
 ```html
-<aside class="... sticky top-0 h-[calc(100vh-100px)]">(sidebar)</aside>
+<aside class="sticky top-0 h-[calc(100vh-100px)] ...">(sidebar)</aside>
 ```
 
 1. Sets the `height` value using an arbitrary syntax
@@ -1640,7 +1640,7 @@ We now recommend you generate your own component following [Tailwind's best prac
 General purpose notifications to attract attention and provide critical actions.
 
 ```html
-<div class="card preset-outlined-surface-950-50 grid w-full grid-cols-1 items-center gap-4 p-4 lg:grid-cols-[1fr_auto]">
+<div class="grid w-full grid-cols-1 items-center gap-4 card preset-outlined-surface-950-50 p-4 lg:grid-cols-[1fr_auto]">
 	<div>
 		<p class="font-bold">Hey, heads up!</p>
 		<p class="text-xs opacity-60">Something of moderate importance has occurred.</p>
@@ -1660,7 +1660,7 @@ For even more customization, try mixing and matching various [Presets](/docs/des
 ---
 
 <div class="w-full space-y-8">
-	<div class="card preset-outlined-success-500 grid grid-cols-1 items-center gap-4 p-4 lg:grid-cols-[1fr_auto]">
+	<div class="grid grid-cols-1 items-center gap-4 card preset-outlined-success-500 p-4 lg:grid-cols-[1fr_auto]">
 		<div>
 			<p class="font-bold">Success</p>
 			<p class="text-xs opacity-60">The task has been completed successfully.</p>
@@ -1670,7 +1670,7 @@ For even more customization, try mixing and matching various [Presets](/docs/des
 		</div>
 	</div>
 
-	<div class="card preset-outlined-warning-500 grid grid-cols-1 items-center gap-4 p-4 lg:grid-cols-[auto_1fr_auto]">
+	<div class="grid grid-cols-1 items-center gap-4 card preset-outlined-warning-500 p-4 lg:grid-cols-[auto_1fr_auto]">
 		<TriangleAlert />
 		<div>
 			<p class="font-bold">Warning</p>
@@ -1681,7 +1681,7 @@ For even more customization, try mixing and matching various [Presets](/docs/des
 		</div>
 	</div>
 
-	<div class="card preset-outlined-error-500 grid grid-cols-1 items-center gap-4 p-4 lg:grid-cols-[auto_1fr_auto]">
+	<div class="grid grid-cols-1 items-center gap-4 card preset-outlined-error-500 p-4 lg:grid-cols-[auto_1fr_auto]">
 		<TriangleAlert />
 		<div>
 			<p class="font-bold">Error</p>
@@ -1797,7 +1797,7 @@ https://tailwindcss.com/docs/grid-template-rows#arbitrary-values
 	<div class="grid h-full grid-rows-[1fr_auto] gap-1">
 		<!-- We've set a max height here to trigger the vertical overflow. -->
 		<!-- Removed max-h and space-y in your project. -->
-		<div class="bg-surface-100-900 max-h-[128px] space-y-4 overflow-y-auto p-4">
+		<div class="max-h-[128px] space-y-4 overflow-y-auto bg-surface-100-900 p-4">
 			<p>(feed)</p>
 			<p>
 				Lorem, ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit dolor ullam, qui et itaque quam
@@ -2062,7 +2062,7 @@ Implement a simple popup dialog using the native HTML element.
 <!-- Dialog -->
 <dialog
 	data-dialog
-	class="rounded-container bg-surface-100-900 backdrop:bg-surface-50/75 dark:backdrop:bg-surface-950/75 top-1/2 left-1/2 z-10 max-w-[640px] -translate-1/2 space-y-4 p-4 text-inherit"
+	class="top-1/2 left-1/2 z-10 max-w-[640px] -translate-1/2 space-y-4 rounded-container bg-surface-100-900 p-4 text-inherit backdrop:bg-surface-50/75 dark:backdrop:bg-surface-950/75"
 >
 	<h2 class="h3">Hello world!</h2>
 	<p>This is an example popover created using the native Dialog element.</p>
@@ -2329,17 +2329,17 @@ Layouts for displaying sets of images.
 ```html
 <section class="grid grid-cols-2 gap-6 md:grid-cols-3">
 	<!-- Row -->
-	<img class="bg-surface-500 rounded-container h-48 w-48" src="https://picsum.photos/192/192?random=1" />
-	<img class="bg-surface-500 rounded-container h-48 w-48" src="https://picsum.photos/192/192?random=2" />
-	<img class="bg-surface-500 rounded-container h-48 w-48" src="https://picsum.photos/192/192?random=3" />
+	<img class="h-48 w-48 rounded-container bg-surface-500" src="https://picsum.photos/192/192?random=1" />
+	<img class="h-48 w-48 rounded-container bg-surface-500" src="https://picsum.photos/192/192?random=2" />
+	<img class="h-48 w-48 rounded-container bg-surface-500" src="https://picsum.photos/192/192?random=3" />
 	<!-- Row -->
-	<img class="bg-surface-500 rounded-container h-48 w-48" src="https://picsum.photos/192/192?random=4" />
-	<img class="bg-surface-500 rounded-container h-48 w-48" src="https://picsum.photos/192/192?random=5" />
-	<img class="bg-surface-500 rounded-container h-48 w-48" src="https://picsum.photos/192/192?random=6" />
+	<img class="h-48 w-48 rounded-container bg-surface-500" src="https://picsum.photos/192/192?random=4" />
+	<img class="h-48 w-48 rounded-container bg-surface-500" src="https://picsum.photos/192/192?random=5" />
+	<img class="h-48 w-48 rounded-container bg-surface-500" src="https://picsum.photos/192/192?random=6" />
 	<!-- Row -->
-	<img class="bg-surface-500 rounded-container h-48 w-48" src="https://picsum.photos/192/192?random=7" />
-	<img class="bg-surface-500 rounded-container h-48 w-48" src="https://picsum.photos/192/192?random=8" />
-	<img class="bg-surface-500 rounded-container h-48 w-48" src="https://picsum.photos/192/192?random=9" />
+	<img class="h-48 w-48 rounded-container bg-surface-500" src="https://picsum.photos/192/192?random=7" />
+	<img class="h-48 w-48 rounded-container bg-surface-500" src="https://picsum.photos/192/192?random=8" />
+	<img class="h-48 w-48 rounded-container bg-surface-500" src="https://picsum.photos/192/192?random=9" />
 </section>
 ```
 
@@ -2348,11 +2348,11 @@ Layouts for displaying sets of images.
 ```html
 <section class="grid grid-cols-2 gap-4">
 	<!-- Row -->
-	<img class="bg-surface-500 rounded-container h-64 w-64" src="https://picsum.photos/256/256?random=1" />
-	<img class="bg-surface-500 rounded-container h-64 w-64" src="https://picsum.photos/256/256?random=2" />
+	<img class="h-64 w-64 rounded-container bg-surface-500" src="https://picsum.photos/256/256?random=1" />
+	<img class="h-64 w-64 rounded-container bg-surface-500" src="https://picsum.photos/256/256?random=2" />
 	<!-- Row -->
-	<img class="bg-surface-500 rounded-container h-64 w-64" src="https://picsum.photos/256/256?random=3" />
-	<img class="bg-surface-500 rounded-container h-64 w-64" src="https://picsum.photos/256/256?random=4" />
+	<img class="h-64 w-64 rounded-container bg-surface-500" src="https://picsum.photos/256/256?random=3" />
+	<img class="h-64 w-64 rounded-container bg-surface-500" src="https://picsum.photos/256/256?random=4" />
 </section>
 ```
 
@@ -2362,27 +2362,27 @@ Layouts for displaying sets of images.
 <section class="grid grid-cols-2 gap-4 md:grid-cols-4">
 	<!-- Column -->
 	<div class="grid gap-4">
-		<img class="bg-surface-500 rounded-container" src="https://picsum.photos/220/320?random=1" />
-		<img class="bg-surface-500 rounded-container" src="https://picsum.photos/220/120?random=2" />
-		<img class="bg-surface-500 rounded-container" src="https://picsum.photos/220/280?random=3" />
+		<img class="rounded-container bg-surface-500" src="https://picsum.photos/220/320?random=1" />
+		<img class="rounded-container bg-surface-500" src="https://picsum.photos/220/120?random=2" />
+		<img class="rounded-container bg-surface-500" src="https://picsum.photos/220/280?random=3" />
 	</div>
 	<!-- Column -->
 	<div class="grid gap-4">
-		<img class="bg-surface-500 rounded-container" src="https://picsum.photos/220/300?random=4" />
-		<img class="bg-surface-500 rounded-container" src="https://picsum.photos/220/280?random=5" />
-		<img class="bg-surface-500 rounded-container" src="https://picsum.photos/220/140?random=6" />
+		<img class="rounded-container bg-surface-500" src="https://picsum.photos/220/300?random=4" />
+		<img class="rounded-container bg-surface-500" src="https://picsum.photos/220/280?random=5" />
+		<img class="rounded-container bg-surface-500" src="https://picsum.photos/220/140?random=6" />
 	</div>
 	<!-- Column -->
 	<div class="grid gap-4">
-		<img class="bg-surface-500 rounded-container" src="https://picsum.photos/220/280?random=7" />
-		<img class="bg-surface-500 rounded-container" src="https://picsum.photos/220/320?random=8" />
-		<img class="bg-surface-500 rounded-container" src="https://picsum.photos/220/140?random=9" />
+		<img class="rounded-container bg-surface-500" src="https://picsum.photos/220/280?random=7" />
+		<img class="rounded-container bg-surface-500" src="https://picsum.photos/220/320?random=8" />
+		<img class="rounded-container bg-surface-500" src="https://picsum.photos/220/140?random=9" />
 	</div>
 	<!-- Column -->
 	<div class="grid gap-4">
-		<img class="bg-surface-500 rounded-container" src="https://picsum.photos/220/320?random=10" />
-		<img class="bg-surface-500 rounded-container" src="https://picsum.photos/220/140?random=11" />
-		<img class="bg-surface-500 rounded-container" src="https://picsum.photos/220/280?random=12" />
+		<img class="rounded-container bg-surface-500" src="https://picsum.photos/220/320?random=10" />
+		<img class="rounded-container bg-surface-500" src="https://picsum.photos/220/140?random=11" />
+		<img class="rounded-container bg-surface-500" src="https://picsum.photos/220/280?random=12" />
 	</div>
 </section>
 ```
@@ -2393,15 +2393,15 @@ Layouts for displaying sets of images.
 <section class="grid gap-4">
 	<!-- Featured -->
 	<header>
-		<img class="bg-surface-500 rounded-container h-auto max-w-full" src="https://picsum.photos/960/512?random=1" />
+		<img class="h-auto max-w-full rounded-container bg-surface-500" src="https://picsum.photos/960/512?random=1" />
 	</header>
 	<!-- Row -->
 	<div class="grid grid-cols-5 gap-4">
-		<img class="bg-surface-500 rounded-container h-full w-full" src="https://picsum.photos/200/200?random=2" />
-		<img class="bg-surface-500 rounded-container h-full w-full" src="https://picsum.photos/200/200?random=3" />
-		<img class="bg-surface-500 rounded-container h-full w-full" src="https://picsum.photos/200/200?random=4" />
-		<img class="bg-surface-500 rounded-container h-full w-full" src="https://picsum.photos/200/200?random=5" />
-		<img class="bg-surface-500 rounded-container h-full w-full" src="https://picsum.photos/200/200?random=6" />
+		<img class="h-full w-full rounded-container bg-surface-500" src="https://picsum.photos/200/200?random=2" />
+		<img class="h-full w-full rounded-container bg-surface-500" src="https://picsum.photos/200/200?random=3" />
+		<img class="h-full w-full rounded-container bg-surface-500" src="https://picsum.photos/200/200?random=4" />
+		<img class="h-full w-full rounded-container bg-surface-500" src="https://picsum.photos/200/200?random=5" />
+		<img class="h-full w-full rounded-container bg-surface-500" src="https://picsum.photos/200/200?random=6" />
 	</div>
 </section>
 ```
@@ -2509,15 +2509,15 @@ Provides a grid for presenting a set of logos, brands, or sponsors.
 ## Rows
 
 ```html
-<nav class="rounded-container grid w-full grid-cols-2 gap-1 overflow-hidden md:grid-cols-4">
-	<a class="card preset-filled-surface-100-900 rounded-none p-4 py-8 text-center" href="#">Optimize</a>
-	<a class="card preset-filled-surface-100-900 rounded-none p-4 py-8 text-center" href="#">Brand</a>
-	<a class="card preset-filled-surface-100-900 rounded-none p-4 py-8 text-center" href="#">Mesh</a>
-	<a class="card preset-filled-surface-100-900 rounded-none p-4 py-8 text-center" href="#">Matrix</a>
-	<a class="card preset-filled-surface-100-900 rounded-none p-4 py-8 text-center" href="#">Utilize</a>
-	<a class="card preset-filled-surface-100-900 rounded-none p-4 py-8 text-center" href="#">Syndicate</a>
-	<a class="card preset-filled-surface-100-900 rounded-none p-4 py-8 text-center" href="#">Incubate</a>
-	<a class="card preset-filled-surface-100-900 rounded-none p-4 py-8 text-center" href="#">Orchestrate</a>
+<nav class="grid w-full grid-cols-2 gap-1 overflow-hidden rounded-container md:grid-cols-4">
+	<a class="card rounded-none preset-filled-surface-100-900 p-4 py-8 text-center" href="#">Optimize</a>
+	<a class="card rounded-none preset-filled-surface-100-900 p-4 py-8 text-center" href="#">Brand</a>
+	<a class="card rounded-none preset-filled-surface-100-900 p-4 py-8 text-center" href="#">Mesh</a>
+	<a class="card rounded-none preset-filled-surface-100-900 p-4 py-8 text-center" href="#">Matrix</a>
+	<a class="card rounded-none preset-filled-surface-100-900 p-4 py-8 text-center" href="#">Utilize</a>
+	<a class="card rounded-none preset-filled-surface-100-900 p-4 py-8 text-center" href="#">Syndicate</a>
+	<a class="card rounded-none preset-filled-surface-100-900 p-4 py-8 text-center" href="#">Incubate</a>
+	<a class="card rounded-none preset-filled-surface-100-900 p-4 py-8 text-center" href="#">Orchestrate</a>
 </nav>
 ```
 
@@ -2537,7 +2537,7 @@ Implements Tailwind's [Scroll Snap Alignment](https://tailwindcss.com/docs/scrol
 	<div class="flex snap-x snap-mandatory scroll-px-4 gap-4 overflow-x-auto scroll-smooth px-4 py-10">
 		<!-- Generate a array of 8 items; loop through each item -->
 		{ Array.from({ length: 8 }).map((_, i) => ( // Each scrollable card element
-		<div class="card preset-filled w-40 shrink-0 snap-start py-20 text-center md:w-80">
+		<div class="w-40 shrink-0 snap-start card preset-filled py-20 text-center md:w-80">
 			<span>{i + 1}</span>
 		</div>
 		)) }
@@ -2939,11 +2939,11 @@ function setIndentationClass(depth: number) {
 		<!-- Links -->
 		<ul class="space-y-2">
 			<!-- Consider a fixed scroll position at the top of your page layouts. -->
-			<li><a href="{`#_top`}" class="anchor block">Overview</a></li>
+			<li><a href="{`#_top`}" class="block anchor">Overview</a></li>
 			<!-- Loop through the available headings. -->
 			{ headings.map((heading: PageHeadings) => (
 			<li>
-				<a href="{`#${heading.slug}`}" class="anchor block" class:list="{setIndentationClass(heading.depth)}">
+				<a href="{`#${heading.slug}`}" class="block anchor" class:list="{setIndentationClass(heading.depth)}">
 					{heading.text}
 				</a>
 			</li>
@@ -3041,7 +3041,7 @@ Supports <u>all</u> standard Tailwind color utility classes using the following 
 
 ```html
 <div class="bg-primary-500">...</div>
-<div class="border-secondary-600 border">...</div>
+<div class="border border-secondary-600">...</div>
 <svg class="fill-surface-950">...</svg>
 ```
 
@@ -3194,7 +3194,7 @@ Canned styles for your interface elements.
 	</div>
 	<!-- 4. Glass -->
 	<div class="flex flex-col items-center gap-4">
-		<button type="button" class="btn preset-glass-primary">Glass</button>
+		<button type="button" class="preset-glass-primary btn">Glass</button>
 		<div class="{diagramCircle}">4</div>
 	</div>
 	<!-- 5. Elevated -->
@@ -3216,7 +3216,7 @@ Canned styles for your interface elements.
 	</div>
 	<!-- 8. Gradient -->
 	<div class="flex flex-col items-center gap-4">
-		<button type="button" class="btn preset-gradient">Gradient</button>
+		<button type="button" class="preset-gradient btn">Gradient</button>
 		<div class="{diagramCircle}">8</div>
 	</div>
 </div>
@@ -3264,19 +3264,19 @@ preset-filled-{color}-{lightModeShade}-{darkModeShade}
 
 ```html
 <div class="grid w-full grid-cols-2 gap-2 lg:grid-cols-4">
-	<div class="preset-filled flex items-center justify-center p-4">(neutral)</div>
+	<div class="flex items-center justify-center preset-filled p-4">(neutral)</div>
 
-	<div class="preset-filled-primary-950-50 flex items-center justify-center p-4">950-50</div>
-	<div class="preset-filled-primary-900-100 flex items-center justify-center p-4">900-100</div>
-	<div class="preset-filled-primary-800-200 flex items-center justify-center p-4">800-200</div>
-	<div class="preset-filled-primary-700-300 flex items-center justify-center p-4">700-300</div>
-	<div class="preset-filled-primary-600-400 flex items-center justify-center p-4">600-400</div>
-	<div class="preset-filled-primary-500 flex items-center justify-center p-4">500</div>
-	<div class="preset-filled-primary-400-600 flex items-center justify-center p-4">400-600</div>
-	<div class="preset-filled-primary-300-700 flex items-center justify-center p-4">300-700</div>
-	<div class="preset-filled-primary-200-800 flex items-center justify-center p-4">200-800</div>
-	<div class="preset-filled-primary-100-900 flex items-center justify-center p-4">100-900</div>
-	<div class="preset-filled-primary-50-950 flex items-center justify-center p-4">50-950</div>
+	<div class="flex items-center justify-center preset-filled-primary-950-50 p-4">950-50</div>
+	<div class="flex items-center justify-center preset-filled-primary-900-100 p-4">900-100</div>
+	<div class="flex items-center justify-center preset-filled-primary-800-200 p-4">800-200</div>
+	<div class="flex items-center justify-center preset-filled-primary-700-300 p-4">700-300</div>
+	<div class="flex items-center justify-center preset-filled-primary-600-400 p-4">600-400</div>
+	<div class="flex items-center justify-center preset-filled-primary-500 p-4">500</div>
+	<div class="flex items-center justify-center preset-filled-primary-400-600 p-4">400-600</div>
+	<div class="flex items-center justify-center preset-filled-primary-300-700 p-4">300-700</div>
+	<div class="flex items-center justify-center preset-filled-primary-200-800 p-4">200-800</div>
+	<div class="flex items-center justify-center preset-filled-primary-100-900 p-4">100-900</div>
+	<div class="flex items-center justify-center preset-filled-primary-50-950 p-4">50-950</div>
 </div>
 ```
 
@@ -3288,15 +3288,15 @@ preset-tonal-{color}
 
 ```html
 <div class="grid w-full grid-cols-2 gap-2 lg:grid-cols-4">
-	<div class="preset-tonal flex items-center justify-center p-4">(neutral)</div>
+	<div class="flex items-center justify-center preset-tonal p-4">(neutral)</div>
 
-	<div class="preset-tonal-primary flex items-center justify-center p-4">primary</div>
-	<div class="preset-tonal-secondary flex items-center justify-center p-4">secondary</div>
-	<div class="preset-tonal-tertiary flex items-center justify-center p-4">tertiary</div>
-	<div class="preset-tonal-success flex items-center justify-center p-4">success</div>
-	<div class="preset-tonal-warning flex items-center justify-center p-4">warning</div>
-	<div class="preset-tonal-error flex items-center justify-center p-4">error</div>
-	<div class="preset-tonal-surface flex items-center justify-center p-4">surface</div>
+	<div class="flex items-center justify-center preset-tonal-primary p-4">primary</div>
+	<div class="flex items-center justify-center preset-tonal-secondary p-4">secondary</div>
+	<div class="flex items-center justify-center preset-tonal-tertiary p-4">tertiary</div>
+	<div class="flex items-center justify-center preset-tonal-success p-4">success</div>
+	<div class="flex items-center justify-center preset-tonal-warning p-4">warning</div>
+	<div class="flex items-center justify-center preset-tonal-error p-4">error</div>
+	<div class="flex items-center justify-center preset-tonal-surface p-4">surface</div>
 </div>
 ```
 
@@ -3308,19 +3308,19 @@ preset-outlined-{color}-{shade}-{shade}
 
 ```html
 <div class="grid w-full grid-cols-2 gap-2 lg:grid-cols-4">
-	<div class="preset-outlined flex items-center justify-center p-4">(neutral)</div>
+	<div class="flex items-center justify-center preset-outlined p-4">(neutral)</div>
 
-	<div class="preset-outlined-primary-950-50 flex items-center justify-center p-4">950-50</div>
-	<div class="preset-outlined-primary-900-100 flex items-center justify-center p-4">900-100</div>
-	<div class="preset-outlined-primary-800-200 flex items-center justify-center p-4">800-200</div>
-	<div class="preset-outlined-primary-700-300 flex items-center justify-center p-4">700-300</div>
-	<div class="preset-outlined-primary-600-400 flex items-center justify-center p-4">600-400</div>
-	<div class="preset-outlined-primary-500 flex items-center justify-center p-4">500</div>
-	<div class="preset-outlined-primary-400-600 flex items-center justify-center p-4">400-600</div>
-	<div class="preset-outlined-primary-300-700 flex items-center justify-center p-4">300-700</div>
-	<div class="preset-outlined-primary-200-800 flex items-center justify-center p-4">200-800</div>
-	<div class="preset-outlined-primary-100-900 flex items-center justify-center p-4">100-900</div>
-	<div class="preset-outlined-primary-50-950 flex items-center justify-center p-4">50-950</div>
+	<div class="flex items-center justify-center preset-outlined-primary-950-50 p-4">950-50</div>
+	<div class="flex items-center justify-center preset-outlined-primary-900-100 p-4">900-100</div>
+	<div class="flex items-center justify-center preset-outlined-primary-800-200 p-4">800-200</div>
+	<div class="flex items-center justify-center preset-outlined-primary-700-300 p-4">700-300</div>
+	<div class="flex items-center justify-center preset-outlined-primary-600-400 p-4">600-400</div>
+	<div class="flex items-center justify-center preset-outlined-primary-500 p-4">500</div>
+	<div class="flex items-center justify-center preset-outlined-primary-400-600 p-4">400-600</div>
+	<div class="flex items-center justify-center preset-outlined-primary-300-700 p-4">300-700</div>
+	<div class="flex items-center justify-center preset-outlined-primary-200-800 p-4">200-800</div>
+	<div class="flex items-center justify-center preset-outlined-primary-100-900 p-4">100-900</div>
+	<div class="flex items-center justify-center preset-outlined-primary-50-950 p-4">50-950</div>
 </div>
 ```
 
@@ -3338,8 +3338,8 @@ For advanced users, we recommend disabling the Skeleton presets in favor of cust
 ```html
 <div class="grid w-full max-w-[320px] grid-rows-3 gap-4">
 	<input type="text" class="input" value="Default Input State!" />
-	<input type="text" class="input preset-input-success" value="Valid Input State!" />
-	<input type="text" class="input preset-input-error" value="Invalid Input State!" />
+	<input type="text" class="preset-input-success input" value="Valid Input State!" />
+	<input type="text" class="preset-input-error input" value="Invalid Input State!" />
 </div>
 
 <style>
@@ -3362,14 +3362,14 @@ Tailwind provides a number of powerful [Gradient](https://tailwindcss.com/docs/g
 ```html
 <div class="w-full space-y-4">
 	<div class="grid grid-cols-3 gap-4">
-		<button class="btn preset-gradient-one">Button</button>
-		<button class="btn preset-gradient-two">Button</button>
-		<button class="btn preset-gradient-three">Button</button>
+		<button class="preset-gradient-one btn">Button</button>
+		<button class="preset-gradient-two btn">Button</button>
+		<button class="preset-gradient-three btn">Button</button>
 	</div>
 	<div class="grid grid-cols-3 gap-4 text-center">
-		<div class="card preset-gradient-one p-4">Card</div>
-		<div class="card preset-gradient-two p-4">Card</div>
-		<div class="card preset-gradient-three p-4">Card</div>
+		<div class="preset-gradient-one card p-4">Card</div>
+		<div class="preset-gradient-two card p-4">Card</div>
+		<div class="preset-gradient-three card p-4">Card</div>
 	</div>
 </div>
 
@@ -3398,7 +3398,7 @@ const baseClasses = 'card p-4 text-white text-center flex justify-start items-ce
 ---
 
 <div
-	class="rounded-container flex w-full items-center justify-center space-y-4 bg-[url(https://picsum.photos/id/249/1024/1024)] bg-cover bg-center bg-no-repeat p-4"
+	class="flex w-full items-center justify-center space-y-4 rounded-container bg-[url(https://picsum.photos/id/249/1024/1024)] bg-cover bg-center bg-no-repeat p-4"
 >
 	<div class="grid w-full grid-cols-1 gap-2">
 		<div class:list="{`${baseClasses}" preset-glass-neutral`}>Neutral</div>
@@ -3634,11 +3634,8 @@ Background images are supported, including CSS mesh gradients. The following exa
 
 ```css title="app.css"
 [data-theme='cerberus'] body {
-	background-image: radial-gradient(
-			at 24% 25%,
-			color-mix(in oklab, var(--color-primary-500) 30%, transparent) 0px,
-			transparent 30%
-		),
+	background-image:
+		radial-gradient(at 24% 25%, color-mix(in oklab, var(--color-primary-500) 30%, transparent) 0px, transparent 30%),
 		radial-gradient(at 35% 13%, color-mix(in oklab, var(--color-success-500) 18%, transparent) 0px, transparent 30%),
 		radial-gradient(at 100% 64%, color-mix(in oklab, var(--color-error-500) 3%, transparent) 0px, transparent 40%);
 	background-attachment: fixed;
@@ -4166,7 +4163,7 @@ const imgSrc =
 ---
 
 <div class="relative inline-block">
-	<span class="badge-icon preset-filled-primary-500 absolute -top-0 -right-0 z-10">2</span>
+	<span class="absolute -top-0 -right-0 z-10 badge-icon preset-filled-primary-500">2</span>
 	<img class="size-20 overflow-hidden rounded-full grayscale" src="{imgSrc}" alt="Avatar" />
 </div>
 ```
@@ -4244,9 +4241,9 @@ Provides full support of [Presets](/docs/design/presets).
 
 ```html
 <div class="flex items-center gap-4">
-	<button type="button" class="btn btn-sm preset-filled">Small</button>
-	<button type="button" class="btn btn-base preset-filled">Base</button>
-	<button type="button" class="btn btn-lg preset-filled">Large</button>
+	<button type="button" class="btn preset-filled btn-sm">Small</button>
+	<button type="button" class="btn preset-filled btn-base">Base</button>
+	<button type="button" class="btn preset-filled btn-lg">Large</button>
 </div>
 ```
 
@@ -4261,7 +4258,7 @@ When applied to a `<button>` element, you can use the `disabled` attribute.
 ## Group
 
 ```html
-<nav class="btn-group preset-outlined-surface-200-800 flex-col p-2 md:flex-row">
+<nav class="btn-group flex-col preset-outlined-surface-200-800 p-2 md:flex-row">
 	<button type="button" class="btn preset-filled">January</button>
 	<button type="button" class="btn hover:preset-tonal">February</button>
 	<button type="button" class="btn hover:preset-tonal">March</button>
@@ -4275,7 +4272,7 @@ When applied to a `<button>` element, you can use the `disabled` attribute.
 Provides container elements that wrap and separate content.
 
 ```html
-<div class="card preset-filled-surface-100-900 w-full max-w-md p-4 text-center">
+<div class="w-full max-w-md card preset-filled-surface-100-900 p-4 text-center">
 	<p>Card</p>
 </div>
 ```
@@ -4288,7 +4285,7 @@ const imgSrc =
 
 <a
 	href="#"
-	class="card preset-filled-surface-100-900 border-surface-200-800 card-hover divide-surface-200-800 block max-w-md divide-y overflow-hidden border-[1px]"
+	class="block max-w-md divide-y divide-surface-200-800 overflow-hidden card border-[1px] border-surface-200-800 preset-filled-surface-100-900 card-hover"
 >
 	<header>
 		<img src="{imgSrc}" class="aspect-[21/9] w-full grayscale hue-rotate-90" alt="banner" />
@@ -4471,16 +4468,16 @@ Use Tailwind's [border width](https://tailwindcss.com/docs/border-width) utiliti
 
 ```html
 <div class="w-full space-y-4">
-	<code class="code inline-block">Default</code>
+	<code class="inline-block code">Default</code>
 	<hr class="hr" />
 	<!-- --- -->
-	<code class="code inline-block">border-t-2</code>
+	<code class="inline-block code">border-t-2</code>
 	<hr class="hr border-t-2" />
 	<!-- --- -->
-	<code class="code inline-block">border-t-4</code>
+	<code class="inline-block code">border-t-4</code>
 	<hr class="hr border-t-4" />
 	<!-- --- -->
-	<code class="code inline-block">border-t-8</code>
+	<code class="inline-block code">border-t-8</code>
 	<hr class="hr border-t-8" />
 </div>
 ```
@@ -4491,16 +4488,16 @@ Use Tailwind's [border style](https://tailwindcss.com/docs/border-style) utiliti
 
 ```html
 <div class="w-full space-y-4">
-	<code class="code inline-block">border-solid</code>
+	<code class="inline-block code">border-solid</code>
 	<hr class="hr border-solid" />
 	<!-- --- -->
-	<code class="code inline-block">border-dashed</code>
+	<code class="inline-block code">border-dashed</code>
 	<hr class="hr border-dashed" />
 	<!-- --- -->
-	<code class="code inline-block">border-dotted</code>
+	<code class="inline-block code">border-dotted</code>
 	<hr class="hr border-dotted" />
 	<!-- --- -->
-	<code class="code inline-block">border-double</code>
+	<code class="inline-block code">border-double</code>
 	<hr class="hr border-4 border-double" />
 </div>
 ```
@@ -4511,25 +4508,25 @@ Use any Tailwind or Skeleton [colors or pairing](/docs/design/colors).
 
 ```html
 <div class="w-full space-y-4">
-	<code class="code inline-block">border-primary-500</code>
+	<code class="inline-block code">border-primary-500</code>
 	<hr class="hr border-primary-500" />
 	<!-- --- -->
-	<code class="code inline-block">border-secondary-500</code>
+	<code class="inline-block code">border-secondary-500</code>
 	<hr class="hr border-secondary-500" />
 	<!-- --- -->
-	<code class="code inline-block">border-tertiary-500</code>
+	<code class="inline-block code">border-tertiary-500</code>
 	<hr class="hr border-tertiary-500" />
 	<!-- --- -->
-	<code class="code inline-block">border-success-500</code>
+	<code class="inline-block code">border-success-500</code>
 	<hr class="hr border-success-500" />
 	<!-- --- -->
-	<code class="code inline-block">border-warning-500</code>
+	<code class="inline-block code">border-warning-500</code>
 	<hr class="hr border-warning-500" />
 	<!-- --- -->
-	<code class="code inline-block">border-error-500</code>
+	<code class="inline-block code">border-error-500</code>
 	<hr class="hr border-error-500" />
 	<!-- --- -->
-	<code class="code inline-block">border-surface-950-50</code>
+	<code class="inline-block code">border-surface-950-50</code>
 	<hr class="hr border-surface-950-50" />
 	<!-- --- -->
 </div>
@@ -4945,7 +4942,7 @@ const tableData = [
 				<td>{row.last}</td>
 				<td>{row.email}</td>
 				<td class="text-right">
-					<a class="btn btn-sm preset-filled" href="#"> View &rarr; </a>
+					<a class="btn preset-filled btn-sm" href="#"> View &rarr; </a>
 				</td>
 			</tr>
 			)) }
@@ -5763,7 +5760,7 @@ Define a `value` state on the Rail. This is updated to match each Tile `id` when
 	let value = $state('files');
 </script>
 
-<div class="card border-surface-100-900 grid h-[640px] w-full grid-cols-[auto_1fr] border-[1px]">
+<div class="grid h-[640px] w-full grid-cols-[auto_1fr] card border-[1px] border-surface-100-900">
 	<!-- Component -->
 	<Navigation.Rail {value} onValueChange={(newValue) => (value = newValue)}>
 		{#snippet tiles()}
@@ -5796,7 +5793,7 @@ Replace Tile `id` with `href` to convert each to a anchor link.
 	import IconSettings from '@lucide/svelte/icons/settings';
 </script>
 
-<div class="card border-surface-100-900 grid h-[640px] w-full grid-cols-[auto_1fr] border-[1px]">
+<div class="grid h-[640px] w-full grid-cols-[auto_1fr] card border-[1px] border-surface-100-900">
 	<!-- Component -->
 	<Navigation.Rail>
 		{#snippet header()}
@@ -5842,7 +5839,7 @@ Apply the `expanded` property to enable an expanded mode. Each tile will resize 
 	}
 </script>
 
-<div class="card border-surface-100-900 grid h-[760px] w-full grid-cols-[auto_1fr] border-[1px]">
+<div class="grid h-[760px] w-full grid-cols-[auto_1fr] card border-[1px] border-surface-100-900">
 	<!-- Component -->
 	<Navigation.Rail expanded={isExpansed}>
 		{#snippet header()}
@@ -5903,7 +5900,7 @@ Define a `value` state on the Bar. This is updated to match each Tile `id` when 
 	let value = $state('files');
 </script>
 
-<div class="card border-surface-100-900 grid h-[512px] w-[320px] grid-rows-[1fr_auto] border-[1px]">
+<div class="grid h-[512px] w-[320px] grid-rows-[1fr_auto] card border-[1px] border-surface-100-900">
 	<!-- Content -->
 	<div class="flex items-center justify-center">
 		<pre class="pre">value: {value}</pre>
@@ -5932,7 +5929,7 @@ Replace Tile `id` with `href` to convert each to a anchor link.
 	import IconVideo from '@lucide/svelte/icons/video';
 </script>
 
-<div class="card border-surface-100-900 grid h-[512px] w-[320px] grid-rows-[1fr_auto] border-[1px]">
+<div class="grid h-[512px] w-[320px] grid-rows-[1fr_auto] card border-[1px] border-surface-100-900">
 	<!-- Content -->
 	<div class="flex items-center justify-center">
 		<p class="opacity-20">(Content)</p>
@@ -5957,7 +5954,7 @@ Tiles are universal between Rails and Bars. They default to buttons, but will co
 	import IconBox from '@lucide/svelte/icons/box';
 </script>
 
-<div class="card preset-filled-surface-100-900 grid grid-cols-3 gap-5 p-5">
+<div class="grid grid-cols-3 gap-5 card preset-filled-surface-100-900 p-5">
 	<!-- By default tiles are <button> elements -->
 	<Navigation.Tile id="0" label="Button">
 		<IconBox />
@@ -6826,7 +6823,7 @@ Set `orientation="vertical"` to enable a vertical layout.
 Consider using a Skeleton [Button Group](/docs/tailwind/buttons#group) if you need finer grain control over the markup and styling.
 
 ```svelte
-<nav class="btn-group preset-outlined-surface-200-800 flex-col p-2 md:flex-row">
+<nav class="btn-group flex-col preset-outlined-surface-200-800 p-2 md:flex-row">
 	<button type="button" class="btn preset-filled">January</button>
 	<button type="button" class="btn hover:preset-tonal">February</button>
 	<button type="button" class="btn hover:preset-tonal">March</button>
