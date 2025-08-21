@@ -3,29 +3,30 @@ import type { LayoutLoad } from './$types';
 import { goto } from '$app/navigation';
 import { appkit } from '$lib/services/wallet/appkit';
 import type { Provider } from '@reown/appkit-adapter-solana';
+import { AuthClient } from '$lib/services/authn/client';
+import { toastError } from '$lib/services/toast';
 
 type data = {
 	did: string;
 };
 
-export const load: LayoutLoad = async ({ parent }) => {
-	const { isAuthenticated } = await parent();
-	if (!isAuthenticated) {
-		return goto('/');
-	}
-
-	const provider = appkit.getProvider('solana');
-	const solClient = new SolanaClient(provider as Provider);
-
+export const load: LayoutLoad = async () => {
 	const data: data = {
 		did: ''
 	};
 
+	const provider = appkit.getProvider('solana');
+	const solClient = new SolanaClient(provider as Provider);
+
 	try {
 		data.did = await solClient.getDIDPKH();
+		return data;
 	} catch (err) {
-		console.log(err);
-	}
+		toastError(String(err));
 
-	return data;
+		const auth = new AuthClient();
+		await auth.logout();
+
+		await goto('/');
+	}
 };

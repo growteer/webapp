@@ -1,5 +1,7 @@
 import type { LayoutLoad } from './$types';
-import { getSessionToken } from '$lib/storage/local';
+import { getSessionToken, removeRefreshToken, removeSessionToken } from '$lib/storage/local';
+import { appkit } from '$lib/services/wallet/appkit';
+import { goto } from '$app/navigation';
 
 export const ssr = false;
 export const prerender = false;
@@ -10,8 +12,27 @@ type data = {
 
 export const load: LayoutLoad = async () => {
 	const data: data = {
-		isAuthenticated: !!getSessionToken()
+		isAuthenticated: !!getSessionToken() && appkit.getIsConnectedState()
 	};
+
+	if (!data.isAuthenticated) {
+		if (getSessionToken()) {
+			removeSessionToken();
+			removeRefreshToken();
+		}
+
+		if (appkit.getIsConnectedState()) {
+			await appkit.disconnect();
+		}
+	}
+
+	if (!data.isAuthenticated && window.location.pathname !== '/') {
+		return goto('/');
+	}
+
+	if (data.isAuthenticated && window.location.pathname === '/') {
+		return goto('/profile');
+	}
 
 	return data;
 };

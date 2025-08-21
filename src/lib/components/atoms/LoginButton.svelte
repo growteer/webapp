@@ -17,7 +17,7 @@
 
 		toastSuccess('Successfully logged in');
 
-		goto("'profile");
+		return goto('/profile');
 	};
 </script>
 

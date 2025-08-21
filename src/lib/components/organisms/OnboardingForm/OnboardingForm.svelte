@@ -2,7 +2,6 @@
 	import { goto } from '$app/navigation';
 	import Input from '$lib/components/atoms/Input.svelte';
 	import { onboard } from '$lib/services/authn/mutations.gql';
-	import { removeRefreshToken, removeSessionToken } from '$lib/storage/local';
 	import { type FormData } from './schema';
 	import type { NewProfile } from '$lib/api/generated/types';
 	import { toastError } from '$lib/services/toast';
@@ -23,10 +22,7 @@
 		const auth = new AuthClient();
 		await auth.logout();
 
-		removeSessionToken();
-		removeRefreshToken();
-
-		goto('/');
+		return goto('/');
 	}
 
 	async function submit() {
@@ -49,7 +45,7 @@
 		try {
 			await onboard(profile);
 
-			return goto('/');
+			return goto('/profile');
 		} catch (err) {
 			submitting = false;
 			toastError(String(err));
@@ -73,7 +69,7 @@
 	</form>
 	<footer class="my-8 grid grid-cols-2 place-content-center gap-4">
 		<button type="submit" form={formID} class="btn gap-2 preset-filled-secondary-500" disabled={submitting}>
-			Sign up
+			Create Profile
 		</button>
 		<button type="button" class="btn gap-2 preset-outlined-surface-500" onclick={cancel}>Cancel</button>
 	</footer>
