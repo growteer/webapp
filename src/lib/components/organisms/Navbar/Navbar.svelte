@@ -8,6 +8,8 @@
 		name: string;
 		title: string;
 	}
+
+	const { name, title }: Props = $props();
 </script>
 
 <Navigation.Rail
@@ -27,7 +29,7 @@
 		</div>
 		<hr class="hr border-surface-100-900" />
 
-		<UserMenu name="Christian Brennecke" title="Director of Engineering" />
+		<UserMenu {name} {title} />
 		<hr class="hr border-surface-100-900" />
 	{/snippet}
 	{#snippet tiles()}
