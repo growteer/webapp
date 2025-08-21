@@ -11,7 +11,7 @@
 	}
 
 	let { data, children }: Props = $props();
-	const { isAuthenticated } = data;
+	const { isAuthenticated = false } = data;
 
 	setIsAuthenticatedContext(isAuthenticated);
 
