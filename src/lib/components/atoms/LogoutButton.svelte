@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { AuthClient } from '$lib/services/authn/client';
 	import { Navigation } from '@skeletonlabs/skeleton-svelte';
 	import { LogOut } from 'lucide-svelte';
@@ -7,7 +8,7 @@
 		const auth = new AuthClient();
 		await auth.logout();
 
-		window.location.href = '/';
+		goto('/');
 	};
 </script>
 

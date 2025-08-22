@@ -10,7 +10,7 @@ type data = {
 	isAuthenticated: boolean;
 };
 
-export const load: LayoutLoad = async () => {
+export const load: LayoutLoad = async ({ url }) => {
 	const data: data = {
 		isAuthenticated: !!getSessionToken() && appkit.getIsConnectedState()
 	};
@@ -26,11 +26,11 @@ export const load: LayoutLoad = async () => {
 		}
 	}
 
-	if (!data.isAuthenticated && window.location.pathname !== '/') {
+	if (!data.isAuthenticated && url.pathname !== '/') {
 		return goto('/');
 	}
 
-	if (data.isAuthenticated && window.location.pathname === '/') {
+	if (data.isAuthenticated && url.pathname === '/') {
 		return goto('/profile');
 	}
 
