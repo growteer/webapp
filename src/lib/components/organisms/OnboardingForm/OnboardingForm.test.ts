@@ -5,9 +5,9 @@ import OnboardingForm from './OnboardingForm.svelte';
 import type { FormData } from './schema';
 import { goto } from '$app/navigation';
 import { onboard } from '$lib/services/authn/mutations.gql';
-import { web3Auth } from '$lib/services/w3a/web3auth';
 import { removeRefreshToken, removeSessionToken } from '$lib/storage/local';
 import { toastError } from '$lib/services/toast';
+import { appkit } from '$lib/services/wallet/appkit';
 
 describe('OnboardingForm', () => {
 	let mockFormData: FormData;
@@ -22,9 +22,9 @@ describe('OnboardingForm', () => {
 			onboard: vi.fn()
 		}));
 
-		vi.mock('$lib/services/w3a/web3auth', () => ({
-			web3Auth: {
-				logout: vi.fn()
+		vi.mock('$lib/services/wallet/appkit', () => ({
+			appkit: {
+				disconnect: vi.fn()
 			}
 		}));
 
@@ -75,7 +75,7 @@ describe('OnboardingForm', () => {
 	it('renders sign up and cancel buttons', () => {
 		render(OnboardingForm, { formData: mockFormData });
 
-		expect(screen.getByRole('button', { name: /sign up/i })).toBeInTheDocument();
+		expect(screen.getByRole('button', { name: /create profile/i })).toBeInTheDocument();
 		expect(screen.getByRole('button', { name: /cancel/i })).toBeInTheDocument();
 	});
 
@@ -106,7 +106,7 @@ describe('OnboardingForm', () => {
 
 		render(OnboardingForm, { formData: completeFormData });
 
-		const submitButton = screen.getByRole('button', { name: /sign up/i });
+		const submitButton = screen.getByRole('button', { name: /create profile/i });
 		await user.click(submitButton);
 
 		await waitFor(() => {
@@ -122,7 +122,7 @@ describe('OnboardingForm', () => {
 			});
 		});
 
-		expect(goto).toHaveBeenCalledWith('/');
+		expect(goto).toHaveBeenCalledWith('/profile');
 	});
 
 	it('submits form with only required fields', async () => {
@@ -141,7 +141,7 @@ describe('OnboardingForm', () => {
 
 		render(OnboardingForm, { formData: minimalFormData });
 
-		const submitButton = screen.getByRole('button', { name: /sign up/i });
+		const submitButton = screen.getByRole('button', { name: /create profile/i });
 		await user.click(submitButton);
 
 		await waitFor(() => {
@@ -172,7 +172,7 @@ describe('OnboardingForm', () => {
 
 		render(OnboardingForm, { formData: formDataWithRequiredFields });
 
-		const submitButton = screen.getByRole('button', { name: /sign up/i });
+		const submitButton = screen.getByRole('button', { name: /create profile/i });
 		await user.click(submitButton);
 
 		await waitFor(() => {
@@ -204,7 +204,7 @@ describe('OnboardingForm', () => {
 
 		render(OnboardingForm, { formData: formDataWithRequiredFields });
 
-		const submitButton = screen.getByRole('button', { name: /sign up/i });
+		const submitButton = screen.getByRole('button', { name: /create profile/i });
 		await user.click(submitButton);
 
 		expect(submitButton).toBeDisabled();
@@ -219,10 +219,9 @@ describe('OnboardingForm', () => {
 		const cancelButton = screen.getByRole('button', { name: /cancel/i });
 		await user.click(cancelButton);
 
-		expect(web3Auth.logout).toHaveBeenCalled();
+		expect(appkit.disconnect).toHaveBeenCalled();
 		expect(removeSessionToken).toHaveBeenCalled();
 		expect(removeRefreshToken).toHaveBeenCalled();
-		expect(window.location.href).toBe('/');
 	});
 
 	it('has required attribute set on inputs appropriately', () => {
