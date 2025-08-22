@@ -1,8 +1,6 @@
 import { render, screen } from '@testing-library/svelte';
 import { describe, it, expect, vi, beforeAll, afterAll } from 'vitest';
-import { writable } from 'svelte/store';
 import Navbar from './Navbar.svelte';
-import * as contexts from '$lib/contexts';
 
 describe('Navbar', () => {
 	beforeAll(() => {
@@ -23,12 +21,15 @@ describe('Navbar', () => {
 	});
 
 	it('renders logout button and profile link when user is authenticated', () => {
-		vi.spyOn(contexts, 'getIsAuthenticatedContext').mockReturnValue(writable(true));
+		render(Navbar, {
+			props: {
+				name: 'Jane Doe',
+				title: 'Duke of York'
+			}
+		});
 
-		render(Navbar);
-
-		expect(screen.getByTitle(/logout/i)).toBeInTheDocument();
-		expect(screen.getByText('Profile')).toBeInTheDocument();
-		expect(screen.queryByTitle(/login/i)).not.toBeInTheDocument();
+		expect(screen.getByTitle(/signout/i)).toBeInTheDocument();
+		expect(screen.getByText('Jane Doe')).toBeInTheDocument();
+		expect(screen.getByText('Duke of York')).toBeInTheDocument();
 	});
 });
