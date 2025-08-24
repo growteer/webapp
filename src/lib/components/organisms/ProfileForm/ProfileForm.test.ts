@@ -73,7 +73,8 @@ describe('ProfileForm', () => {
 		expect(saveButton).toBeDisabled();
 
 		const firstNameInput = screen.getByLabelText(/first name/i);
-		await user.type(firstNameInput, 'Jane');
+		await user.clear(firstNameInput);
+		await user.type(firstNameInput, 'delayed');
 		await user.tab();
 
 		expect(saveButton).toBeEnabled();
