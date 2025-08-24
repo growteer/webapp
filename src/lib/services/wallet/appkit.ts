@@ -12,8 +12,13 @@ export const appkit = createAppKit({
 	defaultNetwork: network,
 	projectId: PUBLIC_REOWN_PROJECT_ID,
 	features: {
-		analytics: true
-	}
+		analytics: true,
+		allWallets: false
+	},
+	enableWalletConnect: false,
+	enableWalletGuide: false,
+	enableAuthLogger: false,
+	enableWallets: false
 });
 
 export const getProvider = () => {
