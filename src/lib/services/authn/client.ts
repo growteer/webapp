@@ -35,13 +35,37 @@ export class AuthClient {
 
 	async loginModal(): Promise<Provider> {
 		return new Promise((resolve, reject) => {
-			appkit.subscribeProviders((state) => {
-				if (!state.solana) return reject(new Error('Solana provider not available'));
+			const unsubscribeEvents = appkit.subscribeEvents(async (state) => {
+				if (state.data.event === 'CONNECT_SUCCESS') {
+					console.log('connection success');
+				}
+				if (state.data.event !== 'MODAL_CLOSE') return;
 
-				return resolve(state.solana as Provider);
+				unsubscribeEvents();
+
+				// We have to use this retry for now, as the MODAL_CLOSE event is fired before the provider is
+				// ready, thus appkit.subscribeProviders also doesn't work in conjunction with MODAL_CLOSE. This
+				// seems the only option to reliably handle both the happy path and the user closing the modal.
+				const provider = await this.getProviderWithRetry(5, 10);
+				if (provider) return resolve(provider);
+
+				reject(new Error('Login modal closed before connecting'));
 			});
 
 			appkit.open({ view: 'Connect' });
 		});
+	}
+
+	async getProviderWithRetry(attempts: number, delay: number): Promise<Provider | undefined> {
+		for (let i = 0; i < attempts; i++) {
+			const provider = appkit.getProvider<Provider>('solana');
+			if (provider) return provider;
+
+			if (i < attempts - 1) {
+				await new Promise((resolve) => setTimeout(resolve, delay));
+			}
+		}
+
+		return;
 	}
 }
