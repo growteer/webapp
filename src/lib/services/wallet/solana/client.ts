@@ -1,5 +1,5 @@
 import type { Provider } from '@reown/appkit-adapter-solana';
-import { appkit } from '../wallet/appkit';
+import { appkit } from '../appkit';
 
 export class SolanaClient {
 	private provider: Provider;

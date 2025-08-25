@@ -1,4 +1,4 @@
-import { SolanaClient } from '$lib/services/solana/client';
+import { SolanaClient } from '$lib/services/wallet/solana/client';
 import type { LayoutLoad } from './$types';
 import { goto } from '$app/navigation';
 import { appkit } from '$lib/services/wallet/appkit';

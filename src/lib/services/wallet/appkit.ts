@@ -1,7 +1,7 @@
 import { createAppKit } from '@reown/appkit';
 import { SolanaAdapter, type Provider } from '@reown/appkit-adapter-solana';
 import { PUBLIC_REOWN_PROJECT_ID } from '$env/static/public';
-import { solanaChainParams } from '../solana/config';
+import { solanaChainParams } from './solana/config';
 
 const solanaWeb3JsAdapter = new SolanaAdapter();
 const network = solanaChainParams().appkitConfig;

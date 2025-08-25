@@ -1,5 +1,5 @@
 import { removeRefreshToken, removeSessionToken } from '$lib/storage/local';
-import { SolanaClient } from '../solana/client';
+import { SolanaClient } from '../wallet/solana/client';
 import { appkit } from '$lib/services/wallet/appkit';
 import { generateNonce, login } from './mutations.gql';
 import type { Provider } from '@reown/appkit-adapter-solana';
