@@ -2,6 +2,7 @@
 	import { Heading } from '$lib/components/atoms';
 	import { ProfileForm } from '$lib/components/organisms';
 	import type { PageData } from './$types';
+	import { _ } from '$lib/services/i18n';
 
 	interface Props {
 		data: PageData;
@@ -12,7 +13,7 @@
 </script>
 
 <div>
-	<Heading type="h1">Update Your Profile</Heading>
+	<Heading type="h1">{$_('profile.title')}</Heading>
 	<ProfileForm
 		profileData={{
 			firstName: profile.firstName,
