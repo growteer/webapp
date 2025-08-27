@@ -4,6 +4,7 @@
 	import { Toaster } from '@skeletonlabs/skeleton-svelte';
 	import { getToaster } from '$lib/services/toast';
 	import { setIsAuthenticatedContext } from '$lib/contexts';
+	import '$lib/services/i18n';
 
 	interface Props {
 		data: LayoutData;

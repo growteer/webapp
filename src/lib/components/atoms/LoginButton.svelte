@@ -2,6 +2,7 @@
 	import { AuthClient } from '$lib/services/authn/client';
 	import { goto } from '$app/navigation';
 	import { toastError, toastSuccess } from '$lib/services/toast';
+	import { _ } from '$lib/services/i18n';
 
 	const auth = new AuthClient();
 
@@ -15,10 +16,12 @@
 			return goto('/');
 		}
 
-		toastSuccess('Successfully logged in');
+		toastSuccess($_('auth.signInSuccess'));
 
 		return goto('/profile');
 	};
 </script>
 
-<button type="button" id="btn-login" onclick={handleLogin} class="btn preset-filled-primary-500 btn-lg">Login</button>
+<button type="button" id="btn-login" onclick={handleLogin} class="btn preset-filled-primary-500 btn-lg">
+	{$_('common.signIn')}
+</button>
