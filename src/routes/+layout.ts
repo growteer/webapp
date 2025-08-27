@@ -2,6 +2,7 @@ import type { LayoutLoad } from './$types';
 import { getSessionToken, removeRefreshToken, removeSessionToken } from '$lib/storage/local';
 import { appkit } from '$lib/services/wallet/appkit';
 import { goto } from '$app/navigation';
+import { initialize as initI18n } from '$lib/services/i18n';
 
 export const ssr = false;
 export const prerender = false;
@@ -11,6 +12,7 @@ type data = {
 };
 
 export const load: LayoutLoad = async ({ url }) => {
+	await initI18n();
 	const data: data = {
 		isAuthenticated: !!getSessionToken() && appkit.getIsConnectedState()
 	};

@@ -1,8 +1,16 @@
 import '@testing-library/jest-dom/vitest';
 import { beforeAll, afterEach, afterAll } from 'vitest';
 import { server } from './src/mocks/server';
+import { initialize } from '$lib/services/i18n';
 
-beforeAll(() => server.listen());
+beforeAll(async () => {
+	server.listen();
+
+	await initialize({
+		fallbackLocale: 'en',
+		initialLocale: 'en'
+	});
+});
 
 afterEach(() => server.resetHandlers());
 

@@ -6,6 +6,7 @@
 	import type { NewProfile } from '$lib/api/generated/types';
 	import { toastError } from '$lib/services/toast';
 	import { AuthClient } from '$lib/services/authn/client';
+	import { _ } from '$lib/services/i18n';
 
 	interface Props {
 		formData: FormData;
@@ -56,21 +57,21 @@
 <section class="mx-auto grid w-full max-w-md grid-cols-1">
 	<form id={formID} onsubmit={submit} class=" space-y-4">
 		<!-- mandatory-->
-		<Input label="First Name" type="text" bind:value={formData.firstName} required />
-		<Input label="Last Name" type="text" bind:value={formData.lastName} required />
-		<Input label="Date of Birth" type="date" bind:value={formData.dateOfBirth} required />
-		<Input label="Email" type="email" bind:value={formData.primaryEmail} required />
+		<Input label={$_('profile.fields.firstName')} type="text" bind:value={formData.firstName} required />
+		<Input label={$_('profile.fields.lastName')} type="text" bind:value={formData.lastName} required />
+		<Input label={$_('profile.fields.dateOfBirth')} type="date" bind:value={formData.dateOfBirth} required />
+		<Input label={$_('profile.fields.email')} type="email" bind:value={formData.primaryEmail} required />
 
 		<!-- optional -->
-		<Input label="Country" type="text" bind:value={formData.country} />
-		<Input label="Postal Code" type="text" bind:value={formData.postalCode} />
-		<Input label="City" type="text" bind:value={formData.city} />
-		<Input label="Website" type="text" bind:value={formData.website} />
+		<Input label={$_('profile.fields.country')} type="text" bind:value={formData.country} />
+		<Input label={$_('profile.fields.postalCode')} type="text" bind:value={formData.postalCode} />
+		<Input label={$_('profile.fields.city')} type="text" bind:value={formData.city} />
+		<Input label={$_('profile.fields.website')} type="text" bind:value={formData.website} />
 	</form>
 	<footer class="my-8 grid grid-cols-2 place-content-center gap-4">
 		<button type="submit" form={formID} class="btn gap-2 preset-filled-secondary-500" disabled={submitting}>
-			Create Profile
+			{$_('onboarding.createProfile')}
 		</button>
-		<button type="button" class="btn gap-2 preset-outlined-surface-500" onclick={cancel}>Cancel</button>
+		<button type="button" class="btn gap-2 preset-outlined-surface-500" onclick={cancel}>{$_('common.cancel')}</button>
 	</footer>
 </section>
