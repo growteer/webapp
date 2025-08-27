@@ -21,7 +21,6 @@ jobs:
     env:
       PUBLIC_API_URL: http://gt.localhost/query
       PUBLIC_REOWN_PROJECT_ID: notAvalidClientId
-      PUBLIC_GOOGLE_CLIENT_ID: alsoNotAvalidClientId
       PUBLIC_SOLANA_NETWORK: devnet
 
     steps:
