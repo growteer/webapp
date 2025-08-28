@@ -3,6 +3,7 @@
 	import { Shrub } from 'lucide-svelte';
 	import { LogoutButton } from '$lib/components/atoms';
 	import { UserMenu } from '$lib/components/molecules';
+	import { _ } from '$lib/services/i18n';
 
 	interface Props {
 		name: string;
@@ -24,7 +25,7 @@
 	{#snippet header()}
 		<div class="flex w-full justify-start py-4">
 			<Shrub class="mx-2" size="32" color="oklch(74.42% 0.15 165.81deg)" /><span class="text-2xl text-primary-500"
-				>Growteer</span
+				>{$_('navigation.appName')}</span
 			>
 		</div>
 		<hr class="hr border-surface-100-900" />

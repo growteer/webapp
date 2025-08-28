@@ -3,6 +3,7 @@
 	import { AuthClient } from '$lib/services/authn/client';
 	import { Navigation } from '@skeletonlabs/skeleton-svelte';
 	import { LogOut } from 'lucide-svelte';
+	import { _ } from '$lib/services/i18n';
 
 	const handleLogout = async () => {
 		const auth = new AuthClient();
@@ -15,7 +16,7 @@
 <Navigation.Tile
 	id="btn-signout"
 	expandedPadding="py-2 px-2"
-	labelExpanded="Sign out"
+	labelExpanded={$_('common.signOut')}
 	title="signout"
 	classes="text-error-500"
 	expandedClasses="text-error-600-400"

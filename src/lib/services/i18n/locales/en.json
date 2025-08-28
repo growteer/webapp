@@ -1,0 +1,60 @@
+{
+	"common": {
+		"signIn": "Sign in",
+		"signOut": "Sign out",
+		"signUp": "Sign up",
+		"cancel": "Cancel",
+		"save": "Save",
+		"loading": "Loading...",
+		"error": "Error",
+		"success": "Success"
+	},
+	"navigation": {
+		"appName": "Growteer",
+		"myCompany": "My Company",
+		"profile": "Profile",
+		"dashboard": "Dashboard"
+	},
+	"home": {
+		"title": "The place where {growth} happens on your own terms and {connections} turn into opportunities.",
+		"subtitle": "Sign up to experience professional and meaningful social connections or sign in if you've been here before.",
+		"growth": "growth",
+		"connections": "connections"
+	},
+	"auth": {
+		"signInSuccess": "Successfully signed in",
+		"signOutSuccess": "Successfully signed out",
+		"signInError": "Sign in failed",
+		"authenticationError": "Authentication error",
+		"missingDid": "Authentication error: Missing DID"
+	},
+	"profile": {
+		"title": "Update Your Profile",
+		"updateSuccess": "Profile updated successfully",
+		"updateError": "Failed to update profile. Please try again.",
+		"fields": {
+			"firstName": "First Name",
+			"lastName": "Last Name",
+			"dateOfBirth": "Date of Birth",
+			"email": "Email",
+			"country": "Country",
+			"city": "City",
+			"postalCode": "Postal Code",
+			"website": "Website",
+			"personalGoal": "Personal Goal",
+			"about": "About Me"
+		}
+	},
+	"onboarding": {
+		"title": "Create Your Profile For Full Access",
+		"subtitle": "Complete your profile to get the most out of Growteer",
+		"createProfile": "Create Profile"
+	},
+	"validation": {
+		"required": "This field is required",
+		"invalidEmail": "Please enter a valid email address",
+		"invalidDate": "Please enter a valid date",
+		"tooShort": "This field is too short",
+		"tooLong": "This field is too long"
+	}
+}
