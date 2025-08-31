@@ -56,5 +56,61 @@
 		"invalidDate": "Please enter a valid date",
 		"tooShort": "This field is too short",
 		"tooLong": "This field is too long"
+	},
+	"errors": {
+		"auth": {
+			"unauthenticated": "You need to sign in to access this feature",
+			"unauthorized": "You don't have permission to perform this action",
+			"session_expired": "Your session has expired. Please sign in again",
+			"invalid_credentials": "Invalid credentials. Please check your login information",
+			"missing_did": "Authentication error: Missing digital identity"
+		},
+		"api": {
+			"network_error": "Network error. Please check your connection and try again",
+			"timeout": "Request timed out. Please try again",
+			"bad_request": "Invalid request. Please check your input",
+			"server_error": "Server error. Please try again later",
+			"not_found": "The requested resource was not found",
+			"rate_limited": "Too many requests. Please wait a moment and try again"
+		},
+		"wallet": {
+			"connection_failed": "Failed to connect to wallet. Please try again",
+			"transaction_failed": "Transaction failed. Please try again",
+			"insufficient_funds": "Insufficient funds to complete the transaction",
+			"network_mismatch": "Wallet is connected to a different network",
+			"user_rejected": "Transaction was rejected by user"
+		},
+		"ui": {
+			"component_error": "An interface error occurred. Please refresh the page",
+			"navigation_error": "Navigation error. Please try again",
+			"form_submission_error": "Failed to submit form. Please check your input and try again"
+		},
+		"validation": {
+			"required_field": "This field is required",
+			"invalid_format": "Invalid format. Please check your input",
+			"out_of_range": "Value is out of the allowed range"
+		},
+		"external": {
+			"service_unavailable": "External service is temporarily unavailable",
+			"api_error": "External service error. Please try again later"
+		},
+		"storage": {
+			"quota_exceeded": "Storage quota exceeded. Please free up some space",
+			"access_denied": "Storage access denied",
+			"corruption": "Data corruption detected. Please refresh the application"
+		},
+		"system": {
+			"unknown_error": "An unexpected error occurred. Please try again",
+			"configuration_error": "Application configuration error. Please contact support"
+		}
+	},
+	"recovery": {
+		"retry": "Try Again",
+		"refresh": "Refresh Page",
+		"navigate_home": "Go Home",
+		"contact_support": "Contact Support",
+		"check_network": "Check Network",
+		"update_browser": "Update Browser",
+		"clear_cache": "Clear Cache"
 	}
 }
