@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/growteer/webapp/graph/badge.svg?token=XW113W2X01)](https://codecov.io/gh/growteer/webapp)
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
