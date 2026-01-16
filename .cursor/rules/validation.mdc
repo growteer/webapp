@@ -1,0 +1,59 @@
+---
+description: When working on forms or API calls
+alwaysApply: false
+---
+# Validation Rules
+
+## Validation Stack
+
+Use **Zod** for schema validation and **React Hook Form** for form handling:
+
+```typescript
+// ✅ CORRECT: Define Zod schema
+import { z } from "zod";
+export const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8),
+});
+```
+
+## Form Validation Pattern
+
+**ALWAYS use `useTypedForm`** from `@/lib/validation/form-helpers`:
+
+```typescript
+// ✅ CORRECT: Type-safe form with Zod validation
+import { useTypedForm } from "@/lib/validation/form-helpers";
+import { loginSchema, type LoginFormData } from "@/lib/validation";
+
+function LoginForm() {
+  const { register, handleSubmit, formState: { errors } } = useTypedForm(loginSchema);
+  
+  const onSubmit = (data: LoginFormData) => {
+    // data is type-safe
+  };
+}
+```
+
+## Schema Organization
+
+- **Common schemas**: `lib/validation/schemas.ts` (email, password, etc.)
+- **Feature schemas**: Can live in feature folders if feature-specific
+- **Export types**: Use `z.infer<typeof schema>` for TypeScript types
+
+## Runtime Validation
+
+- Use Zod for **runtime validation** of forms and API responses
+- When API types are auto-generated, Zod is **optional** for API responses
+- **Always validate forms** - use Zod schemas with React Hook Form
+
+## Validation Utilities
+
+- Use `getFieldError()` and `formatZodErrors()` from `@/lib/validation` if needed
+- React Hook Form integration via `zodResolver` is handled by `useTypedForm`
+
+## Rules
+
+- **DO NOT skip validation** - always validate user input
+- **Use existing schemas** - check `lib/validation/schemas.ts` before creating new ones
+- **Type inference** - export types from schemas: `export type LoginFormData = z.infer<typeof loginSchema>`

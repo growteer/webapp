@@ -1,0 +1,162 @@
+---
+description: When working on anything related to API calls / data fetching
+alwaysApply: false
+---
+# Data Fetching & API Rules
+
+## Centralized API Client
+
+**ALWAYS use the centralized API client** from `@/lib/api/client`:
+
+```typescript
+// ✅ CORRECT: Use centralized client
+import { apiClient } from "@/lib/api";
+
+const response = await apiClient.post<RequestType, ResponseType>("/endpoint", data);
+```
+
+### API Client Features
+
+The `apiClient` automatically handles:
+- Authentication tokens (from Zustand auth store)
+- Error handling and 401 redirects
+- Request/response interceptors
+- Timeout handling
+- Base URL configuration
+
+### API Functions Location
+
+- **Feature-specific API functions**: `features/{feature}/api/`
+- **Use centralized client**: Import `apiClient` in feature API files
+- **Type safety**: Use TypeScript generics for request/response types
+
+```typescript
+// ✅ CORRECT: Feature API function
+// features/users/api/users.ts
+import { apiClient } from "@/lib/api";
+import type { User, CreateUserRequest } from "../types";
+
+export async function createUser(data: CreateUserRequest) {
+  return apiClient.post<CreateUserRequest, User>("/users", data);
+}
+```
+
+### Environment Variables
+
+- Use `NEXT_PUBLIC_API_BASE_URL` for API base URL
+- Defaults to `http://localhost:3001/api` if not set
+- API client reads from `API_BASE_URL` constant in `lib/constants/`
+
+## Data Fetching Strategy
+
+Use a **hybrid approach** based on context:
+
+### Server Components (Default)
+
+```typescript
+// ✅ CORRECT: Fetch in Server Components for initial data
+export default async function Page() {
+  const posts = await fetch("https://api.example.com/posts").then(r => r.json());
+  return <PostsList posts={posts} />;
+}
+```
+
+**Use Server Components for:**
+- Initial page data
+- SEO-critical content
+- Public data that doesn't change frequently
+- Data that benefits from SSR
+
+### TanStack Query (Client Components)
+
+```typescript
+// ✅ CORRECT: Use TanStack Query for dynamic/interactive data
+"use client";
+import { useQuery } from "@tanstack/react-query";
+import { apiClient } from "@/lib/api";
+
+export function UserProfile({ userId }: { userId: string }) {
+  const { data: user } = useQuery({
+    queryKey: ["user", userId],
+    queryFn: () => apiClient.get(`/users/${userId}`),
+  });
+  return <div>{user?.name}</div>;
+}
+```
+
+**Use TanStack Query for:**
+- User-specific data after hydration
+- Real-time updates
+- Optimistic updates
+- Data that needs caching/refetching
+- Interactive features
+
+### Parallel Data Fetching
+
+```typescript
+// ✅ CORRECT: Fetch multiple sources in parallel
+export default async function Page() {
+  const [users, posts, comments] = await Promise.all([
+    fetchUsers(),
+    fetchPosts(),
+    fetchComments(),
+  ]);
+  return <Dashboard users={users} posts={posts} comments={comments} />;
+}
+```
+
+## Error Handling
+
+- API client returns `ApiResponse<T>` with `success` and `error` fields
+- Always check `response.success` before using `response.data`
+- Handle errors in components/hooks, not in API functions
+
+```typescript
+// ✅ CORRECT: Error handling pattern
+const response = await apiClient.get<User>("/user/me");
+if (response.success && response.data) {
+  // Use response.data
+} else {
+  // Handle response.error
+}
+```
+
+## Type Generation
+
+- **Auto-generate types** from OpenAPI/GraphQL schema when available
+- Generated types go in `lib/api/generated/`
+- See `scripts/generate-api-types.md` for setup
+- **DO NOT manually write API types** if schema is available - generate them
+
+## TanStack Query Best Practices
+
+### Query Keys
+
+- Use **consistent query keys** across the app
+- Structure: `["resource", id, ...filters]`
+- Examples: `["users", userId]`, `["posts", { category: "tech" }]`
+
+### Mutations
+
+- Use `useMutation` for create/update/delete operations
+- Invalidate related queries after successful mutations
+- Use optimistic updates for better UX
+
+```typescript
+// ✅ CORRECT: Mutation with query invalidation
+const mutation = useMutation({
+  mutationFn: createPost,
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ["posts"] });
+  },
+});
+```
+
+## General Rules
+
+- **Fetch in parallel** when possible in Server Components
+- **Use TanStack Query** for data that needs reactivity
+- **Invalidate queries** after mutations
+- **Don't fetch data unnecessarily** - use React Query's caching
+- **Server Components by default** - only use Client Components when needed
+- **Always use the centralized API client** - never use `fetch` directly for API calls

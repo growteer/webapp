@@ -1,0 +1,71 @@
+---
+description: When adding or changing visible texts in the UI
+alwaysApply: false
+---
+# Internationalization Rules
+
+## i18n Library
+
+Use **next-intl** for all internationalization:
+
+## Locale Structure
+
+- **Locales folder**: `src/locales/{locale}/common.json`
+- **Supported locales**: defined in `lib/i18n/routing.ts`
+- **Route structure**: All routes under `app/[locale]/`
+
+## Usage Patterns
+
+### Server Components
+
+```typescript
+// ✅ CORRECT: Use getTranslations in Server Components
+import { getTranslations } from "next-intl/server";
+
+export default async function Page() {
+  const t = await getTranslations();
+  return <h1>{t("common.welcome")}</h1>;
+}
+```
+
+### Client Components
+
+```typescript
+// ✅ CORRECT: Use useTranslations in Client Components
+"use client";
+import { useTranslations } from "next-intl";
+
+export function Component() {
+  const t = useTranslations();
+  return <button>{t("common.save")}</button>;
+}
+```
+
+### Navigation
+
+```typescript
+// ✅ CORRECT: Use next-intl Link for locale-aware navigation
+import { Link } from "@/lib/i18n/routing";
+
+<Link href="/dashboard">Dashboard</Link>
+```
+
+## Translation Files
+
+- Translation files are JSON objects
+- Use nested structure: `common.appName`, `navigation.home`
+- Always add translations for both `en` and `de` locales
+- Use interpolation: `{t("footer.copyright", { year: 2024 })}`
+
+## Middleware
+
+- Middleware handles locale detection and routing
+- Located at project root: `middleware.ts`
+- Automatically redirects to appropriate locale
+
+## Rules
+
+- **NEVER use Next.js `Link` directly** - use `@/lib/i18n/routing` Link
+- **Always use translation functions** - don't hardcode strings
+- **Add translations** - for all supported locales
+- **Use nested keys** - organize translations logically (`common.*`, `navigation.*`)
