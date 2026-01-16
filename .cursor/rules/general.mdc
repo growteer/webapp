@@ -1,0 +1,72 @@
+---
+alwaysApply: true
+---
+
+# General Rules & Best Practices
+
+## Tech Stack
+
+- **Framework**: Next.js 15 with App Router
+- **Language**: TypeScript (strict mode)
+- **Package Manager**: pnpm
+- **UI Library**: Shadcn/ui components
+- **Styling**: Tailwind CSS v4
+
+## Core Libraries
+
+- **i18n**: next-intl
+- **Server State**: TanStack Query v5
+- **Client State**: Zustand
+- **Validation**: Zod + React Hook Form
+- **Forms**: React Hook Form with Zod resolver
+
+## Code Quality
+
+### Readability
+- Prioritize clarity over brevity
+- Use expressive, descriptive names
+- Add comments for complex logic
+
+### Maintainability
+- Group code by feature, not by type
+- Keep functions small and focused
+- Extract utilities to appropriate `lib/` folders
+
+### Reusability
+- Extract shared logic to `lib/` utilities
+- Create reusable components in `components/`
+- Use feature modules for feature-specific code
+
+## Accessibility
+
+- Shadcn components follow Radix UI accessibility patterns
+- Always provide ARIA labels where needed
+- Support keyboard navigation
+- Ensure proper focus management
+
+## Performance
+
+- Use Server Components by default (reduces bundle size)
+- Use `next/dynamic` for code splitting heavy components
+- Always use `next/image` for images
+- Use `next/font` for font optimization
+- Implement route-based code splitting (automatic in Next.js)
+
+## File Organization
+
+- **No barrel files** - Don't use `index.ts` that re-exports from multiple files
+- **Direct imports** - Import from specific files, not barrels
+- **Feature ownership** - Each feature in `features/` is self-contained
+
+## Error Handling
+
+- Handle errors gracefully
+- Provide fallback UI for errors
+- Use error boundaries where appropriate
+- Log errors for debugging (use consistent logging strategy)
+
+## Testing
+
+- Use Vitest for unit tests
+- Use React Testing Library for component tests
+- Use MSW for API mocking in tests

@@ -1,0 +1,60 @@
+---
+description: Every time a new feature, file or folder has to be created
+alwaysApply: false
+---
+# Architecture Rules
+
+## Folder Structure
+
+Follow this exact structure for consistency:
+
+```
+src/
+├── app/                    # Next.js App Router (routes only)
+│   └── [locale]/           # Locale-based routing
+│       ├── (auth)/         # Route groups with parentheses
+│       ├── (dashboard)/
+│       └── layout.tsx      # Locale-specific layout
+├── components/             # Shared UI components (not route-specific)
+│   ├── ui/                 # Shadcn components
+│   ├── layout/             # Layout components (Header, Footer, Sidebar)
+│   ├── forms/              # Reusable form components
+│   └── features/           # Feature-specific shared components
+├── features/               # Feature modules (feature-sliced architecture)
+│   └── {feature-name}/
+│       ├── api/            # API client functions
+│       ├── components/     # Feature-specific UI components
+│       ├── hooks/          # Feature-specific hooks
+│       ├── lib/            # Feature-specific utilities
+│       └── types/          # Feature-specific types
+├── lib/                    # Core utilities and infrastructure
+│   ├── api/                # API client (centralized)
+│   ├── i18n/               # Internationalization config
+│   ├── react-query/        # React Query provider
+│   ├── validation/         # Zod schemas and form helpers
+│   └── pwa/                # PWA utilities
+├── hooks/                  # Shared React hooks (not feature-specific)
+├── store/                  # Zustand stores (global state)
+├── types/                  # Global TypeScript types
+└── locales/                # Translation files (next-intl)
+```
+
+## Naming Conventions
+
+- **Folders**: camelCase for features/lib (`auth`, `apiClient`), kebab-case for routes
+- **Components**: PascalCase (`UserProfile.tsx`)
+- **Files**: camelCase for utilities/hooks (`useAuth.ts`), PascalCase for components
+- **Route groups**: Use parentheses `(auth)`, `(dashboard)` to organize without affecting URLs
+- **NO underscore prefixes** - Next.js App Router distinguishes routes via `(folderName)` syntax
+
+## Feature-Sliced Architecture
+
+Each feature in `features/` must be self-contained:
+
+- `api/` - API client functions for this feature
+- `components/` - Feature-specific UI components
+- `hooks/` - Feature-specific React hooks
+- `lib/` - Feature-specific utilities/logic
+- `types/` - Feature-specific TypeScript types
+
+**Principle**: Features should be independent and reusable. Import shared utilities from `lib/`, not from other features.
