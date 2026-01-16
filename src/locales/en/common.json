@@ -1,0 +1,40 @@
+{
+  "common": {
+    "appName": "Growteer",
+    "welcome": "Welcome to Growteer",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close"
+  },
+  "navigation": {
+    "home": "Home",
+    "login": "Login",
+    "register": "Register",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "jobs": "Jobs",
+    "feed": "Feed"
+  },
+  "footer": {
+    "privacy": "Privacy",
+    "terms": "Terms & Conditions",
+    "imprint": "Imprint",
+    "copyright": "© {year} Growteer. All rights reserved."
+  },
+  "landing": {
+    "nurtureTitle": "Nurture Your Ideas",
+    "nurtureDescription": "Turn ambitious concepts into thriving initiatives with curated guidance and resources.",
+    "connectTitle": "Connect with Mentors",
+    "connectDescription": "Collaborate with experienced growers who are ready to champion your growth journey.",
+    "growTitle": "Grow Faster Together",
+    "growDescription": "Access tools, workshops, and community feedback designed to accelerate meaningful progress.",
+    "startGrowing": "Start Growing Today",
+    "joinCommunity": "Join Our Community"
+  }
+}
