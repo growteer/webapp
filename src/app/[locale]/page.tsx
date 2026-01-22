@@ -20,19 +20,19 @@ export default async function Home() {
               icon={<Sprout className="size-12" />}
               title={t("landing.nurtureTitle")}
               description={t("landing.nurtureDescription")}
-              accent="accent"
+              accent="primary"
             />
             <FeatureCard
               icon={<Users className="size-12" />}
               title={t("landing.connectTitle")}
               description={t("landing.connectDescription")}
-              accent="secondary"
+              accent="accent"
             />
             <FeatureCard
               icon={<Rocket className="size-12" />}
               title={t("landing.growTitle")}
               description={t("landing.growDescription")}
-              accent="primary"
+              accent="secondary"
             />
           </div>
 
