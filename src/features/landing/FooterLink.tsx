@@ -1,5 +1,6 @@
-import Link from "next/link";
 import type { ReactNode } from "react";
+import { Link } from "@/lib/i18n/routing";
+import { Button } from "@/components/ui/button";
 
 export interface FooterLinkProps {
   href: string;
@@ -8,11 +9,8 @@ export interface FooterLinkProps {
 
 export function FooterLink({ href, children }: FooterLinkProps) {
   return (
-    <Link
-      href={href}
-      className="text-sm font-medium text-muted-foreground transition hover:text-foreground"
-    >
-      {children}
-    </Link>
+    <Button variant="link" size="sm" asChild className="text-muted-foreground h-auto p-0 font-normal hover:text-foreground">
+      <Link href={href}>{children}</Link>
+    </Button>
   );
 }

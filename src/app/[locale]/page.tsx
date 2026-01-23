@@ -1,6 +1,8 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/lib/i18n/routing";
 import { Sprout, Users, Rocket } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { FeatureCard } from "@/features/landing/FeatureCard";
 import { FooterLink } from "@/features/landing/FooterLink";
 
@@ -8,10 +10,10 @@ export default async function Home() {
   const t = await getTranslations();
 
   return (
-    <div className="bg-background text-foreground min-h-screen flex flex-col">
+    <div className="bg-background text-foreground flex min-h-screen flex-col">
       <main className="flex-1">
-        <section className="max-w-5xl mx-auto px-6 py-24 sm:py-28 text-center flex flex-col items-center gap-10">
-          <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight">
+        <section className="mx-auto flex max-w-5xl flex-col items-center gap-10 px-6 py-24 text-center sm:py-28">
+          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
             {t("landing.nurtureTitle")}
           </h1>
 
@@ -37,21 +39,20 @@ export default async function Home() {
           </div>
 
           <div className="flex flex-col items-center gap-6 pt-6">
-            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight">
+            <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
               {t("landing.startGrowing")}
             </h2>
-            <Link
-              href="#join"
-              className="inline-flex items-center justify-center rounded-full bg-primary px-8 py-3 text-base font-medium text-primary-foreground shadow-sm transition hover:shadow-md focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-ring"
-            >
-              {t("landing.joinCommunity")}
-            </Link>
+            <Button size="lg" className="rounded-full px-8" asChild>
+              <Link href="#join">{t("landing.joinCommunity")}</Link>
+            </Button>
           </div>
         </section>
       </main>
 
-      <footer className="border-t border-border bg-background">
-        <div className="max-w-5xl mx-auto flex flex-col gap-4 px-6 py-6 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
+      <Separator />
+
+      <footer className="bg-background">
+        <div className="mx-auto flex max-w-5xl flex-col gap-4 px-6 py-6 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
           <span>{t("footer.copyright", { year: new Date().getFullYear() })}</span>
           <nav className="flex flex-wrap items-center justify-center gap-4 md:gap-6">
             <FooterLink href="/privacy">{t("footer.privacy")}</FooterLink>
