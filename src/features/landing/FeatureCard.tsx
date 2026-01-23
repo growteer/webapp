@@ -1,5 +1,12 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 type FeatureAccent = "primary" | "secondary" | "accent";
 
@@ -23,18 +30,22 @@ export function FeatureCard({
   accent,
 }: FeatureCardProps) {
   return (
-    <div className="flex flex-col items-center gap-4 text-center">
-      <div
-        className={cn(
-          "flex size-20 items-center justify-center rounded-full",
-          "ring-1 ring-inset ring-border/40",
-          accentClassMap[accent]
-        )}
-      >
-        {icon}
-      </div>
-      <h3 className="text-xl font-semibold">{title}</h3>
-      <p className="text-base text-muted-foreground">{description}</p>
-    </div>
+    <Card className="flex flex-col items-center gap-4 text-center">
+      <CardHeader className="flex flex-col items-center gap-4 pb-0">
+        <div
+          className={cn(
+            "flex size-20 items-center justify-center rounded-full",
+            "ring-1 ring-inset ring-border/40",
+            accentClassMap[accent]
+          )}
+        >
+          {icon}
+        </div>
+        <CardTitle className="text-xl">{title}</CardTitle>
+      </CardHeader>
+      <CardContent className="pt-0">
+        <CardDescription className="text-base">{description}</CardDescription>
+      </CardContent>
+    </Card>
   );
 }
