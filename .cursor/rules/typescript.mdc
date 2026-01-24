@@ -17,7 +17,7 @@ alwaysApply: false
 
 - Global types in `types/` folder
 - Feature-specific types in `features/{feature}/types/`
-- Use `types/common.ts` for shared entity types (BaseEntity, PaginatedResponse, etc.)
+- Use `types/common.ts` for shared entity types
 
 ### Type Organization
 
@@ -30,7 +30,6 @@ export interface LoginRequest { /* ... */ }
 // ✅ CORRECT: Export common types globally
 // types/common.ts
 export interface BaseEntity { /* ... */ }
-export interface PaginatedResponse<T> { /* ... */ }
 ```
 
 ## Type Inference

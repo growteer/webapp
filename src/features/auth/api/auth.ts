@@ -6,12 +6,13 @@ import type { AuthResponse, LoginRequest, RegisterRequest } from "../types";
  * These functions use the centralized API client to make requests
  */
 
+//TODO: review this whole feature
 export async function login(credentials: LoginRequest) {
-  return apiClient.post<LoginRequest, AuthResponse>("/auth/login", credentials);
+  return apiClient.post<AuthResponse>("/auth/login", credentials);
 }
 
 export async function register(data: RegisterRequest) {
-  return apiClient.post<RegisterRequest, AuthResponse>("/auth/register", data);
+  return apiClient.post<AuthResponse>("/auth/register", data);
 }
 
 export async function logout() {
@@ -19,12 +20,9 @@ export async function logout() {
 }
 
 export async function refreshToken(refreshToken: string) {
-  return apiClient.post<{ refreshToken: string }, AuthResponse>(
-    "/auth/refresh",
-    { refreshToken }
-  );
+  return apiClient.post<AuthResponse>("/auth/refresh", { refreshToken });
 }
 
 export async function getCurrentUser() {
-  return apiClient.get<{ user: AuthResponse["user"] }>("/auth/me");
+  return apiClient.get<AuthResponse>("/auth/me");
 }
