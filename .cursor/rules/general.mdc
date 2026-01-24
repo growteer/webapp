@@ -25,7 +25,6 @@ alwaysApply: true
 ### Readability
 - Prioritize clarity over brevity
 - Use expressive, descriptive names
-- Add comments for complex logic
 
 ### Maintainability
 - Group code by feature, not by type
@@ -36,6 +35,12 @@ alwaysApply: true
 - Extract shared logic to `lib/` utilities
 - Create reusable components in `components/`
 - Use feature modules for feature-specific code
+
+### Comments
+- Avoid noise, use comments sparingly
+- Only comment to explain non-obvious side-effects, intent or reasoning.
+- Use TSDoc style for function/method comments.
+- Keep comments up to date with code changes.
 
 ## Accessibility
 

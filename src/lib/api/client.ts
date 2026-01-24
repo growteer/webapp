@@ -1,101 +1,101 @@
-import { API_BASE_URL } from "@/lib/constants";
-import type { ApiError, ApiResponse } from "@/types/common";
+import { apiConfig } from "./config";
+import type {
+  APIError,
+  APIRequestConfig,
+  APIClientConfig,
+  APIResponse,
+} from "./types";
 
-// Extend this interface when API types are auto-generated
-interface ApiClientConfig extends RequestInit {
-  baseURL?: string;
-  timeout?: number;
-}
+class APIClient {
+  private readonly baseURL: string;
+  private readonly defaultHeaders: Headers;
+  private readonly defaultRequestTimeoutMs: number;
+  //TODO: the client should take an interface with methods that encapsulate auth/storage logic
+  private readonly authStorageKey: string;
+  private readonly unauthorizedRedirectPath: string;
 
-interface ApiErrorResponse {
-  message: string;
-  code?: string;
-  field?: string;
-  errors?: Array<{ field: string; message: string }>;
-}
-
-class ApiClient {
-  private baseURL: string;
-  private defaultHeaders: HeadersInit;
-
-  constructor(baseURL: string = API_BASE_URL) {
-    this.baseURL = baseURL;
-    this.defaultHeaders = {
-      "Content-Type": "application/json",
-    };
+  constructor(config: APIClientConfig = {}) {
+    this.baseURL = config.baseURL ?? apiConfig.baseURL;
+    this.defaultRequestTimeoutMs =
+      config.defaultRequestTimeoutMs ?? apiConfig.defaultRequestTimeoutMs;
+    this.authStorageKey = config.authStorageKey ?? apiConfig.authStorageKey;
+    this.unauthorizedRedirectPath =
+      config.unauthorizedRedirectPath ?? apiConfig.unauthorizedRedirectPath;
+    this.defaultHeaders = new Headers(
+      config.defaultHeaders ?? { "Content-Type": "application/json" }
+    );
   }
 
-  private async request<T>(
+  private async request<T, S extends BodyInit | null>(
     endpoint: string,
-    config: ApiClientConfig = {}
-  ): Promise<ApiResponse<T>> {
+    method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
+    body: S,
+    requestConfig: APIRequestConfig = {}
+  ): Promise<APIResponse<T>> {
     const {
-      baseURL = this.baseURL,
-      headers = {},
-      timeout = 30000,
-      ...fetchConfig
-    } = config;
+      headers: requestHeaders = {},
+      signal: requestSignal,
+      timeout: requestTimeout,
+      cache,
+      credentials,
+    } = requestConfig;
 
-    const url = endpoint.startsWith("http") ? endpoint : `${baseURL}${endpoint}`;
+    const url = endpoint.startsWith("https")
+      ? endpoint
+      : `${this.baseURL}${endpoint}`;
 
-    // Merge default headers with custom headers
-    const mergedHeaders = {
-      ...this.defaultHeaders,
-      ...headers,
-    };
+    const merged = new Headers(this.defaultHeaders);
+    const overlay = new Headers(requestHeaders);
+    overlay.forEach((value, key) => merged.set(key, value));
 
-    // Add auth token if available
-    const authToken = this.getAuthToken();
-    if (authToken) {
-      mergedHeaders["Authorization"] = `Bearer ${authToken}`;
-    }
+    const token = this.getAuthToken();
+    if (token) merged.set("Authorization", `Bearer ${token}`);
+
+    const timeoutMs = requestTimeout ?? this.defaultRequestTimeoutMs;
+    const controller = new AbortController();
+    const signal = requestSignal ?? controller.signal;
+    const timeoutId =
+      !requestSignal && timeoutMs > 0
+        ? setTimeout(() => controller.abort(), timeoutMs)
+        : undefined;
 
     try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), timeout);
-
       const response = await fetch(url, {
-        ...fetchConfig,
-        headers: mergedHeaders,
-        signal: controller.signal,
+        method,
+        body,
+        headers: merged,
+        signal,
+        cache,
+        credentials,
       });
 
-      clearTimeout(timeoutId);
+      if (timeoutId) clearTimeout(timeoutId);
 
-      const data = await response.json().catch(() => ({}));
+      //TODO: better typing once we have generated api types
+      const data = (await response.json().catch(() => ({}))) as unknown;
 
       if (!response.ok) {
-        const error: ApiError = {
+        const error: APIError = {
           message:
-            (data as ApiErrorResponse).message ||
+            (data as APIError).message ||
             `HTTP Error: ${response.status} ${response.statusText}`,
-          code: (data as ApiErrorResponse).code || `HTTP_${response.status}`,
-          field: (data as ApiErrorResponse).field,
+          code: (data as APIError).code ?? `HTTP_${response.status}`,
+          field: (data as APIError).field,
         };
 
-        // Handle 401 Unauthorized - clear auth and redirect to login
-        if (response.status === 401) {
-          this.handleUnauthorized();
-        }
+        if (response.status === 401) this.handleUnauthorized();
 
-        return {
-          success: false,
-          error,
-        };
+        return { success: false, error };
       }
 
-      return {
-        success: true,
-        data: data as T,
-      };
-    } catch (error) {
-      if (error instanceof Error && error.name === "AbortError") {
+      return { success: true, data: data as T };
+    } catch (err) {
+      if (timeoutId) clearTimeout(timeoutId);
+
+      if (err instanceof Error && err.name === "AbortError") {
         return {
           success: false,
-          error: {
-            message: "Request timeout",
-            code: "TIMEOUT",
-          },
+          error: { message: "Request timeout", code: "TIMEOUT" },
         };
       }
 
@@ -103,7 +103,7 @@ class ApiClient {
         success: false,
         error: {
           message:
-            error instanceof Error ? error.message : "An unexpected error occurred",
+            err instanceof Error ? err.message : "An unexpected error occurred",
           code: "NETWORK_ERROR",
         },
       };
@@ -112,13 +112,11 @@ class ApiClient {
 
   private getAuthToken(): string | null {
     if (typeof window === "undefined") return null;
-
     try {
-      const authStorage = localStorage.getItem("auth-storage");
-      if (!authStorage) return null;
-
-      const parsed = JSON.parse(authStorage);
-      return parsed.state?.accessToken || null;
+      const raw = localStorage.getItem(this.authStorageKey);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw) as { state?: { accessToken?: string } };
+      return parsed.state?.accessToken ?? null;
     } catch {
       return null;
     }
@@ -126,63 +124,51 @@ class ApiClient {
 
   private handleUnauthorized(): void {
     if (typeof window === "undefined") return;
-
-    // Clear auth storage
-    localStorage.removeItem("auth-storage");
-
-    // Redirect to login if not already there
-    if (!window.location.pathname.includes("/login")) {
-      window.location.href = "/login";
+    localStorage.removeItem(this.authStorageKey);
+    const path = this.unauthorizedRedirectPath;
+    if (!window.location.pathname.includes(path)) {
+      window.location.href = path;
     }
   }
 
-  async get<T>(endpoint: string, config?: ApiClientConfig): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, { ...config, method: "GET" });
-  }
-
-  async post<T>(
+  async get<T>(
     endpoint: string,
-    data?: unknown,
-    config?: ApiClientConfig
-  ): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, {
-      ...config,
-      method: "POST",
-      body: data ? JSON.stringify(data) : undefined,
-    });
+    requestConfig?: APIRequestConfig
+  ): Promise<APIResponse<T>> {
+    return this.request<T, null>(endpoint, "GET", null, requestConfig);
   }
 
-  async put<T>(
+  async post<T, S extends BodyInit>(
     endpoint: string,
-    data?: unknown,
-    config?: ApiClientConfig
-  ): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, {
-      ...config,
-      method: "PUT",
-      body: data ? JSON.stringify(data) : undefined,
-    });
+    data: S,
+    requestConfig?: APIRequestConfig
+  ): Promise<APIResponse<T>> {
+    return this.request<T, S>(endpoint, "POST", data, requestConfig);
   }
 
-  async patch<T>(
+  async put<T, S extends BodyInit>(
     endpoint: string,
-    data?: unknown,
-    config?: ApiClientConfig
-  ): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, {
-      ...config,
-      method: "PATCH",
-      body: data ? JSON.stringify(data) : undefined,
-    });
+    data: S,
+    requestConfig?: APIRequestConfig
+  ): Promise<APIResponse<T>> {
+    return this.request<T, S>(endpoint, "PUT", data, requestConfig);
   }
 
-  async delete<T>(endpoint: string, config?: ApiClientConfig): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, { ...config, method: "DELETE" });
+  async patch<T, S extends BodyInit>(
+    endpoint: string,
+    data: S,
+    requestConfig?: APIRequestConfig
+  ): Promise<APIResponse<T>> {
+    return this.request<T, S>(endpoint, "PATCH", data, requestConfig);
+  }
+
+  async delete<T>(
+    endpoint: string,
+    requestConfig?: APIRequestConfig
+  ): Promise<APIResponse<T>> {
+    return this.request<T, null>(endpoint, "DELETE", null, requestConfig);
   }
 }
 
-// Export singleton instance
-export const apiClient = new ApiClient();
-
-// Export class for custom instances if needed
-export { ApiClient };
+export const apiClient = new APIClient();
+export { APIClient };

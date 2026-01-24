@@ -1,8 +1,3 @@
-// Feature-specific utility functions for authentication
-
-/**
- * Check if a token is expired
- */
 export function isTokenExpired(token: string): boolean {
   try {
     const payload = JSON.parse(atob(token.split(".")[1]));
@@ -13,13 +8,10 @@ export function isTokenExpired(token: string): boolean {
   }
 }
 
-/**
- * Extract user ID from token
- */
 export function getUserIdFromToken(token: string): string | null {
   try {
     const payload = JSON.parse(atob(token.split(".")[1]));
-    return payload.sub || payload.userId || null;
+    return payload.sub || null;
   } catch {
     return null;
   }

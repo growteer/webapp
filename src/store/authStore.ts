@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { AUTH_STORAGE_KEY } from "@/lib/constants";
 
 interface AuthState {
   user: {
@@ -38,7 +39,7 @@ export const useAuthStore = create<AuthState>()(
         })),
     }),
     {
-      name: "auth-storage",
+      name: AUTH_STORAGE_KEY,
       // Only persist specific fields
       partialize: (state) => ({
         user: state.user,
