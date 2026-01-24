@@ -8,7 +8,7 @@ import type {
 
 class APIClient {
   private readonly baseURL: string;
-  private readonly defaultHeaders: Headers;
+  private readonly defaultHeaders: Record<string, string>;
   private readonly defaultRequestTimeoutMs: number;
   //TODO: the client should take an interface with methods that encapsulate auth/storage logic
   private readonly authStorageKey: string;
@@ -21,9 +21,9 @@ class APIClient {
     this.authStorageKey = config.authStorageKey ?? apiConfig.authStorageKey;
     this.unauthorizedRedirectPath =
       config.unauthorizedRedirectPath ?? apiConfig.unauthorizedRedirectPath;
-    this.defaultHeaders = new Headers(
-      config.defaultHeaders ?? { "Content-Type": "application/json" }
-    );
+    this.defaultHeaders = config.defaultHeaders ?? {
+      "Content-Type": "application/json",
+    };
   }
 
   private async request<T, S extends BodyInit | null>(
@@ -44,12 +44,12 @@ class APIClient {
       ? endpoint
       : `${this.baseURL}${endpoint}`;
 
-    const merged = new Headers(this.defaultHeaders);
-    const overlay = new Headers(requestHeaders);
-    overlay.forEach((value, key) => merged.set(key, value));
-
+    const headers: Record<string, string> = {
+      ...this.defaultHeaders,
+      ...requestHeaders,
+    };
     const token = this.getAuthToken();
-    if (token) merged.set("Authorization", `Bearer ${token}`);
+    if (token) headers["Authorization"] = `Bearer ${token}`;
 
     const timeoutMs = requestTimeout ?? this.defaultRequestTimeoutMs;
     const controller = new AbortController();
@@ -63,7 +63,7 @@ class APIClient {
       const response = await fetch(url, {
         method,
         body,
-        headers: merged,
+        headers,
         signal,
         cache,
         credentials,
@@ -138,7 +138,7 @@ class APIClient {
     return this.request<T, null>(endpoint, "GET", null, requestConfig);
   }
 
-  async post<T, S extends BodyInit>(
+  async post<T, S extends BodyInit | null>(
     endpoint: string,
     data: S,
     requestConfig?: APIRequestConfig
@@ -146,7 +146,7 @@ class APIClient {
     return this.request<T, S>(endpoint, "POST", data, requestConfig);
   }
 
-  async put<T, S extends BodyInit>(
+  async put<T, S extends BodyInit | null>(
     endpoint: string,
     data: S,
     requestConfig?: APIRequestConfig
@@ -154,7 +154,7 @@ class APIClient {
     return this.request<T, S>(endpoint, "PUT", data, requestConfig);
   }
 
-  async patch<T, S extends BodyInit>(
+  async patch<T, S extends BodyInit | null>(
     endpoint: string,
     data: S,
     requestConfig?: APIRequestConfig

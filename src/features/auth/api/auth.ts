@@ -8,19 +8,28 @@ import type { AuthResponse, LoginRequest, RegisterRequest } from "../types";
 
 //TODO: review this whole feature
 export async function login(credentials: LoginRequest) {
-  return apiClient.post<AuthResponse>("/auth/login", credentials);
+  return apiClient.post<AuthResponse, string>(
+    "/auth/login",
+    JSON.stringify(credentials)
+  );
 }
 
 export async function register(data: RegisterRequest) {
-  return apiClient.post<AuthResponse>("/auth/register", data);
+  return apiClient.post<AuthResponse, string>(
+    "/auth/register",
+    JSON.stringify(data)
+  );
 }
 
 export async function logout() {
-  return apiClient.post("/auth/logout", {});
+  return apiClient.post<unknown, string>("/auth/logout", "{}");
 }
 
 export async function refreshToken(refreshToken: string) {
-  return apiClient.post<AuthResponse>("/auth/refresh", { refreshToken });
+  return apiClient.post<AuthResponse, string>(
+    "/auth/refresh",
+    JSON.stringify({ refreshToken })
+  );
 }
 
 export async function getCurrentUser() {
