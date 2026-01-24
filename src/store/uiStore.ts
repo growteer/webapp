@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-interface UiState {
+interface UIState {
   theme: "light" | "dark" | "system";
   sidebarOpen: boolean;
   setTheme: (theme: "light" | "dark" | "system") => void;
@@ -9,7 +9,7 @@ interface UiState {
   toggleSidebar: () => void;
 }
 
-export const useUiStore = create<UiState>()(
+export const useUIStore = create<UIState>()(
   persist(
     (set) => ({
       theme: "system",

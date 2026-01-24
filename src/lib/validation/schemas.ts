@@ -31,7 +31,7 @@ export const registerSchema = z
   .object({
     email: emailSchema,
     password: passwordSchema,
-    confirmPassword: nonEmptyStringSchema,
+    confirmPassword: passwordSchema,
     name: z.string().min(2, "Name must be at least 2 characters").optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
