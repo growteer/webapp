@@ -18,14 +18,14 @@ export interface APIResponse<T> {
 
 export interface APIClientConfig {
   baseURL?: string;
-  defaultHeaders?: HeadersInit;
+  defaultHeaders?: Record<string, string>;
   defaultRequestTimeoutMs?: number;
   authStorageKey?: string;
   unauthorizedRedirectPath?: string;
 }
 
 export interface APIRequestConfig {
-  headers?: HeadersInit;
+  headers?: Record<string, string>;
   signal?: AbortSignal;
   timeout?: number;
   cache?: RequestCache;
