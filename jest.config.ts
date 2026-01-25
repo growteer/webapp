@@ -30,4 +30,9 @@ const config: Config = {
   ],
 };
 
-export default createJestConfig(config);
+const jestConfig = createJestConfig(config);
+
+export default async () => ({
+  ...(await jestConfig()),
+  transformIgnorePatterns: ["node_modules/(?!next-intl)/"],
+});
