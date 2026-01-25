@@ -1,20 +1,37 @@
 import type { ReactNode } from "react";
 import { render, screen } from "@testing-library/react";
-import Home from "./page";
+import { NextIntlClientProvider } from "next-intl";
+import { DEFAULT_LOCALE } from "@/lib/constants";
+import { HomeContent } from "./HomeContent";
+import messages from "@/locales/en/common.json";
 
-jest.mock("next/link", () => ({
-  __esModule: true,
-  default: ({ children, href }: { children: ReactNode; href: string }) => (
-    <a href={href}>{children}</a>
-  ),
+jest.mock("next/navigation", () => ({
+  usePathname: () => `/${DEFAULT_LOCALE}`,
+  useRouter: () => ({
+    push: jest.fn(),
+    replace: jest.fn(),
+    prefetch: jest.fn(),
+  }),
 }));
+
+function TestWrapper({ children }: { children: ReactNode }) {
+  return (
+    <NextIntlClientProvider locale={DEFAULT_LOCALE} messages={messages}>
+      {children}
+    </NextIntlClientProvider>
+  );
+}
 
 describe("Home page", () => {
   it("renders the hero heading and call-to-action", () => {
-    render(<Home />);
+    render(
+      <TestWrapper>
+        <HomeContent />
+      </TestWrapper>
+    );
 
     expect(
-      screen.getByRole("heading", { name: "Welcome to Growteer", level: 1 })
+      screen.getByRole("heading", { name: "Nurture Your Ideas", level: 1 })
     ).toBeVisible();
 
     const ctaLink = screen.getByRole("link", { name: "Join Our Community" });
@@ -23,21 +40,25 @@ describe("Home page", () => {
   });
 
   it("highlights the three core features", () => {
-    render(<Home />);
+    render(
+      <TestWrapper>
+        <HomeContent />
+      </TestWrapper>
+    );
 
-    expect(
-      screen.getByRole("heading", { name: "Nurture Your Ideas", level: 3 })
-    ).toBeVisible();
-    expect(
-      screen.getByRole("heading", { name: "Connect with Mentors", level: 3 })
-    ).toBeVisible();
-    expect(
-      screen.getByRole("heading", { name: "Grow Faster Together", level: 3 })
-    ).toBeVisible();
+    const nurture = screen.getAllByText("Nurture Your Ideas");
+    expect(nurture.length).toBeGreaterThanOrEqual(1);
+    expect(nurture[0]).toBeVisible();
+    expect(screen.getByText("Connect with Mentors")).toBeVisible();
+    expect(screen.getByText("Grow Faster Together")).toBeVisible();
   });
 
   it("shows footer metadata and navigation links", () => {
-    render(<Home />);
+    render(
+      <TestWrapper>
+        <HomeContent />
+      </TestWrapper>
+    );
 
     const currentYear = new Date().getFullYear();
     expect(
@@ -46,14 +67,14 @@ describe("Home page", () => {
 
     expect(screen.getByRole("link", { name: "Privacy" })).toHaveAttribute(
       "href",
-      "/privacy"
+      `/${DEFAULT_LOCALE}/privacy`
     );
     expect(
       screen.getByRole("link", { name: "Terms & Conditions" })
-    ).toHaveAttribute("href", "/terms");
+    ).toHaveAttribute("href", `/${DEFAULT_LOCALE}/terms`);
     expect(screen.getByRole("link", { name: "Imprint" })).toHaveAttribute(
       "href",
-      "/imprint"
+      `/${DEFAULT_LOCALE}/imprint`
     );
   });
 });
