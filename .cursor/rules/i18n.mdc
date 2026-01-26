@@ -16,7 +16,7 @@ Use **next-intl** for all internationalization:
 
 ## Usage Patterns
 
-### Server Components
+### Server Components (Preferred)
 
 ```typescript
 // ✅ CORRECT: Use getTranslations in Server Components

@@ -25,6 +25,7 @@ alwaysApply: true
 ### Readability
 - Prioritize clarity over brevity
 - Use expressive, descriptive names
+- Code should be self-documenting
 
 ### Maintainability
 - Group code by feature, not by type
@@ -37,10 +38,13 @@ alwaysApply: true
 - Use feature modules for feature-specific code
 
 ### Comments
-- Avoid noise, use comments sparingly
-- Only comment to explain non-obvious side-effects, intent or reasoning.
-- Use TSDoc style for function/method comments.
-- Keep comments up to date with code changes.
+- **NEVER add obvious comments** that just restate what the code does
+- Only comment to explain:
+  - Non-obvious side-effects
+  - Intentional workarounds (explain WHY, not what)
+  - Complex business logic that isn't self-evident
+- Use TSDoc style for function/method comments when documenting public APIs
+- Keep comments up to date with code changes
 
 ## Accessibility
 
@@ -51,7 +55,8 @@ alwaysApply: true
 
 ## Performance
 
-- Use Server Components by default (reduces bundle size)
+- **Use Server Components by default** (reduces bundle size, better SEO, simpler code)
+- Prefer server-side solutions over client-side when possible
 - Use `next/dynamic` for code splitting heavy components
 - Always use `next/image` for images
 - Use `next/font` for font optimization
