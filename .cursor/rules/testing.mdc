@@ -1,0 +1,28 @@
+---
+globs: **/*.test.*
+alwaysApply: false
+---
+# Testing Guidelines
+
+## Test Best Practices
+- Write clear, focused tests that verify one behavior at a time
+- Tests should fail for the right reason - verify they catch the bugs they're meant to catch
+- Avoid testing implementation details such as the presence of a CSS class or DOM structure; focus on behavior and outcomes.
+- Trivial test cases such as the component being rendered should be avoided.
+
+## Test Structure
+- Follow Arrange-Act-Assert pattern: set up test data, execute the code under test, verify results
+- Keep tests independent - each test should run in isolation without depending on other tests
+- Use a `describe` block to group related tests for a module or component.
+- Use an `it` block for each individual test case, clearly describing the expected behavior.
+
+## Test Data and Environment
+- Mock external dependencies to isolate the unit under test.
+- Use setup and teardown functions (`beforeEach`, `afterEach`) to prepare test environments.
+- Write tests that are deterministic and do not rely on external state or timing.
+
+## DOM Queries & Interactions
+- Elements should be queried like the user would see them on screen (e.g., use `getByRole`, `getByLabelText` from Testing Library).
+- If querying like a user is not possible, the default solution should be to improve the accessibility of the element (e.g., adding ARIA attributes).
+- Querying by test-id attribute should be a last resort. Avoid completely if possible.
+- `userEvent` should be used to simulate user interactions instead of `fireEvent` for more realistic behavior.

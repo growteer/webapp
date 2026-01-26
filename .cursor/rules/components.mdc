@@ -1,0 +1,62 @@
+---
+globs: **/components/**/*
+alwaysApply: false
+---
+# Component Rules
+
+## Component Organization
+
+### Shared Components (`components/`)
+- `ui/` - Shadcn primitive components (Button, Input, etc.)
+- `layout/` - Layout components (Header, Footer, Sidebar)
+- `forms/` - Reusable form components
+
+### Feature Components (`features/{feature}/components/`)
+- Feature-specific components
+- Should only be imported within the feature or shared components
+- Can import from `components/` but not from other features directly
+
+## Component Patterns
+
+### Server Components (Default)
+
+```typescript
+// ✅ CORRECT: Server Component by default
+export default async function UserProfile({ userId }: { userId: string }) {
+  const user = await fetchUser(userId); // Can fetch directly
+  return <div>{user.name}</div>;
+}
+```
+
+### Client Components
+
+```typescript
+// ✅ CORRECT: Client Component when needed
+"use client";
+import { useState } from "react";
+
+export function InteractiveButton() {
+  const [count, setCount] = useState(0);
+  return <button onClick={() => setCount(count + 1)}>{count}</button>;
+}
+```
+
+## Component Best Practices
+
+- **Default to Server Components** - use Client Components only when needed
+- **Mark Client Components explicitly** - always add `"use client"` directive
+- **Use Shadcn components** - import from `@/components/ui/`
+- **Type props explicitly** - don't rely on inference for component props
+- **Use composition** - prefer composition over large monolithic components
+
+## Import Paths
+
+- Use `@/components/*` for shared components
+- Use `@/features/{feature}/components/*` for feature components
+- Use path aliases defined in `tsconfig.json`
+
+## Form Components
+
+- Use `useTypedForm` from `@/lib/validation/form-helpers`
+- Integrate with Zod schemas for validation
+- Handle errors using React Hook Form's `formState.errors`
