@@ -19,7 +19,6 @@ src/
 │   ├── ui/                 # Shadcn components
 │   ├── layout/             # Layout components (Header, Footer, Sidebar)
 │   ├── forms/              # Reusable form components
-│   └── features/           # Feature-specific shared components
 ├── features/               # Feature modules (feature-sliced architecture)
 │   └── {feature-name}/
 │       ├── api/            # API client functions

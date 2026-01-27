@@ -26,3 +26,12 @@ alwaysApply: false
 - If querying like a user is not possible, the default solution should be to improve the accessibility of the element (e.g., adding ARIA attributes).
 - Querying by test-id attribute should be a last resort. Avoid completely if possible.
 - `userEvent` should be used to simulate user interactions instead of `fireEvent` for more realistic behavior.
+
+## Test-Driven Development
+
+For TDD methodology and process, see `test-driven-development` skill.
+
+**Relationship:**
+- This rule covers **how** to write tests (tools, patterns, quality)
+- The TDD skill covers **when** to write tests (before code, always)
+- Both apply: Use TDD process with testing rule patterns
