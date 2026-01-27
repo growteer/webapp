@@ -49,8 +49,12 @@ export const useAuthStore = create<AuthState>()(
 ## Rules
 
 - **Server state goes in TanStack Query** - don't duplicate in Zustand
-- **Zustand stores must be in `store/` folder** - named as `{name}Store.ts`
+- **Zustand stores must be in `src/store/` folder** - named as `{name}Store.ts`
 - **Use TanStack Query for optimistic updates** - not Zustand
 - **Persist auth state** - use Zustand's `persist` middleware
 - **Clear TanStack Query cache on logout** - use `queryClient.clear()`
 
+## Implementation Guides
+
+- **TanStack Query**: See `tanstack-query` skill for setup, patterns, and best practices
+- **Zustand**: See `zustand-state-management` skill for store creation, middleware, and Next.js SSR handling
