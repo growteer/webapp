@@ -10,7 +10,9 @@ Use **next-intl** for all internationalization:
 
 ## Locale Structure
 
-- **Locales folder**: `src/locales/{locale}/common.json`
+- **Locales folder**: `src/locales/{locale}/`
+- **Share common texts** Texts used across features live in `src/locales/{locale}/common.json`
+- **Organized by feature**: One translation file per language per feature, e.g. `src/locales/{locale}/{feature}.json`
 - **Supported locales**: defined in `lib/i18n/routing.ts`
 - **Route structure**: All routes under `app/[locale]/`
 
@@ -49,13 +51,6 @@ import { Link } from "@/lib/i18n/routing";
 
 <Link href="/dashboard">Dashboard</Link>
 ```
-
-## Translation Files
-
-- Translation files are JSON objects
-- Use nested structure: `common.appName`, `navigation.home`
-- Always add translations for both `en` and `de` locales
-- Use interpolation: `{t("footer.copyright", { year: 2024 })}`
 
 ## Middleware
 
